@@ -10,7 +10,9 @@ package org.usfirst.frc.team2495.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+/*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -28,6 +30,13 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
+	DriveTrain driveTrain;
+	WPI_TalonSRX frontLeft;
+	WPI_TalonSRX frontRight;
+	WPI_TalonSRX rearLeft; 
+	WPI_TalonSRX rearRight;
+	Joystick joyLeft, joyRight; 
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,6 +47,21 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		
+		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
+		frontRight = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
+		rearLeft = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
+		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
+		
+		driveTrain = new DriveTrain(frontLeft, frontRight, rearLeft, rearRight);
+		
+		rearLeft.follow(frontLeft);
+		rearRight.follow(frontRight);
+		joyLeft = new Joystick ( Ports.USB.LEFT); 
+		joyRight = new Joystick (Ports.USB.RIGHT);
+		
+	
+		
 	}
 
 	/**
@@ -80,6 +104,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		
+		driveTrain.joystickControl(joyLeft , joyRight);
+		
 	}
 
 	/**
