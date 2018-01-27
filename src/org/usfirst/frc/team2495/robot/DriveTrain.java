@@ -72,8 +72,13 @@ public class DriveTrain {
 		return (int) (frontLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
 	}
 	
-	
-	
+	public void resetEncoders() {
+		frontRight.set(ControlMode.PercentOutput, 0); // we switch to open loop to be safe.
+		frontLeft.set(ControlMode.PercentOutput, 0);			
+		
+		frontRight.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
+		frontLeft.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
+	}	
 }
 
 

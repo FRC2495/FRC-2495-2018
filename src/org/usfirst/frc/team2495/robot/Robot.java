@@ -36,7 +36,11 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX frontRight;
 	WPI_TalonSRX rearLeft; 
 	WPI_TalonSRX rearRight;
-	Joystick joyLeft, joyRight; 
+	Joystick joyLeft, joyRight;
+	Joystick gamepad;
+	
+	ControllerBase control;
+
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -59,8 +63,9 @@ public class Robot extends IterativeRobot {
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
 		joyRight = new Joystick (Ports.USB.RIGHT);
 		
-	
-		
+		gamepad = new Joystick(Ports.USB.GAMEPAD);
+
+		control = new ControllerBase(gamepad, joyLeft, joyRight);	
 	}
 
 	/**
@@ -103,8 +108,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-			
+		control.update();
+		
 		driveTrain.joystickControl(joyLeft , joyRight);
+		
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
+				   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN2))
+		{
+			driveTrain.resetEncoders();
+		}
 		
 		updateToSmartDash(); 	
 	}
