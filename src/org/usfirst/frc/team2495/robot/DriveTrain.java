@@ -38,8 +38,8 @@ public class DriveTrain {
 	//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
 	//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
 	// this is tank drive
-	//arcadeDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
-	arcadeDrive.tankDrive(joyLeft.getY(),joyRight.getY());
+		arcadeDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
+	//arcadeDrive.tankDrive(joyLeft.getY(),joyRight.getY());
 	
 	}
 	
