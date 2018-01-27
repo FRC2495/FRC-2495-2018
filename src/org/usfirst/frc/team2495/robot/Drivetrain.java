@@ -44,16 +44,15 @@ public class Drivetrain {
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight); 
 	}
     
-	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held)
+	public void joystickControl(Joystick joyRight, Joystick joyLeft, boolean held) // sets talons to
+	// joystick control
 	{
-	 
-	//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
-	//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
-	// this is tank drive
-	
-	differentialDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
-	//differentialDrive.tankDrive(joyLeft.getY(),joyRight.getY());
-	
+		//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
+		//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
+		// this is tank drive
+		
+		differentialDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
+		//differentialDrive.tankDrive(joyLeft.getY(),joyRight.getY());	
 	}
 	
 	public int getRightEncoderValue() {
