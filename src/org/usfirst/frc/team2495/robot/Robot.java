@@ -49,14 +49,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 		
 		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
-		frontRight = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
-		rearLeft = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
+		frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
+		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
 		driveTrain = new DriveTrain(frontLeft, frontRight, rearLeft, rearRight);
 		
-		rearLeft.follow(frontLeft);
-		rearRight.follow(frontRight);
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
 		joyRight = new Joystick (Ports.USB.RIGHT);
 		
