@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team2495.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -102,9 +103,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		
+			
 		driveTrain.joystickControl(joyLeft , joyRight);
 		
+		updateToSmartDash(); 	
 	}
 
 	/**
@@ -112,5 +114,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	public void updateToSmartDash()
+	{
+
+        SmartDashboard.putNumber("Right Value", driveTrain.getRightValue());
+        SmartDashboard.putNumber("Left Value", driveTrain.getLeftValue());
+        SmartDashboard.putNumber("Right Enc Value", driveTrain.getRightEncoderValue());
+        SmartDashboard.putNumber("Left Enc Value", driveTrain.getLeftEncoderValue());
+
 	}
 }
