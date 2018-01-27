@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class DriveTrain {
+public class Drivetrain {
 	
 	static final double PERIMETER_WHEEL_INCHES = 4 * Math.PI;
 	static final int PRIMARY_PID_LOOP = 0;
@@ -16,9 +16,9 @@ public class DriveTrain {
 	static final int TICKS_PER_REVOLUTION = 4096;	
 	
 	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight;
-	DifferentialDrive arcadeDrive; 
+	DifferentialDrive differentialDrive; 
 	
-	public DriveTrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , WPI_TalonSRX rearLeft_in ,WPI_TalonSRX rearRight_in) 
+	public Drivetrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , WPI_TalonSRX rearLeft_in ,WPI_TalonSRX rearRight_in) 
 	{
 		frontLeft = frontLeft_in;
 		frontRight = frontRight_in;
@@ -41,18 +41,18 @@ public class DriveTrain {
 		rearLeft.follow(frontLeft);
 		rearRight.follow(frontRight);
 		
-		arcadeDrive = new DifferentialDrive(frontLeft, frontRight); 
+		differentialDrive = new DifferentialDrive(frontLeft, frontRight); 
 	}
     
 	public void joystickControl(Joystick joyLeft , Joystick joyRight)
-	
 	{
 	 
 	//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
 	//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
 	// this is tank drive
-		arcadeDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
-	//arcadeDrive.tankDrive(joyLeft.getY(),joyRight.getY());
+	
+	differentialDrive.arcadeDrive(joyLeft.getY(),joyRight.getX());
+	//differentialDrive.tankDrive(joyLeft.getY(),joyRight.getY());
 	
 	}
 	

@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	DriveTrain driveTrain;
+	Drivetrain drivetrain;
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	WPI_TalonSRX rearLeft; 
@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
-		driveTrain = new DriveTrain(frontLeft, frontRight, rearLeft, rearRight);
+		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight);
 		
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
 		joyRight = new Joystick (Ports.USB.RIGHT);
@@ -103,6 +103,10 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
+	@Override
+	public void teleopInit() {
+	}
+	
 	/**
 	 * This function is called periodically during operator control.
 	 */
@@ -110,12 +114,12 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		control.update();
 		
-		driveTrain.joystickControl(joyLeft , joyRight);
+		drivetrain.joystickControl(joyLeft , joyRight);
 		
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
 				   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN2))
 		{
-			driveTrain.resetEncoders();
+			drivetrain.resetEncoders();
 		}
 		
 		updateToSmartDash(); 	
@@ -128,13 +132,22 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 	}
 	
+	@Override
+	public void disabledInit() {
+	}
+
+	@Override
+	public void disabledPeriodic() {	
+		
+	}
+	
 	public void updateToSmartDash()
 	{
 
-        SmartDashboard.putNumber("Right Value", driveTrain.getRightValue());
-        SmartDashboard.putNumber("Left Value", driveTrain.getLeftValue());
-        SmartDashboard.putNumber("Right Enc Value", driveTrain.getRightEncoderValue());
-        SmartDashboard.putNumber("Left Enc Value", driveTrain.getLeftEncoderValue());
+        SmartDashboard.putNumber("Right Value", drivetrain.getRightValue());
+        SmartDashboard.putNumber("Left Value", drivetrain.getLeftValue());
+        SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderValue());
+        SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
 
 	}
 }
