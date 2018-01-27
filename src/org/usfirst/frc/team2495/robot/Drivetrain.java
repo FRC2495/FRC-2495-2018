@@ -44,7 +44,7 @@ public class Drivetrain {
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight); 
 	}
     
-	public void joystickControl(Joystick joyLeft , Joystick joyRight)
+	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held)
 	{
 	 
 	//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
