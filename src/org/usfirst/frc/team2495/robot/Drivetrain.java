@@ -29,12 +29,15 @@ public class Drivetrain {
 				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 				
 		frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
-				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);	
+				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
+		
+		frontLeft.setSensorPhase(true);
+		frontRight.setSensorPhase(true);	
 		
 		frontLeft.setInverted(true);
-		frontRight.setInverted(true);
+		frontRight.setInverted(false);
 		rearLeft.setInverted(true); 
-		rearRight.setInverted(true);
+		rearRight.setInverted(false);
 		
 		// motors will turn in opposite directions if not inverted 
 		
@@ -47,12 +50,12 @@ public class Drivetrain {
 	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held) // sets talons to
 	// joystick control
 	{
-		frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());	
-		frontRight.set(ControlMode.PercentOutput, -joyRight.getY());
-		// this is tank drive
+		//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
+		//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());
 		
-		//differentialDrive.arcadeDrive(joyRight.getY(),-joyLeft.getX());
-		//differentialDrive.tankDrive(joyLeft.getY(),joyRight.getY());	
+		//differentialDrive.tankDrive(joyLeft.getY(), -joyRight.getY()); // right needs to be reversed
+		
+		differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
 	}
 	
 	public int getRightEncoderValue() {
