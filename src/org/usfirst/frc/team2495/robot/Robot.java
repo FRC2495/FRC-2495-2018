@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,8 +40,11 @@ public class Robot extends IterativeRobot {
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
 	
+	ADXRS450_Gyro gyro; // gyro
+	
 	ControllerBase control;
 
+	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,6 +62,7 @@ public class Robot extends IterativeRobot {
 		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight);
 		
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
@@ -66,6 +71,9 @@ public class Robot extends IterativeRobot {
 		gamepad = new Joystick(Ports.USB.GAMEPAD);
 
 		control = new ControllerBase(gamepad, joyLeft, joyRight);	
+		
+		gyro.calibrate(); 
+		gyro.reset();
 	}
 
 	/**
@@ -139,16 +147,27 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {	
+		control.update();
 		
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) {
+			gyro.calibrate();
+			gyro.reset();
+			hasGyroBeenManuallyCalibratedAtLeastOnce = true; // we flag that this was done
+		}
+		
+		updateToSmartDash();		
 	}
 	
 	public void updateToSmartDash()
 	{
-
+		// Send Gyro val to Dashboard
+        SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
+        
         SmartDashboard.putNumber("Right Value", drivetrain.getRightValue());
         SmartDashboard.putNumber("Left Value", drivetrain.getLeftValue());
         SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderValue());
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
 
+        SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
 	}
 }
