@@ -122,6 +122,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		control.update();
 		
+		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
+		
 		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		
@@ -129,6 +131,10 @@ public class Robot extends IterativeRobot {
 				   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN2))
 		{
 			drivetrain.resetEncoders();
+		}
+		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
+		{
+			drivetrain.moveDistance(50);
 		}
 		
 		updateToSmartDash(); 	
@@ -167,6 +173,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Value", drivetrain.getLeftValue());
         SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderValue());
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
+        SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
 
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
 	}
