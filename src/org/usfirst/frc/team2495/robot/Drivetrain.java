@@ -24,6 +24,7 @@ public class Drivetrain {
 	static final int TALON_TIMEOUT_MS = 10;
 	static final int TICKS_PER_REVOLUTION = 4096;
 	
+	
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
 	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
 	
@@ -71,6 +72,34 @@ public class Drivetrain {
 		
 		rtac = - rtac; // account for fact that front of robot is back from sensor's point of view
 		ltac = - ltac;
+		
+		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
+		frontRight.set(ControlMode.Position, rtac);
+		frontLeft.set(ControlMode.Position, ltac);
+
+		//hi
+		
+		isMoving = true;
+		onTargetCount = 0;
+	}
+	public void turnDistance(double dist, int btn)// moves the distance in inch given
+	{
+		resetEncoders();
+		setPIDParameters();
+		setNominalAndPeakOutputs(REDUCED_PCT_OUTPUT); //this has a global impact, so we reset in stop()
+		
+		rtac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
+		ltac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
+		if (btn==ControllerBase.JoystickButtons.BTN4)
+		{
+			rtac = -rtac; // account for fact that front of robot is back from sensor's point of view
+			ltac = ltac;
+		}
+		else if (btn==ControllerBase.JoystickButtons.BTN5)	
+		{	
+			rtac = rtac; // account for fact that front of robot is back from sensor's point of view
+			ltac = - ltac;
+		}
 		
 		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
 		frontRight.set(ControlMode.Position, rtac);
