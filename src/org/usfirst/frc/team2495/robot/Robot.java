@@ -63,7 +63,7 @@ public class Robot extends IterativeRobot {
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
-		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight);
+		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
 		joyRight = new Joystick (Ports.USB.RIGHT);
@@ -123,6 +123,7 @@ public class Robot extends IterativeRobot {
 		control.update();
 		
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
+		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
 		
 		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
@@ -138,11 +139,13 @@ public class Robot extends IterativeRobot {
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
-			drivetrain.moveDistanceAlongArc(-90);
+			//drivetrain.moveDistanceAlongArc(-90);
+			drivetrain.turnAngleUsingPidController(-90);
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
-			drivetrain.moveDistanceAlongArc(+90);
+			//drivetrain.moveDistanceAlongArc(+90);
+			drivetrain.turnAngleUsingPidController(+90);
 		}
 		updateToSmartDash(); 	
 	}
@@ -181,7 +184,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderValue());
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
+        SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
 
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
+        SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
+        SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
+        SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
 	}
 }
