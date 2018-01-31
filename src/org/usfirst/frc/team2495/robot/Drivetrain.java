@@ -36,7 +36,7 @@ public class Drivetrain implements PIDOutput {
 	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
 	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.05 sec = 20 ms 	
 	
-	static final double MIN_TURN_PCT_OUTPUT = 0.125;
+	static final double MIN_TURN_PCT_OUTPUT = 0.2;
 	static final double MAX_TURN_PCT_OUTPUT = 0.5;
 	
 	static final double TURN_PROPORTIONAL_GAIN = 0.04;
