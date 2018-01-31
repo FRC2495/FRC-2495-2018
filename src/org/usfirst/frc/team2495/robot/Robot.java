@@ -113,6 +113,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		drivetrain.stop(); // very important!
 	}
 	
 	/**
@@ -128,10 +129,18 @@ public class Robot extends IterativeRobot {
 		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		
+		//Stops the robot moving if pressed
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3) || 
+		   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN3))
+		{
+			drivetrain.stop();
+		}
+		
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
 				   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN2))
 		{
 			drivetrain.resetEncoders();
+			gyro.reset(); // resets to zero
 		}
 		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{

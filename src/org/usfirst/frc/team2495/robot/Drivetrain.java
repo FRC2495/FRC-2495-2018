@@ -284,13 +284,13 @@ public class Drivetrain implements PIDOutput {
 	}
 	
 	public void stop() {
-		//turnPidController.disable(); // exits PID loop
+		turnPidController.disable(); // exits PID loop
 		 
 		frontLeft.set(ControlMode.PercentOutput, 0);
 		frontRight.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
-		//isTurning = false;
+		isTurning = false;
 		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
 	}
@@ -345,7 +345,7 @@ public class Drivetrain implements PIDOutput {
 	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held) // sets talons to
 	// joystick control
 	{
-		if (!isMoving) // if we are already doing a move or turn we don't take over
+		if (!isMoving && !isTurning) // if we are already doing a move or turn we don't take over
 		{
 			if(!held)
 			{
