@@ -2,6 +2,7 @@ package org.usfirst.frc.team2495.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,6 +18,7 @@ public class Drivetrain {
 	static final double PERIMETER_WHEEL_INCHES = 4 * Math.PI;
 	static final int PRIMARY_PID_LOOP = 0;
 	static final double TICK_THRESH = 512;
+	static final double RADIUS_DRIVEVETRAIN_INCHES = 12.5;
 	static final double MAX_PCT_OUTPUT = 1.0;
 	static final double REDUCED_PCT_OUTPUT = 0.5;
 	static final double MIN_ROTATE_PCT_OUTPUT = 0.25; 
@@ -38,15 +40,35 @@ public class Drivetrain {
 		rearLeft = rearLeft_in;
 		rearRight = rearRight_in;
 		
+		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
+		// As of right now, there are two options when setting the neutral mode of a motor controller,
+		// brake and coast.
+		frontLeft.setNeutralMode(NeutralMode.Brake); // sets the talons on brake mode
+		rearLeft.setNeutralMode(NeutralMode.Brake);	
+		frontRight.setNeutralMode(NeutralMode.Brake);
+		rearRight.setNeutralMode(NeutralMode.Brake);
+		
+		// Sensors for motor controllers provide feedback about the position, velocity, and acceleration
+		// of the system using that motor controller.
+		// Note: With Phoenix framework, position units are in the natural units of the sensor.
+		// This ensures the best resolution possible when performing closed-loops in firmware.
+		// CTRE Magnetic Encoder (relative/quadrature) =  4096 units per rotation
 		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 				
 		frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 		
+		// Sensor phase is the term used to explain sensor direction.
+		// In order for limit switches and closed-loop features to function properly the sensor and motor has to be in-phase.
+		// This means that the sensor position must move in a positive direction as the motor controller drives positive output.  
 		frontLeft.setSensorPhase(true);
 		frontRight.setSensorPhase(true);	
 		
+		// Motor controller output direction can be set by calling the setInverted() function as seen below.
+		// Note: Regardless of invert value, the LEDs will blink green when positive output is requested (by robot code or firmware closed loop).
+		// Only the motor leads are inverted. This feature ensures that sensor phase and limit switches will properly match the LED pattern
+		// (when LEDs are green => forward limit switch and soft limits are being checked). 
 		frontLeft.setInverted(true);
 		frontRight.setInverted(false);
 		rearLeft.setInverted(true); 
@@ -54,6 +76,10 @@ public class Drivetrain {
 		
 		// motors will turn in opposite directions if not inverted 
 		
+		// Both the Talon SRX and Victor SPX have a follower feature that allows the motor controllers to mimic another motor controller's output.
+		// Users will still need to set the motor controller's direction, and neutral mode.
+		// The method follow() allows users to create a motor controller follower of not only the same model, but also other models
+		// , talon to talon, victor to victor, talon to victor, and victor to talon.
 		rearLeft.follow(frontLeft);
 		rearRight.follow(frontRight);
 		
@@ -140,6 +166,33 @@ public class Drivetrain {
 			}
 		}
 		return isMoving;
+	}
+	
+	private double arclength(int angle) // returns the inches needed to be moved
+	// to turn the specified angle
+	{
+		return Math.toRadians(angle) * RADIUS_DRIVEVETRAIN_INCHES;
+	}
+
+	// this method needs to be paired with checkMoveDistance()
+	public void moveDistanceAlongArc(int angle) {
+		double dist = arclength(angle);
+		double ldist, rdist;
+		
+		ldist = dist;
+		rdist = -dist;
+		
+		resetEncoders();
+		setPIDParameters();
+		
+		rtac = rdist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
+		ltac = ldist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
+		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
+		frontRight.set(ControlMode.Position, -rtac);
+		frontLeft.set(ControlMode.Position, -ltac);
+		
+		isMoving = true;
+		onTargetCount = 0;
 	}
 	
 	public void stop() {

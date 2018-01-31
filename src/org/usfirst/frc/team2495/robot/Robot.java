@@ -138,11 +138,11 @@ public class Robot extends IterativeRobot {
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
-			drivetrain.turnDistance(50, ControllerBase.JoystickButtons.BTN4);
+			drivetrain.moveDistanceAlongArc(-90);
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
-			drivetrain.turnDistance(50, ControllerBase.JoystickButtons.BTN5);
+			drivetrain.moveDistanceAlongArc(+90);
 		}
 		updateToSmartDash(); 	
 	}
