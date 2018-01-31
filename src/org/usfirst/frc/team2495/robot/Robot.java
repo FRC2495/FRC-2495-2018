@@ -42,6 +42,8 @@ public class Robot extends IterativeRobot {
 	
 	ADXRS450_Gyro gyro; // gyro
 	
+	Compressor compressor; // the compressor's lifecycle needs to be the same as the robot
+	
 	ControllerBase control;
 
 	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
@@ -64,6 +66,9 @@ public class Robot extends IterativeRobot {
 		
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
+		
+		compressor = new Compressor();
+		compressor.checkCompressor();
 		
 		joyLeft = new Joystick ( Ports.USB.LEFT); 
 		joyRight = new Joystick (Ports.USB.RIGHT);
