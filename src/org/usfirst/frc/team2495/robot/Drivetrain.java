@@ -19,26 +19,53 @@ public class Drivetrain implements PIDOutput {
 	boolean isMoving, isTurning; 
 	
 	double ltac, rtac; 
+	
 	static final double PERIMETER_WHEEL_INCHES = 4 * Math.PI;
-	static final int TIMEOUT_MS = 15000;
-	static final int PRIMARY_PID_LOOP = 0;
-	static final double TICK_THRESH = 512;
+	
+	static final int TIMEOUT_MS = 15000;	
+	
 	static final double RADIUS_DRIVEVETRAIN_INCHES = 13; // 12.5;
+	
 	static final double MAX_PCT_OUTPUT = 1.0;
-	static final double REDUCED_PCT_OUTPUT = 0.5;
-	static final double MIN_ROTATE_PCT_OUTPUT = 0.25;
-	static final int DEGREE_THRESHOLD = 1;
-	static final int SLOT_0 = 0;
+		
 	static final int TALON_TIMEOUT_MS = 10;
 	static final int TICKS_PER_REVOLUTION = 4096;
+	
+	
+	// turn settings
+	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
+	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.05 sec = 20 ms 	
+	
+	static final double MIN_TURN_PCT_OUTPUT = 0.125;
+	static final double MAX_TURN_PCT_OUTPUT = 0.5;
+	
+	static final double TURN_PROPORTIONAL_GAIN = 0.04;
+	static final double TURN_INTEGRAL_GAIN = 0.0;
+	static final double TURN_DERIVATIVE_GAIN = 0.0;
+	
+	static final int DEGREE_THRESHOLD = 1;
+	
+	
+	// move settings
+	
+	static final int PRIMARY_PID_LOOP = 0;
+	
+	static final int SLOT_0 = 0;
+	
+	static final double REDUCED_PCT_OUTPUT = 0.5;
+	
+	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_INTEGRAL_GAIN = 0.0;
+	static final double MOVE_DERIVATIVE_GAIN = 0.0;
+	
+	static final int TALON_TICK_THRESH = 128;
+	static final double TICK_THRESH = 512;
 	
 	
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
 	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
 	
-	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
-	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.05 sec = 50 ms 	
-	
+
 	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight;
 	ADXRS450_Gyro gyro;
 	DifferentialDrive differentialDrive; 
@@ -101,10 +128,10 @@ public class Drivetrain implements PIDOutput {
 		rearRight.follow(frontRight);
 		
 		//creates a PID controller
-		turnPidController = new PIDController(0.04, 0.0, 0.0, gyro, this, TURN_PID_CONTROLLER_PERIOD_SECONDS);
+		turnPidController = new PIDController(TURN_PROPORTIONAL_GAIN, TURN_INTEGRAL_GAIN, TURN_DERIVATIVE_GAIN, gyro, this, TURN_PID_CONTROLLER_PERIOD_SECONDS);
     	
     	turnPidController.setInputRange(-180, 180); // valid input range 
-    	turnPidController.setOutputRange(-.5, .5); // output range NOTE: might need to change signs
+    	turnPidController.setOutputRange(-MAX_TURN_PCT_OUTPUT, MAX_TURN_PCT_OUTPUT); // output range NOTE: might need to change signs
     	
     	turnPidController.setContinuous(true); // because -180 degrees is the same as 180 degrees (needs input range to be defined first)
     	turnPidController.setAbsoluteTolerance(DEGREE_THRESHOLD); // 1 degree error tolerated
@@ -297,8 +324,8 @@ public class Drivetrain implements PIDOutput {
     
 	public void setPIDParameters()
 	{
-		frontRight.configAllowableClosedloopError(SLOT_0, 128, TALON_TIMEOUT_MS);
-		frontLeft.configAllowableClosedloopError(SLOT_0, 128, TALON_TIMEOUT_MS);
+		frontRight.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
+		frontLeft.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
 		
 		// P is the proportional gain. It modifies the closed-loop output by a proportion (the gain value)
 		// of the closed-loop error.
@@ -319,13 +346,13 @@ public class Drivetrain implements PIDOutput {
 		// If your mechanism accelerates too abruptly, Derivative Gain can be used to smooth the motion.
 		// Typically start with 10x to 100x of your current Proportional Gain.
 		
-		frontRight.config_kP(SLOT_0, 0.4, TALON_TIMEOUT_MS);
-		frontRight.config_kI(SLOT_0, 0, TALON_TIMEOUT_MS);
-		frontRight.config_kD(SLOT_0, 0, TALON_TIMEOUT_MS);
+		frontRight.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
+		frontRight.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
+		frontRight.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);
 		
-		frontLeft.config_kP(SLOT_0, 0.4, TALON_TIMEOUT_MS);
-		frontLeft.config_kI(SLOT_0, 0, TALON_TIMEOUT_MS);
-		frontLeft.config_kD(SLOT_0, 0, TALON_TIMEOUT_MS);		
+		frontLeft.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
+		frontLeft.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
+		frontLeft.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);		
 	}
 	
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES
@@ -401,10 +428,10 @@ public class Drivetrain implements PIDOutput {
 		{
 			output = 0;
 		}
-		if(output != 0 && Math.abs(output) < MIN_ROTATE_PCT_OUTPUT)
+		if(output != 0 && Math.abs(output) < MIN_TURN_PCT_OUTPUT)
 		{
 			double sign = output > 0 ? 1.0 : -1.0;
-			output = MIN_ROTATE_PCT_OUTPUT * sign;
+			output = MIN_TURN_PCT_OUTPUT * sign;
 		}
 		frontRight.set(ControlMode.PercentOutput, +output);
 		frontLeft.set(ControlMode.PercentOutput, -output);		
