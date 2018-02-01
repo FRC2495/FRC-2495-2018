@@ -16,11 +16,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain implements PIDOutput {
 
-	boolean isMoving, isTurning; 
-	
-	double ltac, rtac; 
-	
-	static final double PERIMETER_WHEEL_INCHES = 4 * Math.PI;
+	// general settings
+	static final double DIAMETER_WHEEL_INCHES = 4;
+	static final double PERIMETER_WHEEL_INCHES = DIAMETER_WHEEL_INCHES * Math.PI;
 	
 	static final int TIMEOUT_MS = 15000;	
 	
@@ -34,7 +32,7 @@ public class Drivetrain implements PIDOutput {
 	
 	// turn settings
 	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
-	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.05 sec = 20 ms 	
+	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
 	
 	static final double MIN_TURN_PCT_OUTPUT = 0.2;
 	static final double MAX_TURN_PCT_OUTPUT = 0.5;
@@ -47,7 +45,6 @@ public class Drivetrain implements PIDOutput {
 	
 	
 	// move settings
-	
 	static final int PRIMARY_PID_LOOP = 0;
 	
 	static final int SLOT_0 = 0;
@@ -62,17 +59,25 @@ public class Drivetrain implements PIDOutput {
 	static final double TICK_THRESH = 512;
 	
 	
+	// shared turn and move settings
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
 	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
-	
 
-	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight;
-	ADXRS450_Gyro gyro;
-	DifferentialDrive differentialDrive; 
 	
-	Robot robot;
+	// variables
+	boolean isMoving; // indicates that the drivetrain is moving using the PID controllers embedded on the motor controllers 
+	boolean isTurning;  // indicates that the drivetrain is turning using the PID controller hereunder
 	
-	PIDController turnPidController;
+	double ltac, rtac; // target positions 
+
+	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight; // motor controllers
+	ADXRS450_Gyro gyro; // gyroscope
+	
+	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
+	
+	Robot robot; // a reference to the robot
+	
+	PIDController turnPidController; // the PID controller used to turn
 	
 	
 	public Drivetrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , WPI_TalonSRX rearLeft_in ,WPI_TalonSRX rearRight_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
@@ -126,6 +131,9 @@ public class Drivetrain implements PIDOutput {
 		// , talon to talon, victor to victor, talon to victor, and victor to talon.
 		rearLeft.follow(frontLeft);
 		rearRight.follow(frontRight);
+		
+		// set peak output to max in case if had been reduced previously
+		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 		
 		//creates a PID controller
 		turnPidController = new PIDController(TURN_PROPORTIONAL_GAIN, TURN_INTEGRAL_GAIN, TURN_DERIVATIVE_GAIN, gyro, this, TURN_PID_CONTROLLER_PERIOD_SECONDS);
@@ -207,7 +215,8 @@ public class Drivetrain implements PIDOutput {
 		}		
 		stop();
 	}
-	
+
+	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
 		resetEncoders();
@@ -224,8 +233,6 @@ public class Drivetrain implements PIDOutput {
 		frontRight.set(ControlMode.Position, rtac);
 		frontLeft.set(ControlMode.Position, ltac);
 
-		//hi
-		
 		isMoving = true;
 		onTargetCount = 0;
 	}
@@ -400,7 +407,7 @@ public class Drivetrain implements PIDOutput {
 	public int getRightEncoderValue() {
 		return (int) (frontRight.getSelectedSensorPosition(PRIMARY_PID_LOOP));
 	}
-//
+
 	public int getLeftEncoderValue() {
 		return (int) (frontLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP));
 	}
@@ -437,6 +444,8 @@ public class Drivetrain implements PIDOutput {
 		frontLeft.set(ControlMode.PercentOutput, -output);		
 	}	
 	
+	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
+	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
 	public void resetEncoders() {
 		frontRight.set(ControlMode.PercentOutput, 0); // we switch to open loop to be safe.
 		frontLeft.set(ControlMode.PercentOutput, 0);			
