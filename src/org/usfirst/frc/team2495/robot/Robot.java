@@ -33,10 +33,14 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	Drivetrain drivetrain;
+	
+	HMCamera camera;
+	
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	WPI_TalonSRX rearLeft; 
 	WPI_TalonSRX rearRight;
+	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
 	
@@ -66,6 +70,8 @@ public class Robot extends IterativeRobot {
 		
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
+		
+		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();
 		compressor.checkCompressor();
@@ -127,6 +133,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		control.update();
+		camera.acquireTargets(false);
 		
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
@@ -161,6 +168,8 @@ public class Robot extends IterativeRobot {
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
 		}
+		
+		camera.acquireTargets(false);
 		updateToSmartDash(); 	
 	}
 
@@ -178,6 +187,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {	
 		control.update();
+		camera.acquireTargets(false);
 		
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) {
 			gyro.calibrate();
@@ -185,9 +195,32 @@ public class Robot extends IterativeRobot {
 			hasGyroBeenManuallyCalibratedAtLeastOnce = true; // we flag that this was done
 		}
 		
-		updateToSmartDash();		
+		camera.acquireTargets(false);
+		updateToSmartDash();
 	}
 	
+	private void turnAngleUsingPidControllerTowardCube() {
+		drivetrain.turnAngleUsingPidController(camera.getAngleToTurnToTarget());
+		/*drivetrain.turnAngleUsingPidController(calculateProperTurnAngle(
+				camera.getAngleToTurnToTarget(),camera.getDistanceToTargetUsingHorizontalFov()));*/
+	}
+	
+	private void moveDistanceTowardCube() {
+		final int OFFSET_CAMERA_CUBE_INCHES = 10; // we need to leave some space between the camera and the target
+		final int MAX_DISTANCE_TO_CUBE_INCHES = 120; // arbitrary very large distance
+		
+		double distanceToTargetReportedByCamera = camera.getDistanceToTargetUsingHorizontalFov();
+		
+		if (distanceToTargetReportedByCamera <= MAX_DISTANCE_TO_CUBE_INCHES) {
+			if (distanceToTargetReportedByCamera >= OFFSET_CAMERA_CUBE_INCHES) {
+				drivetrain.moveDistance((distanceToTargetReportedByCamera - OFFSET_CAMERA_CUBE_INCHES)); // todo: check sign
+			} else {
+				System.out.println("Already at the cube!");
+			}
+		} else {
+			System.out.println("Cannot move to infinity and beyond!");
+		}		
+	}
 	public void updateToSmartDash()
 	{
 		// Send Gyro val to Dashboard
@@ -199,10 +232,25 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
-
+        SmartDashboard.putBoolean("isCompromised?", DriverStation.getInstance().isDisabled());
+        SmartDashboard.putNumber("Distance to Target", camera.getDistanceToTargetUsingVerticalFov());
+        SmartDashboard.putNumber("Angle to Target", camera.getAngleToTurnToTarget());
+        SmartDashboard.putNumber("Distance to Target Using Horizontal FOV", camera.getDistanceToTargetUsingHorizontalFov());
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
         SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
         SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
+	}
+	
+	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {
+		try {
+			final double OFFSET_BETWEEN_CAMERA_AND_ROTATION_CENTER_INCHES = 6; // inches - might need adjustment
+			double dist = cameraHorizontalDist * Math.cos(Math.toRadians(cameraTurnAngle));
+			return Math.toDegrees(Math.atan(Math.tan(Math.toRadians(cameraTurnAngle)) * dist
+					/ (dist + OFFSET_BETWEEN_CAMERA_AND_ROTATION_CENTER_INCHES)));
+		} catch (Exception e) {
+			System.out.println("Exception in proper turn angle calculation" + e.toString());
+			return 0;
+		}
 	}
 }

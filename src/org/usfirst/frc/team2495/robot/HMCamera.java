@@ -109,7 +109,7 @@ public class HMCamera {
 		return getNumberOfTargets() > 0; // cube is at least one target
 	}
 
-	public double getDistanceToTarget() {
+	public double getDistanceToTargetUsingVerticalFov() {
 		if (isCoherent() && largeIndex != BAD_INDEX) {
 			double diagTargetDistance = TARGET_HEIGHT_INCHES * (VERTICAL_CAMERA_RES_PIXELS / height[largeIndex]) / 2.0
 					/ Math.tan(Math.toRadians(VERTICAL_FOV_DEGREES / 2));
