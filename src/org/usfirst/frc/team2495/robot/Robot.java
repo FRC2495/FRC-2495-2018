@@ -168,6 +168,17 @@ public class Robot extends IterativeRobot {
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
 		}
+		else if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN8) ||
+			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN8))
+		{
+			turnAngleUsingPidControllerTowardCube();
+		}
+		else if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN9) ||
+			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN9))
+		{
+			moveDistanceTowardCube();
+		}
+		
 		
 		camera.acquireTargets(false);
 		updateToSmartDash(); 	
