@@ -70,7 +70,7 @@ public class MiniDrivetrain implements PIDOutput {
 	
 	double ltac, rtac; // target positions 
 
-	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight; // motor controllers
+	WPI_TalonSRX frontCenter, rearCenter; // motor controllers
 	ADXRS450_Gyro gyro; // gyroscope
 	
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
@@ -80,48 +80,44 @@ public class MiniDrivetrain implements PIDOutput {
 	PIDController turnPidController; // the PID controller used to turn
 	
 	
-	public MiniDrivetrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , WPI_TalonSRX rearLeft_in ,WPI_TalonSRX rearRight_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
+	public MiniDrivetrain(WPI_TalonSRX frontCenter_in,WPI_TalonSRX rearCenter_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
 	{
-		frontLeft = frontLeft_in;
-		frontRight = frontRight_in;
-		rearLeft = rearLeft_in;
-		rearRight = rearRight_in;
+		
+		frontCenter = frontCenter_in;
+		rearCenter = rearCenter_in;
 		gyro = gyro_in;	
 		robot = robot_in;
 		
 		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
 		// As of right now, there are two options when setting the neutral mode of a motor controller,
 		// brake and coast.
-		frontLeft.setNeutralMode(NeutralMode.Brake); // sets the talons on brake mode
-		rearLeft.setNeutralMode(NeutralMode.Brake);	
-		frontRight.setNeutralMode(NeutralMode.Brake);
-		rearRight.setNeutralMode(NeutralMode.Brake);
+		frontCenter.setNeutralMode(NeutralMode.Brake); // sets the talons on brake mode
+		rearCenter.setNeutralMode(NeutralMode.Brake);	
 		
 		// Sensors for motor controllers provide feedback about the position, velocity, and acceleration
 		// of the system using that motor controller.
 		// Note: With Phoenix framework, position units are in the natural units of the sensor.
 		// This ensures the best resolution possible when performing closed-loops in firmware.
 		// CTRE Magnetic Encoder (relative/quadrature) =  4096 units per rotation
-		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+		frontCenter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 				
-		frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+		rearCenter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
 				PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 		
 		// Sensor phase is the term used to explain sensor direction.
 		// In order for limit switches and closed-loop features to function properly the sensor and motor has to be in-phase.
 		// This means that the sensor position must move in a positive direction as the motor controller drives positive output.  
-		frontLeft.setSensorPhase(true);
-		frontRight.setSensorPhase(true);	
+		frontCenter.setSensorPhase(true);
+		rearCenter.setSensorPhase(true);	
 		
 		// Motor controller output direction can be set by calling the setInverted() function as seen below.
 		// Note: Regardless of invert value, the LEDs will blink green when positive output is requested (by robot code or firmware closed loop).
 		// Only the motor leads are inverted. This feature ensures that sensor phase and limit switches will properly match the LED pattern
 		// (when LEDs are green => forward limit switch and soft limits are being checked). 
-		frontLeft.setInverted(true);
-		frontRight.setInverted(false);
-		rearLeft.setInverted(true); 
-		rearRight.setInverted(false);
+		frontCenter.setInverted(false);
+		rearCenter.setInverted(false);
+	
 		
 		// motors will turn in opposite directions if not inverted 
 		
@@ -129,9 +125,10 @@ public class MiniDrivetrain implements PIDOutput {
 		// Users will still need to set the motor controller's direction, and neutral mode.
 		// The method follow() allows users to create a motor controller follower of not only the same model, but also other models
 		// , talon to talon, victor to victor, talon to victor, and victor to talon.
-		rearLeft.follow(frontLeft);
+		/*
+		rearLeft.follow(rearCenter);
 		rearRight.follow(frontRight);
-		
+		*/
 		// set peak output to max in case if had been reduced previously
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 		
@@ -144,7 +141,7 @@ public class MiniDrivetrain implements PIDOutput {
     	turnPidController.setContinuous(true); // because -180 degrees is the same as 180 degrees (needs input range to be defined first)
     	turnPidController.setAbsoluteTolerance(DEGREE_THRESHOLD); // 1 degree error tolerated
 		
-		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
+		differentialDrive = new DifferentialDrive(frontCenter, rearCenter);
 		differentialDrive.setSafetyEnabled(false); // disables the stupid timeout error when we run in closed loop
 	}
 	
@@ -230,8 +227,8 @@ public class MiniDrivetrain implements PIDOutput {
 		ltac = - ltac;
 		
 		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
-		frontRight.set(ControlMode.Position, rtac);
-		frontLeft.set(ControlMode.Position, ltac);
+		frontCenter.set(ControlMode.Position, rtac);
+		rearCenter.set(ControlMode.Position, ltac);
 
 		isMoving = true;
 		onTargetCount = 0;
@@ -240,8 +237,8 @@ public class MiniDrivetrain implements PIDOutput {
 	public boolean tripleCheckMoveDistance() {
 		if (isMoving) {
 			
-			double rerror = frontRight.getClosedLoopError(PRIMARY_PID_LOOP);
-			double lerror = frontLeft.getClosedLoopError(PRIMARY_PID_LOOP);
+			double rerror = frontCenter.getClosedLoopError(PRIMARY_PID_LOOP);
+			double lerror =rearCenter.getClosedLoopError(PRIMARY_PID_LOOP);
 			
 			boolean isOnTarget = (Math.abs(rerror) < TICK_THRESH && Math.abs(lerror) < TICK_THRESH);
 			
@@ -310,8 +307,8 @@ public class MiniDrivetrain implements PIDOutput {
 		rtac = rdist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
 		ltac = ldist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
 		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
-		frontRight.set(ControlMode.Position, -rtac);
-		frontLeft.set(ControlMode.Position, -ltac);
+		frontCenter.set(ControlMode.Position, -rtac);
+		rearCenter.set(ControlMode.Position, -ltac);
 		
 		isMoving = true;
 		onTargetCount = 0;
@@ -320,8 +317,8 @@ public class MiniDrivetrain implements PIDOutput {
 	public void stop() {
 		turnPidController.disable(); // exits PID loop
 		 
-		frontLeft.set(ControlMode.PercentOutput, 0);
-		frontRight.set(ControlMode.PercentOutput, 0);
+		rearCenter.set(ControlMode.PercentOutput, 0);
+		frontCenter.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
 		isTurning = false;
@@ -331,8 +328,8 @@ public class MiniDrivetrain implements PIDOutput {
     
 	public void setPIDParameters()
 	{
-		frontRight.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
-		frontLeft.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
+		frontCenter.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
+		rearCenter.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
 		
 		// P is the proportional gain. It modifies the closed-loop output by a proportion (the gain value)
 		// of the closed-loop error.
@@ -353,27 +350,27 @@ public class MiniDrivetrain implements PIDOutput {
 		// If your mechanism accelerates too abruptly, Derivative Gain can be used to smooth the motion.
 		// Typically start with 10x to 100x of your current Proportional Gain.
 		
-		frontRight.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
-		frontRight.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
-		frontRight.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);
+		frontCenter.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
+		frontCenter.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
+		frontCenter.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);
 		
-		frontLeft.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
-		frontLeft.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
-		frontLeft.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);		
+		rearCenter.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
+		rearCenter.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
+		rearCenter.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);		
 	}
 	
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES
 	public void setNominalAndPeakOutputs(double peakOutput)
 	{
-		frontLeft.configPeakOutputForward(peakOutput, TALON_TIMEOUT_MS);
-		frontLeft.configPeakOutputReverse(-peakOutput, TALON_TIMEOUT_MS);
-		frontRight.configPeakOutputForward(peakOutput, TALON_TIMEOUT_MS);
-		frontRight.configPeakOutputReverse(-peakOutput, TALON_TIMEOUT_MS);
+		rearCenter.configPeakOutputForward(peakOutput, TALON_TIMEOUT_MS);
+		rearCenter.configPeakOutputReverse(-peakOutput, TALON_TIMEOUT_MS);
+		frontCenter.configPeakOutputForward(peakOutput, TALON_TIMEOUT_MS);
+		frontCenter.configPeakOutputReverse(-peakOutput, TALON_TIMEOUT_MS);
 		
-		frontRight.configNominalOutputForward(0, TALON_TIMEOUT_MS);
-		frontLeft.configNominalOutputForward(0, TALON_TIMEOUT_MS);
-		frontRight.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
-		frontLeft.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
+		frontCenter.configNominalOutputForward(0, TALON_TIMEOUT_MS);
+		rearCenter.configNominalOutputForward(0, TALON_TIMEOUT_MS);
+		frontCenter.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
+		rearCenter.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
 	}
 
 	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held) // sets talons to
@@ -384,8 +381,8 @@ public class MiniDrivetrain implements PIDOutput {
 			if(!held)
 			{
 
-				//frontRight.set(ControlMode.PercentOutput, joyRight.getY() * .75);
-				//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
+				//frontCenter.set(ControlMode.PercentOutput, joyRight.getY() * .75);
+				//rearCenter.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
 				
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
@@ -394,8 +391,8 @@ public class MiniDrivetrain implements PIDOutput {
 			else
 			{
 				
-				//frontRight.set(ControlMode.PercentOutput, joyRight.getY());
-				//frontLeft.set(ControlMode.PercentOutput, joyLeft.getY());
+				//frontCenter.set(ControlMode.PercentOutput, joyRight.getY());
+				//rearCenter.set(ControlMode.PercentOutput, joyLeft.getY());
 				
 				//differentialDrive.tankDrive(joyLeft.getY(), -joyRight.getY()); // right needs to be reversed
 				
@@ -405,19 +402,19 @@ public class MiniDrivetrain implements PIDOutput {
 	}	
 	
 	public int getRightEncoderValue() {
-		return (int) (frontRight.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+		return (int) (frontCenter.getSelectedSensorPosition(PRIMARY_PID_LOOP));
 	}
 
 	public int getLeftEncoderValue() {
-		return (int) (frontLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+		return (int) (rearCenter.getSelectedSensorPosition(PRIMARY_PID_LOOP));
 	}
 
 	public int getRightValue() {
-		return (int) (frontRight.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
+		return (int) (frontCenter.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
 	}
 
 	public int getLeftValue() {
-		return (int) (frontLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
+		return (int) (rearCenter.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
 	}
 	
 	public boolean isMoving() {
@@ -440,18 +437,18 @@ public class MiniDrivetrain implements PIDOutput {
 			double sign = output > 0 ? 1.0 : -1.0;
 			output = MIN_TURN_PCT_OUTPUT * sign;
 		}
-		frontRight.set(ControlMode.PercentOutput, +output);
-		frontLeft.set(ControlMode.PercentOutput, -output);		
+		frontCenter.set(ControlMode.PercentOutput, +output);
+		rearCenter.set(ControlMode.PercentOutput, -output);		
 	}	
 	
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
 	public void resetEncoders() {
-		frontRight.set(ControlMode.PercentOutput, 0); // we switch to open loop to be safe.
-		frontLeft.set(ControlMode.PercentOutput, 0);			
+		frontCenter.set(ControlMode.PercentOutput, 0); // we switch to open loop to be safe.
+		rearCenter.set(ControlMode.PercentOutput, 0);			
 		
-		frontRight.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
-		frontLeft.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
+		frontCenter.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
+		rearCenter.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS);
 	}	
 }
 

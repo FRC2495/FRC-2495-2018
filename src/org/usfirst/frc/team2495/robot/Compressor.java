@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@code Compressor} class contains fields and methods pertaining to the function of the compressor.
@@ -64,9 +65,13 @@ public class Compressor {
 		@Override
 		public void run() {
 			if (_checkPressure.get() == true) {
+				SmartDashboard.putBoolean("Check pressure ", _checkPressure.get());
 				_relay.set(Relay.Value.kOff);
+				SmartDashboard.putBoolean("Compressor relay ", false);
 			} else {
+				SmartDashboard.putBoolean("Check pressure ", _checkPressure.get());
 				_relay.set(Relay.Value.kForward);
+				SmartDashboard.putBoolean("Compressor relay ", true);
 			}
 		}
 
