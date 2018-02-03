@@ -34,12 +34,17 @@ public class Robot extends IterativeRobot {
 	
 	Drivetrain drivetrain;
 	
+	MiniDrivetrain miniDrivetrain;
+	
 	HMCamera camera;
 	
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	WPI_TalonSRX rearLeft; 
 	WPI_TalonSRX rearRight;
+	
+	WPI_TalonSRX frontCenter;
+	WPI_TalonSRX rearCenter;
 	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
@@ -68,9 +73,14 @@ public class Robot extends IterativeRobot {
 		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
+		frontCenter= new WPI_TalonSRX(Ports.CAN.FRONT_CENTER);
+		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
+		
 		// TODO 2017 robot is 0, 2018 is 2
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
+		
+		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
 		
 		camera = new HMCamera("GRIP/myContoursReport");
 		
@@ -142,17 +152,22 @@ public class Robot extends IterativeRobot {
 		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		
+		miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+		
 		//Stops the robot moving if pressed
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3) || 
 		   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN3))
 		{
 			drivetrain.stop();
+			miniDrivetrain.stop();
 		}
 		
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
 				   control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN2))
 		{
 			drivetrain.resetEncoders();
+			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
 		}
 		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
