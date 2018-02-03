@@ -68,7 +68,8 @@ public class Robot extends IterativeRobot {
 		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
 		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
 		
-		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
+		// TODO 2017 robot is 0, 2018 is 2
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
 		camera = new HMCamera("GRIP/myContoursReport");
