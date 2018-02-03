@@ -43,6 +43,7 @@ public class Ports {
 		}
 		
 		public static class PCM{
+			/* 2017 robot
 			public static final int INTAKE_IN = 0;
 			public static final int INTAKE_OUT = 1;
 			public static final int INTAKE_DOWN = 2;
@@ -50,6 +51,10 @@ public class Ports {
 			public static final int GEAR_IN = 5;
 			public static final int GEAR_OUT = 4;
 			public static final int BASIN_DOWN = 6;
-			public static final int BASIN_UP = 7;		
+			public static final int BASIN_UP = 7;*/
+			
+			// 2018 robot
+			public static final int JACK_DOWN = 0;
+			public static final int JACK_UP = 1;
 		}
 }
