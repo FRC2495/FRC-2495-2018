@@ -57,6 +57,11 @@ public class Robot extends IterativeRobot {
 
 	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
 	
+	/*WPI_TalonSRX elevator;
+	boolean elevatorFlagUp = true;
+	Elevator elevatorControl;*/
+
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -75,6 +80,8 @@ public class Robot extends IterativeRobot {
 		
 		frontCenter= new WPI_TalonSRX(Ports.CAN.FRONT_CENTER);
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
+		
+		//elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
 		
 		// TODO 2017 robot is 0, 2018 is 2
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2); // we want to instantiate before we pass to drivetrain	
@@ -96,6 +103,9 @@ public class Robot extends IterativeRobot {
 		
 		gyro.calibrate(); 
 		gyro.reset();
+		
+		/*elevatorControl = new Elevator(elevator);
+		elevatorControl.home();*/
 	}
 
 	/**
@@ -146,14 +156,23 @@ public class Robot extends IterativeRobot {
 		control.update();
 		camera.acquireTargets(false);
 		
+		
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
+		
+		/*miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
+		miniDrivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning*/
+		
+		/*elevatorControl.checkHome();
+		elevatorControl.tripleCheckMove();*/
+		
 		
 		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		
 		miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+		
 		
 		//Stops the robot moving if pressed
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3) || 
@@ -169,6 +188,7 @@ public class Robot extends IterativeRobot {
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
+			//elevatorControl.home();
 		}
 		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
@@ -194,6 +214,27 @@ public class Robot extends IterativeRobot {
 		{
 			moveDistanceTowardCube();
 		}
+		
+		
+		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
+		{
+			elevatorControl.home();
+		}/*			
+		
+		//elevator bound to start
+		/*if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
+			System.out.println("Button Pushed");
+			if (elevatorFlagUp) {
+				elevatorControl.moveUp();
+				System.out.println("Should be Moving");
+				elevatorFlagUp = false;
+			} else {
+				elevatorControl.moveDown();
+				System.out.println("Should be Moving");
+				elevatorFlagUp = true;
+			}
+		}*/
 		
 		
 		camera.acquireTargets(false);
@@ -263,6 +304,13 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Distance to Target", camera.getDistanceToTargetUsingVerticalFov());
         SmartDashboard.putNumber("Angle to Target", camera.getAngleToTurnToTarget());
         SmartDashboard.putNumber("Distance to Target Using Horizontal FOV", camera.getDistanceToTargetUsingHorizontalFov());
+        /*SmartDashboard.putBoolean("Basin Limit Switch", elevatorControl.getLimitSwitchState());
+        SmartDashboard.putNumber("Basin Position", elevatorControl.getPosition());
+        SmartDashboard.putNumber("Basin Enc Position", elevatorControl.getEncPosition());
+        SmartDashboard.putBoolean("Basin IsHoming?", elevatorControl.isHoming());
+        SmartDashboard.putBoolean("Basin IsMoving?", elevatorControl.isMoving());
+        SmartDashboard.putNumber("Basin Target", elevatorControl.getTarget());
+        SmartDashboard.putBoolean("Basin Has Been Homed?", elevatorControl.hasBeenHomed());*/       
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
         SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());

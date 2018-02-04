@@ -31,7 +31,7 @@ public class Ports {
 			public static final int LEFT_FRONT = 2;
 			public static final int FRONT_CENTER = 5;
 			public static final int REAR_CENTER = 6;
-			public static final int BASIN = 7;
+			public static final int ELEVATOR = 7;
 			public static final int PCM = 8;
 			public static final int PDP = 0;
 		}
