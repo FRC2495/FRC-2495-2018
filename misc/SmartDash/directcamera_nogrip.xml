@@ -35,16 +35,16 @@
 	<widget field="isCompromised?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="916" y="246"/>
 	</widget>
-	<widget field="Basin Limit Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+	<widget field="Elevator Limit Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="586" y="258"/>
 	</widget>
-	<widget field="Basin IsMoving?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+	<widget field="Elevator IsMoving?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="585" y="278"/>
 	</widget>
-	<widget field="Basin Has Been Homed?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+	<widget field="Elevator Has Been Homed?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="583" y="366"/>
 	</widget>
-	<widget field="Basin IsHoming?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+	<widget field="Elevator IsHoming?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="582" y="350"/>
 	</widget>
 	<widget field="Alliterative Autoniomous Appointment" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
@@ -56,13 +56,13 @@
 	<widget field="Right Enc Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="803" y="33"/>
 	</widget>
-	<widget field="Basin Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+	<widget field="Elevator Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="586" y="330"/>
 	</widget>
-	<widget field="Basin Enc Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+	<widget field="Elevator Enc Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="586" y="311"/>
 	</widget>
-	<widget field="Basin Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+	<widget field="Elevator Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="586" y="294"/>
 	</widget>
 	<widget field="Distance to Target Using Horizontal FOV" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">

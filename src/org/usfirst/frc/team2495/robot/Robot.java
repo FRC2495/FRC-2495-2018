@@ -304,13 +304,13 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Distance to Target", camera.getDistanceToTargetUsingVerticalFov());
         SmartDashboard.putNumber("Angle to Target", camera.getAngleToTurnToTarget());
         SmartDashboard.putNumber("Distance to Target Using Horizontal FOV", camera.getDistanceToTargetUsingHorizontalFov());
-        /*SmartDashboard.putBoolean("Basin Limit Switch", elevatorControl.getLimitSwitchState());
-        SmartDashboard.putNumber("Basin Position", elevatorControl.getPosition());
-        SmartDashboard.putNumber("Basin Enc Position", elevatorControl.getEncPosition());
-        SmartDashboard.putBoolean("Basin IsHoming?", elevatorControl.isHoming());
-        SmartDashboard.putBoolean("Basin IsMoving?", elevatorControl.isMoving());
-        SmartDashboard.putNumber("Basin Target", elevatorControl.getTarget());
-        SmartDashboard.putBoolean("Basin Has Been Homed?", elevatorControl.hasBeenHomed());*/       
+        /*SmartDashboard.putBoolean("Elevator Limit Switch", elevatorControl.getLimitSwitchState());
+        SmartDashboard.putNumber("Elevator Position", elevatorControl.getPosition());
+        SmartDashboard.putNumber("Elevator Enc Position", elevatorControl.getEncPosition());
+        SmartDashboard.putBoolean("Elevator IsHoming?", elevatorControl.isHoming());
+        SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
+        SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
+        SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());*/       
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
         SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
