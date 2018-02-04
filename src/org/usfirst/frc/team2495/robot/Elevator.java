@@ -79,6 +79,8 @@ public class Elevator {
 		// (when LEDs are green => forward limit switch and soft limits are being checked). 	
 		elevator.setInverted(false); // invert if required
 		
+		setPIDParameters();
+		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 
 		// Sensors for motor controllers provide feedback about the position, velocity, and acceleration
@@ -223,7 +225,7 @@ public class Elevator {
 
 	public void moveUp() {
 		if (hasBeenHomed) {
-			setPIDParameters();
+			//setPIDParameters();
 			System.out.println("Moving Up");
 
 			tac = +convertInchesToRev(LENGTH_OF_TRAVEL_INCHES) * TICKS_PER_REVOLUTION;
@@ -238,7 +240,7 @@ public class Elevator {
 
 	public void moveDown() {
 		if (hasBeenHomed) {
-			setPIDParameters();
+			//setPIDParameters();
 			System.out.println("Moving Down");
 
 			tac = -convertInchesToRev(0)* TICKS_PER_REVOLUTION;
