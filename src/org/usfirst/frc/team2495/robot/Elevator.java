@@ -12,12 +12,12 @@ public class Elevator {
 	
 	// general settings
 	
-	static final double DIAMETER_PULLEY_INCHES = 4; // TODO set proper value
+	static final double DIAMETER_PULLEY_INCHES = 1.19; // TODO set proper value
 	static final double PERIMETER_PULLEY_INCHES = DIAMETER_PULLEY_INCHES * Math.PI;
 	
 	static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
-	static final int LENGTH_OF_TRAVEL_INCHES = 11; // TODO set proper value
+	static final int LENGTH_OF_TRAVEL_INCHES = 47; // TODO set proper value
 	
 	static final double VIRTUAL_HOME_OFFSET_INCHES = 1; // position of virtual home compared to physical home
 	
@@ -54,6 +54,7 @@ public class Elevator {
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
     private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
 
+    Robot robot; 
     
 	public Elevator(WPI_TalonSRX elevator_in) {
 		elevator = elevator_in;
@@ -220,10 +221,11 @@ public class Elevator {
 				elevator.set(ControlMode.PercentOutput,0);				 
 			}
 		}
-		return isMoving;
+		return isMoving; 
 	}
 
 	public void moveUp() {
+		
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Up");
@@ -239,6 +241,7 @@ public class Elevator {
 	}
 
 	public void moveDown() {
+		
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Down");

@@ -375,6 +375,7 @@ public class MiniDrivetrain implements PIDOutput {
 
 	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held) // sets talons to
 	// joystick control
+	
 	{
 		if (!isMoving && !isTurning) // if we are already doing a move or turn we don't take over
 		{

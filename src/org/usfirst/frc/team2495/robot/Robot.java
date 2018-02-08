@@ -57,9 +57,9 @@ public class Robot extends IterativeRobot {
 
 	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
 	
-	/*WPI_TalonSRX elevator;
+	WPI_TalonSRX elevator;
 	boolean elevatorFlagUp = true;
-	Elevator elevatorControl;*/
+	Elevator elevatorControl;
 
 	
 	/**
@@ -81,10 +81,10 @@ public class Robot extends IterativeRobot {
 		frontCenter= new WPI_TalonSRX(Ports.CAN.FRONT_CENTER);
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
 		
-		//elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
+		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
 		
 		// TODO 2017 robot is 0, 2018 is 2
-		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS2); // we want to instantiate before we pass to drivetrain	
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
@@ -104,8 +104,10 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate(); 
 		gyro.reset();
 		
-		/*elevatorControl = new Elevator(elevator);
-		elevatorControl.home();*/
+		
+		
+		elevatorControl = new Elevator(elevator);
+		elevatorControl.home();
 	}
 
 	/**
@@ -166,12 +168,30 @@ public class Robot extends IterativeRobot {
 		/*elevatorControl.checkHome();
 		elevatorControl.tripleCheckMove();*/
 		
+		// drive train flag JJ-
 		
-		drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+		boolean driveTrainSelect = false;
+		
+	if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN4)
+			|| control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1));
+	{
+		if(driveTrainSelect)
+			driveTrainSelect = false; 
+		else
+			driveTrainSelect = true; 
+	}
+				
+		
+if(driveTrainSelect){
+	drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
-		
+}
+	else
+	{
 		miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
                 || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+	}
+		
 		
 		
 		//Stops the robot moving if pressed
@@ -216,14 +236,14 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
 			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			elevatorControl.home();
-		}/*			
+		}			
 		
 		//elevator bound to start
-		/*if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
 				elevatorControl.moveUp();
@@ -234,7 +254,7 @@ public class Robot extends IterativeRobot {
 				System.out.println("Should be Moving");
 				elevatorFlagUp = true;
 			}
-		}*/
+		}
 		
 		
 		camera.acquireTargets(false);
