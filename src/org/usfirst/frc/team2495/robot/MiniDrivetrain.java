@@ -387,7 +387,8 @@ public class MiniDrivetrain implements PIDOutput {
 				
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
-				differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
+				//differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getY() * .75, joyLeft.getX() * .75); // right needs to be reversed
 			}
 			else
 			{
@@ -397,7 +398,8 @@ public class MiniDrivetrain implements PIDOutput {
 				
 				//differentialDrive.tankDrive(joyLeft.getY(), -joyRight.getY()); // right needs to be reversed
 				
-				differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
+				//differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getY(), joyLeft.getX()); // right needs to be reversed
 			}
 		}
 	}	
