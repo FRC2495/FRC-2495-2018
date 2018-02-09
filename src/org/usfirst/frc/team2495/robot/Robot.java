@@ -62,6 +62,9 @@ public class Robot extends IterativeRobot {
 	Elevator elevatorControl;
 	Jack jack;
 	boolean driveTrainSelect = false;
+	
+	GameData gameData;
+	HMAccelerometer accelerometer;
 
 	
 	/**
@@ -108,7 +111,8 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate(); 
 		gyro.reset();
 		
-		
+		gameData = new GameData();
+		accelerometer = new HMAccelerometer();
 		
 		elevatorControl = new Elevator(elevator);
 		elevatorControl.home();
@@ -131,6 +135,8 @@ public class Robot extends IterativeRobot {
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
+		
+		gameData.update();
 	}
 
 	/**
@@ -152,6 +158,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		drivetrain.stop(); // very important!
+		
+		gameData.update();
 	}
 	
 	/**
@@ -279,6 +287,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledInit() {
+		gameData.update();
 	}
 
 	@Override
@@ -344,6 +353,12 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
         SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
         SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
+        
+        SmartDashboard.putNumber("Tilt", accelerometer.getTilt());
+        SmartDashboard.putString("First Switch", gameData.getAssignedPlateAtFirstSwitch().toString());
+        SmartDashboard.putString("Scale", gameData.getAssignedPlateAtScale().toString());
+        SmartDashboard.putString("Second Switch", gameData.getAssignedPlateAtSecondSwitch().toString());
+        
 	}
 	
 	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {
