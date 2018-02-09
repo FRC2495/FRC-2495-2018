@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX elevator;
 	boolean elevatorFlagUp = true;
 	Elevator elevatorControl;
+	Jack jack;
 
 	
 	/**
@@ -100,6 +101,8 @@ public class Robot extends IterativeRobot {
 		gamepad = new Joystick(Ports.USB.GAMEPAD);
 
 		control = new ControllerBase(gamepad, joyLeft, joyRight);	
+		
+		jack = new Jack();
 		
 		gyro.calibrate(); 
 		gyro.reset();
@@ -162,11 +165,11 @@ public class Robot extends IterativeRobot {
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
 		
-		/*miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
+		miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		miniDrivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning*/
 		
-		/*elevatorControl.checkHome();
-		elevatorControl.tripleCheckMove();*/
+		elevatorControl.checkHome();
+		elevatorControl.tripleCheckMove();
 		
 		// drive train flag JJ-
 		
@@ -175,10 +178,15 @@ public class Robot extends IterativeRobot {
 	if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN4)
 			|| control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1));
 	{
-		if(driveTrainSelect)
+		if(driveTrainSelect){
 			driveTrainSelect = false; 
-		else
+			jack.setPosition(Jack.Position.DOWN);
+		}
+		else{
 			driveTrainSelect = true; 
+			jack.setPosition(Jack.Position.UP);
+		}
+			
 	}
 				
 		
@@ -208,7 +216,7 @@ if(driveTrainSelect){
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
-			//elevatorControl.home();
+			elevatorControl.home();
 		}
 		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
