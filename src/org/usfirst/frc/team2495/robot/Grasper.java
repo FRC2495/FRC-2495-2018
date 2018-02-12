@@ -2,6 +2,7 @@
  * 
  */
 package org.usfirst.frc.team2495.robot;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -13,13 +14,20 @@ public class Grasper {
 	/**
 	 * 
 	 */
-	WPI_TalonSRX graspLeft , graspRight; 
+	WPI_TalonSRX grasperLeft , grasperRight; 
 	
-	public Grasper( WPI_TalonSRX graspLeft_in, WPI_TalonSRX graspRight_in) {
+	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in) {
 		// TODO Auto-generated constructor stub
 		
-		graspLeft = graspLeft_in;
-		graspRight = graspRight_in;	
+		grasperLeft = grasperLeft_in;
+		grasperRight = grasperRight_in;
+		
+		grasperLeft.setNeutralMode(NeutralMode.Brake);
+		grasperRight.setNeutralMode(NeutralMode.Brake);
+		
+		//this might me wrong =j
+		grasperLeft.setInverted(true);
+		grasperRight.setInverted(false);
 	}
 
 	public void grasp() { 
