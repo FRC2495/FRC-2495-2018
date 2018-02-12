@@ -41,6 +41,10 @@ public class Grasper {
 	public void release() {
 		grasperLeft.set(ControlMode.PercentOutput, -MAX_PCT_OUTPUT);
 	}
+	
+	public void stop() {
+		grasperLeft.set(ControlMode.PercentOutput, 0);
+	}
 }
 
 

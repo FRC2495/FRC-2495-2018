@@ -283,11 +283,23 @@ public class Robot extends IterativeRobot {
 				elevatorFlagUp = true;
 			}
 		}
-		
+			
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) { 
+			grasper.grasp();
+		}
+		else if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
+			grasper.release();
+		}
+		else 
+		{
+			grasper.stop();		
+		}
 		
 		camera.acquireTargets(false);
 		updateToSmartDash(); 	
 	}
+	
+	
 
 	/**
 	 * This function is called periodically during test mode.
