@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	
 	MiniDrivetrain miniDrivetrain;
 	
+	Grasper grasper;
+	
 	HMCamera camera;
 	
 	WPI_TalonSRX frontLeft;
@@ -46,11 +48,8 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
 	
-	
-	 WPI_TalonSRX graspLeft;
-	 WPI_TalonSRX graspRight;
-	
-	
+	WPI_TalonSRX grasperLeft;
+	WPI_TalonSRX grasperRight;
 	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
@@ -94,6 +93,8 @@ public class Robot extends IterativeRobot {
 		
 		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
 		
+		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
+		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
 		
 		// TODO 2017 robot is 0, 2018 is 2
@@ -102,6 +103,8 @@ public class Robot extends IterativeRobot {
 		
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
 		
+		grasper = new Grasper(grasperLeft,grasperRight);
+			
 		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();
