@@ -46,6 +46,12 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
 	
+	
+	 WPI_TalonSRX graspLeft;
+	 WPI_TalonSRX graspRight;
+	
+	
+	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
 	
@@ -87,6 +93,8 @@ public class Robot extends IterativeRobot {
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
 		
 		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
+		
+		
 		
 		// TODO 2017 robot is 0, 2018 is 2
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
