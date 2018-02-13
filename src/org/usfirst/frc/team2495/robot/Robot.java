@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team2495.robot.GameData.Plate;
+
 /*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
@@ -175,16 +178,37 @@ public class Robot extends IterativeRobot {
 				// TODO Put custom auto code here
 				if (startPosition == START_POSITION_LEFT)
 				{
-					
-					
+					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
+					{
+						// go straight then go back get the closest cube and go to the switch 
+					}
+					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
+					{
+						// go straight then go right then back get the closest cube and go to the switch 
+					}
 				}
 				else if (startPosition == START_POSITION_CENTER)
 				{
-							
+					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+					{
+
+					}
+					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+					{
+
+					}	
 				}
 				else if (startPosition == START_POSITION_RIGHT)
 				{
-					
+					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
+					{
+						// go straight then go back get the closest cube and go to the switch 
+
+					}
+					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
+					{
+						// go straight then go right then back get the closest cube and go to the switch 
+					}
 				}						
 						
 				break;
