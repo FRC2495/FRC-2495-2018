@@ -89,6 +89,11 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		
+		m_chooser.addDefault("Left", START_POSITION_LEFT);
+		m_chooser.addObject("Center", START_POSITION_CENTER);
+		m_chooser.addObject("Center", START_POSITION_RIGHT);
+		SmartDashboard.putData("Start position", startPositionChooser);
+		
 		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
 		frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
 		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
@@ -168,6 +173,20 @@ public class Robot extends IterativeRobot {
 		switch (m_autoSelected) {
 			case kCustomAuto:
 				// TODO Put custom auto code here
+				if (startPosition == START_POSITION_LEFT)
+				{
+					
+					
+				}
+				else if (startPosition == START_POSITION_CENTER)
+				{
+							
+				}
+				else if (startPosition == START_POSITION_RIGHT)
+				{
+					
+				}						
+						
 				break;
 			case kDefaultAuto:
 			default:
