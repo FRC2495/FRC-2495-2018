@@ -180,11 +180,27 @@ public class Robot extends IterativeRobot {
 				{
 					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 					{
-						// go straight then go back get the closest cube and go to the switch 
+						// go straight then go back get the closest cube and go to the switch
+						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+						{
+							
+						}
+						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+						{
+							
+						}
 					}
 					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
 						// go straight then go right then back get the closest cube and go to the switch 
+						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+						{
+							
+						}
+						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+						{
+							
+						}
 					}
 				}
 				else if (startPosition == START_POSITION_CENTER)
@@ -203,11 +219,26 @@ public class Robot extends IterativeRobot {
 					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
 						// go straight then go back get the closest cube and go to the switch 
-
+						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+						{
+							
+						}
+						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+						{
+							
+						}
 					}
 					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 					{
 						// go straight then go right then back get the closest cube and go to the switch 
+						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+						{
+							
+						}
+						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+						{
+							
+						}
 					}
 				}						
 						
