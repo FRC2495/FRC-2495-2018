@@ -32,6 +32,12 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
+	private static final String START_POSITION_LEFT = "Left";
+	private static final String START_POSITION_CENTER = "Center";
+	private static final String START_POSITION_RIGHT = "Right";
+	private String startPosition;
+	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
+	
 	Drivetrain drivetrain;
 	
 	MiniDrivetrain miniDrivetrain;
@@ -143,11 +149,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
 		
+		startPosition= startPositionChooser.getSelected();
+		System.out.println("Start position: " + startPosition);
+		
 		gameData.update();
+		
+		//TODO
 	}
 
 	/**
