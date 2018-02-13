@@ -156,7 +156,8 @@ public class Robot extends IterativeRobot {
 		
 		gameData.update();
 		
-		//TODO
+		//At this point we should know what auton run, where we started, and where our plates are located.
+		//So we are ready for autonomousPeriodic to be called.
 	}
 
 	/**
@@ -166,11 +167,11 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		switch (m_autoSelected) {
 			case kCustomAuto:
-				// Put custom auto code here
+				// TODO Put custom auto code here
 				break;
 			case kDefaultAuto:
 			default:
-				// Put default auto code here
+				// We do nothing
 				break;
 		}
 	}
