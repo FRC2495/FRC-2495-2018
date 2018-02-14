@@ -166,6 +166,7 @@ public class Robot extends IterativeRobot {
 		
 		//At this point we should know what auton run, where we started, and where our plates are located.
 		//So we are ready for autonomousPeriodic to be called.
+		updateToSmartDash(); 
 	}
 
 	/**
@@ -173,6 +174,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		
 		switch (m_autoSelected) {
 			case kCustomAuto:
 				// TODO Put custom auto code here
