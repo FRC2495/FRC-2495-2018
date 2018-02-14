@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2495.robot.GameData.Plate;
-
 /*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
@@ -35,12 +32,6 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	private static final String START_POSITION_LEFT = "Left";
-	private static final String START_POSITION_CENTER = "Center";
-	private static final String START_POSITION_RIGHT = "Right";
-	private String startPosition;
-	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
-	
 	Drivetrain drivetrain;
 	
 	MiniDrivetrain miniDrivetrain;
@@ -59,6 +50,8 @@ public class Robot extends IterativeRobot {
 	
 	WPI_TalonSRX grasperLeft;
 	WPI_TalonSRX grasperRight;
+	
+	WPI_TalonSRX hinge; 
 	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
@@ -79,7 +72,8 @@ public class Robot extends IterativeRobot {
 	
 	GameData gameData;
 	HMAccelerometer accelerometer;
-
+	
+	Hinge hingeControl;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -91,11 +85,6 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		
-		startPositionChooser.addDefault("Left", START_POSITION_LEFT);
-		startPositionChooser.addObject("Center", START_POSITION_CENTER);
-		startPositionChooser.addObject("Right", START_POSITION_RIGHT);
-		SmartDashboard.putData("Start positions", startPositionChooser);
 		
 		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
 		frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
@@ -109,6 +98,8 @@ public class Robot extends IterativeRobot {
 		
 		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
+		
+		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 		
 		
 		// TODO 2017 robot is 0, 2018 is 2
@@ -141,6 +132,8 @@ public class Robot extends IterativeRobot {
 		
 		elevatorControl = new Elevator(elevator);
 		elevatorControl.home();
+		
+		hingeControl = new Hinge(hinge);
 	}
 
 	/**
@@ -157,16 +150,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
+		// autoSelected = SmartDashboard.getString("Auto Selector",
+		// defaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
 		
-		startPosition= startPositionChooser.getSelected();
-		System.out.println("Start position: " + startPosition);
-		
 		gameData.update();
-		
-		//At this point we should know what auton run, where we started, and where our plates are located.
-		//So we are ready for autonomousPeriodic to be called.
-		updateToSmartDash(); 
 	}
 
 	/**
@@ -174,80 +162,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
 		switch (m_autoSelected) {
 			case kCustomAuto:
-				// TODO Put custom auto code here
-				if (startPosition == START_POSITION_LEFT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						// go straight then go back get the closest cube and go to the switch
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-						}
-					}
-					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						// go straight then go right then back get the closest cube and go to the switch 
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							
-						}
-					}
-				}
-				else if (startPosition == START_POSITION_CENTER)
-				{
-					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-					{
-
-					}
-					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-					{
-
-					}	
-				}
-				else if (startPosition == START_POSITION_RIGHT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						// go straight then go back get the closest cube and go to the switch 
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							
-						}
-					}
-					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						// go straight then go right then back get the closest cube and go to the switch 
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-						}
-					}
-				}						
-						
+				// Put custom auto code here
 				break;
 			case kDefaultAuto:
 			default:
-				// We do nothing
+				// Put default auto code here
 				break;
 		}
 	}
