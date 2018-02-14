@@ -60,6 +60,8 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX grasperLeft;
 	WPI_TalonSRX grasperRight;
 	
+	WPI_TalonSRX hinge; 
+	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
 	
@@ -76,6 +78,8 @@ public class Robot extends IterativeRobot {
 	Elevator elevatorControl;
 	Jack jack;
 	boolean driveTrainSelect = false;
+	
+	Hinge hingeControl;
 	
 	GameData gameData;
 	HMAccelerometer accelerometer;
@@ -106,6 +110,8 @@ public class Robot extends IterativeRobot {
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
 		
 		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
+		
+		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 		
 		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
@@ -141,6 +147,8 @@ public class Robot extends IterativeRobot {
 		
 		elevatorControl = new Elevator(elevator);
 		elevatorControl.home();
+		
+		hingeControl = new Hinge(hinge);
 	}
 
 	/**
