@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Hinge {
 
-	static final double DESIRED_OUT_PUT = .5;
+	static final double DESIRED_PCT_OUTPUT = .5;
 	static final int TICKS_PER_REVOLUTION = 4096;
 	static final double DESIRED_DESTINATION  = 4096 * .25;
 	
@@ -21,12 +21,11 @@ public class Hinge {
 		
 	}
 	public void raise() {
-		hinge.set(ControlMode.PercentOutput, DESIRED_OUT_PUT);
-		
+		//hinge.set(ControlMode.PercentOutput, DESIRED_PCT_OUTPUT);		
 	}
 	
-		public void lower() { 
-			hinge.set(ControlMode.PercentOutput, DESIRED_OUT_PUT);
-		}
+	public void lower() { 
+		//hinge.set(ControlMode.PercentOutput, -DESIRED_PCT_OUTPUT);
+	}
 	
 }
