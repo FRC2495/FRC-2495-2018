@@ -164,7 +164,7 @@ public class Robot extends IterativeRobot {
 		
 		gameData.update();
 		
-		//At this point we should know what auton run, where we started, and where our plates are located.
+		//At this point we should know what auto run, where we started, and where our plates are located.
 		//So we are ready for autonomousPeriodic to be called.
 		updateToSmartDash(); 
 	}
@@ -182,65 +182,104 @@ public class Robot extends IterativeRobot {
 				{
 					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 					{
-						// go straight then go back get the closest cube and go to the switch
+						drivetrain.moveDistance(324);
+						drivetrain.turnAngleUsingPidController(+90);//Turn 90 degrees (+)
+						//Deliver cube at scale 
+						drivetrain.turnAngleUsingPidController(+90);//turn (+) 90 degrees
+						jack.setPosition(Jack.Position.DOWN);
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
 						}
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
 							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
 						}
+						jack.setPosition(Jack.Position.UP);
+						drivetrain.moveDistance(45);
+						//Pick up cube  
+						//Deliver cube 
 					}
+					
 					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
-						// go straight then go right then back get the closest cube and go to the switch 
+						drivetrain.moveDistance(196);
+						drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
+						jack.setPosition(Jack.Position.DOWN);
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in 
 						}
+						
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in
 						}
+						jack.setPosition(Jack.Position.UP);
+						drivetrain.moveDistance(12);
+						//Deliver cube 
+						drivetrain.moveDistance(0);//move back ___ in.
+						//Pick up cube  
+						//Deliver cube 
 					}
 				}
 				else if (startPosition == START_POSITION_CENTER)
 				{
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-
+						drivetrain.moveDistance(70);
+						jack.setPosition(Jack.Position.DOWN);
+						miniDrivetrain.moveDistance(120);
+						jack.setPosition(Jack.Position.UP);
+						drivetrain.moveDistance(70);
+						
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-
+						drivetrain.moveDistance(140);
 					}	
 				}
 				else if (startPosition == START_POSITION_RIGHT)
 				{
 					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
-						// go straight then go back get the closest cube and go to the switch 
+						drivetrain.moveDistance(324);	// Move forward 324 in
+						drivetrain.turnAngleUsingPidController(-90);//Turn 90 degrees (-)
+						//Deliver cube at scale 
+						drivetrain.turnAngleUsingPidController(-90);//turn (-) 90 degrees
+						jack.setPosition(Jack.Position.DOWN);
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+						
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Right ____ in 
 						}
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Right ____ in 
 						}
+						jack.setPosition(Jack.Position.UP);
+						drivetrain.moveDistance(45); // Move forward 45 in
+						//Pick up cube  
+						//Deliver cube 
+					
 					}
 					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 					{
+						jack.setPosition(Jack.Position.DOWN);
 						// go straight then go right then back get the closest cube and go to the switch 
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in 
 						}
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
-							
+							miniDrivetrain.moveDistance(0);//Move Left ____ in 
 						}
+						jack.setPosition(Jack.Position.DOWN);
+						drivetrain.moveDistance(45); // Move forward 45 in
+						//Pick up cube  
+						//Deliver cube 
 					}
 				}						
 						
