@@ -12,14 +12,11 @@ public class Hinge {
 	
 	// general settings
 	
-	static final double DIAMETER_PULLEY_INCHES = 1.19; // TODO set proper value
-	static final double PERIMETER_PULLEY_INCHES = DIAMETER_PULLEY_INCHES * Math.PI;
+	static final double GEAR_RATIO = 3; // TODO change if needed
 	
-	static final double GEAR_RATIO = 1.0; // TODO change if needed
+	static final int ANGLE_TO_TRAVEL_DEGREES = 90; // TODO set proper value
 	
-	static final int LENGTH_OF_TRAVEL_INCHES = 47; // TODO set proper value
-	
-	static final double VIRTUAL_HOME_OFFSET_INCHES = 1; // position of virtual home compared to physical home
+	static final double VIRTUAL_HOME_OFFSET_DEGREES = 5; // position of virtual home compared to physical home
 	
 	static final double HOMING_PCT_OUTPUT = 0.1; // ~homing speed
 	static final double MAX_PCT_OUTPUT = 1.0; // ~full speed
@@ -116,7 +113,7 @@ public class Hinge {
 		hinge.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS); // we set the current position to zero
 		
 		setPIDParameters(); // we switch to position mode
-		tac = +convertInchesToRev(VIRTUAL_HOME_OFFSET_INCHES) * TICKS_PER_REVOLUTION;
+		tac = +convertDegreesToRev(VIRTUAL_HOME_OFFSET_DEGREES) * TICKS_PER_REVOLUTION;
 		hinge.set(ControlMode.Position,tac); // we move to virtual zero
 		
 		isHomingPart2 = true;
@@ -230,7 +227,7 @@ public class Hinge {
 			//setPIDParameters();
 			System.out.println("Moving Up");
 
-			tac = +convertInchesToRev(LENGTH_OF_TRAVEL_INCHES) * TICKS_PER_REVOLUTION;
+			tac = +convertDegreesToRev(ANGLE_TO_TRAVEL_DEGREES) * TICKS_PER_REVOLUTION;
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -246,7 +243,7 @@ public class Hinge {
 			//setPIDParameters();
 			System.out.println("Moving Down");
 
-			tac = -convertInchesToRev(0)* TICKS_PER_REVOLUTION;
+			tac = -convertDegreesToRev(0)* TICKS_PER_REVOLUTION;
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -280,12 +277,12 @@ public class Hinge {
 		return isMoving;
 	}
 
-	private double convertInchesToRev(double inches) {
-		return inches / PERIMETER_PULLEY_INCHES * GEAR_RATIO;
+	private double convertDegreesToRev(double degrees) {
+		return degrees / 360 * GEAR_RATIO;
 	}
 
-	private double convertRevtoInches(double rev) {
-		return rev * PERIMETER_PULLEY_INCHES / GEAR_RATIO;
+	private double convertRevtoDegrees(double rev) {
+		return rev * 360 / GEAR_RATIO;
 	}
 
 	private void setPIDParameters() {		
