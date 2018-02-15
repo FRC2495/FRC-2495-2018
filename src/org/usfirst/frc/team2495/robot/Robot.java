@@ -190,22 +190,27 @@ public class Robot extends IterativeRobot {
 				{
 					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 					{
-						drivetrain.moveDistance(324);
+						drivetrain.moveDistance(200); //324
+						drivetrain.waitMoveDistance();
 						drivetrain.turnAngleUsingPidController(+90);//Turn 90 degrees (+)
+						drivetrain.waitTurnAngleUsingPidController();
 						//Deliver cube at scale 
 						drivetrain.turnAngleUsingPidController(+90);//turn (+) 90 degrees
 						jack.setPosition(Jack.Position.DOWN);
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
+							miniDrivetrain.waitMoveDistance();
 						}
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
 							
-							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
+							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in
+							miniDrivetrain.waitMoveDistance();
 						}
 						jack.setPosition(Jack.Position.UP);
 						drivetrain.moveDistance(45);
+						drivetrain.waitMoveDistance();
 						//Pick up cube  
 						//Deliver cube 
 					}
@@ -213,21 +218,27 @@ public class Robot extends IterativeRobot {
 					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
 						drivetrain.moveDistance(196);
+						drivetrain.waitMoveDistance();
 						drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
+						drivetrain.waitTurnAngleUsingPidController();
 						jack.setPosition(Jack.Position.DOWN);
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in 
+							miniDrivetrain.waitMoveDistance();
 						}
 						
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in
+							miniDrivetrain.waitMoveDistance();
 						}
 						jack.setPosition(Jack.Position.UP);
 						drivetrain.moveDistance(12);
+						drivetrain.waitMoveDistance();
 						//Deliver cube 
 						drivetrain.moveDistance(0);//move back ___ in.
+						drivetrain.waitMoveDistance();
 						//Pick up cube  
 						//Deliver cube 
 					}
@@ -237,15 +248,19 @@ public class Robot extends IterativeRobot {
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
 						drivetrain.moveDistance(70);
+						drivetrain.waitMoveDistance();
 						jack.setPosition(Jack.Position.DOWN);
 						miniDrivetrain.moveDistance(120);
+						miniDrivetrain.waitMoveDistance();
 						jack.setPosition(Jack.Position.UP);
 						drivetrain.moveDistance(70);
+						drivetrain.waitMoveDistance();
 						
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
 						drivetrain.moveDistance(140);
+						drivetrain.waitMoveDistance();
 					}	
 				}
 				else if (startPosition == START_POSITION_RIGHT)
@@ -253,7 +268,9 @@ public class Robot extends IterativeRobot {
 					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{
 						drivetrain.moveDistance(324);	// Move forward 324 in
+						drivetrain.waitMoveDistance();
 						drivetrain.turnAngleUsingPidController(-90);//Turn 90 degrees (-)
+						drivetrain.waitTurnAngleUsingPidController();
 						//Deliver cube at scale 
 						drivetrain.turnAngleUsingPidController(-90);//turn (-) 90 degrees
 						jack.setPosition(Jack.Position.DOWN);
@@ -268,6 +285,7 @@ public class Robot extends IterativeRobot {
 						}
 						jack.setPosition(Jack.Position.UP);
 						drivetrain.moveDistance(45); // Move forward 45 in
+						drivetrain.waitMoveDistance();
 						//Pick up cube  
 						//Deliver cube 
 					
@@ -279,13 +297,16 @@ public class Robot extends IterativeRobot {
 						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in 
+							miniDrivetrain.waitMoveDistance();
 						}
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in 
+							miniDrivetrain.waitMoveDistance();
 						}
 						jack.setPosition(Jack.Position.DOWN);
 						drivetrain.moveDistance(45); // Move forward 45 in
+						drivetrain.waitMoveDistance();
 						//Pick up cube  
 						//Deliver cube 
 					}
