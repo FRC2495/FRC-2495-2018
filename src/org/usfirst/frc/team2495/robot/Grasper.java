@@ -16,6 +16,8 @@ public class Grasper {
 	 * 
 	 */
 	static final double MAX_PCT_OUTPUT = 1.0;
+	static final int WAIT_MS = 1000;
+	
 	
 	WPI_TalonSRX grasperLeft , grasperRight; 
 	
@@ -44,6 +46,29 @@ public class Grasper {
 	
 	public void stop() {
 		grasperLeft.set(ControlMode.PercentOutput, 0);
+			
+	}
+	
+	public void graspAuto () {
+		grasp();
+		try {
+			Thread.sleep(WAIT_MS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		stop();
+	}
+	
+	public void releaseAuto() {
+		release();
+		try {
+			Thread.sleep(WAIT_MS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		stop();
 	}
 }
 
