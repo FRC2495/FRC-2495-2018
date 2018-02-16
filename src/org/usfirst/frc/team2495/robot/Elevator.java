@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2495.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -8,12 +10,16 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import java.util.Calendar;
+
 public class Elevator {
 	
 	// general settings
 	
 	static final double DIAMETER_PULLEY_INCHES = 1.19; // TODO set proper value
 	static final double PERIMETER_PULLEY_INCHES = DIAMETER_PULLEY_INCHES * Math.PI;
+	
+	static final int TIMEOUT_MS = 15000;	
 	
 	static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
@@ -223,6 +229,28 @@ public class Elevator {
 		}
 		return isMoving; 
 	}
+	
+	// do not use in teleop - for auton only
+	public void waitMove() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (tripleCheckMove()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (moving)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
+	}
 
 	public void moveUp() {
 		
@@ -288,6 +316,14 @@ public class Elevator {
 		return rev * PERIMETER_PULLEY_INCHES / GEAR_RATIO;
 	}
 
+	public void stop() {	 
+		elevator.set(ControlMode.PercentOutput, 0);
+		
+		isMoving = false;
+		
+		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
+	}
+	
 	private void setPIDParameters() {		
 		elevator.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
 		
@@ -332,5 +368,4 @@ public class Elevator {
 	{
 		return hasBeenHomed;
 	}
-
 }

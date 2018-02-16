@@ -5,7 +5,7 @@ package org.usfirst.frc.team2495.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import edu.wpi.first.wpilibj.Timer;
 /**
  * @author Joshua
  *
@@ -20,6 +20,8 @@ public class Grasper {
 	
 	
 	WPI_TalonSRX grasperLeft , grasperRight; 
+	
+	Timer time=new Timer();
 	
 	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in) {
 		
@@ -52,22 +54,24 @@ public class Grasper {
 	public void graspAuto () {
 		grasp();
 		try {
-			Thread.sleep(WAIT_MS);
+			time.wait(WAIT_MS);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		stop();
 	}
 	
 	public void releaseAuto() {
 		release();
 		try {
-			Thread.sleep(WAIT_MS);
+			time.wait(WAIT_MS);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		stop();
 	}
 }
