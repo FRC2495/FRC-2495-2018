@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2495.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -237,7 +238,7 @@ public class Elevator {
 		while (tripleCheckMove()) {
 			if (!DriverStation.getInstance().isAutonomous()
 					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
-				System.out.println("You went over the time limit (moving)");
+				System.out.println("You went over the time limit (elevator moving)");
 				stop();
 				break;
 			}
@@ -358,6 +359,15 @@ public class Elevator {
 		
 		elevator.configNominalOutputForward(0, TALON_TIMEOUT_MS);
 		elevator.configNominalOutputForward(0, TALON_TIMEOUT_MS);
+	}
+	
+	// for debug purpose only
+	public void joystickControl(Joystick joystick)
+	{
+		if (!isMoving) // if we are already doing a move we don't take over
+		{
+			elevator.set(ControlMode.PercentOutput, joystick.getY());
+		}
 	}
 	
 	public double getTarget() {

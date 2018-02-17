@@ -2,15 +2,23 @@ package org.usfirst.frc.team2495.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import java.util.Calendar;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Hinge {
 	
 	// general settings
+	static final int TIMEOUT_MS = 15000;
 	
 	static final double GEAR_RATIO = 3; // TODO change if needed
 	
@@ -221,6 +229,28 @@ public class Hinge {
 		return isMoving; 
 	}
 
+	// do not use in teleop - for auton only
+	public void waitMove() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (tripleCheckMove()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (hinge moving)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
+	}
+	
 	public void moveUp() {
 		
 		if (hasBeenHomed) {
@@ -285,6 +315,14 @@ public class Hinge {
 		return rev * 360 / GEAR_RATIO;
 	}
 
+	public void stop() {	 
+		hinge.set(ControlMode.PercentOutput, 0);
+		
+		isMoving = false;
+		
+		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
+	}	
+	
 	private void setPIDParameters() {		
 		hinge.configAllowableClosedloopError(SLOT_0, TALON_TICK_THRESH, TALON_TIMEOUT_MS);
 		
@@ -320,6 +358,15 @@ public class Hinge {
 		hinge.configNominalOutputForward(0, TALON_TIMEOUT_MS);
 		hinge.configNominalOutputForward(0, TALON_TIMEOUT_MS);
 	}
+	
+	// for debug purpose only
+	public void joystickControl(Joystick joystick)
+	{
+		if (!isMoving) // if we are already doing a move we don't take over
+		{
+			hinge.set(ControlMode.PercentOutput, joystick.getY());
+		}
+	}	
 	
 	public double getTarget() {
 		return tac;

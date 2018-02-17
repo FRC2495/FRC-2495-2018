@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 /**
  * @author Joshua
  *
@@ -101,6 +102,11 @@ public class Grasper {
 		grasperLeft.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
 	}
 
+	// for debug purpose only
+	public void joystickControl(Joystick joystick)
+	{
+		grasperLeft.set(ControlMode.PercentOutput, joystick.getY());
+	}
 }
 
 
