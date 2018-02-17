@@ -8,6 +8,11 @@ public class Ports {
 			
 		}
 		
+		public static class Analog{
+			public static final int SONAR = 0;
+			
+		}
+		
 		public static class Relay{
 			public static final int COMPRESSOR_RELAY = 0;
 		}

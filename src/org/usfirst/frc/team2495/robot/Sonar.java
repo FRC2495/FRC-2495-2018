@@ -18,7 +18,7 @@ public class Sonar{
 		use_units = true;
 		min_voltage = .25;
 		voltage_range = 5.0 - min_voltage;
-		min_distance = 10.0;
+		min_distance = 10.0; //accurate anywhere over 10in - maxdistance 
 		distance_range = 360 - min_distance;
     }
     //constructor

@@ -118,8 +118,7 @@ public class Robot extends IterativeRobot {
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
 		
-		// TODO 2017 robot is 0, 2018 is 2
-		sonar = new Sonar(0); 
+		sonar = new Sonar(Ports.Analog.SONAR); 
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
