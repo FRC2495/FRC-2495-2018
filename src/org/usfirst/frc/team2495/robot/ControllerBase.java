@@ -61,7 +61,7 @@ public class ControllerBase {
 			BTN8 = 8,
 			BTN9 = 9,
 			BTN10 = 10,
-			BTN11 = 11;
+			BTN11_UNAVAILABLE = 11;
 		
 		/**
 		 * <pre>
