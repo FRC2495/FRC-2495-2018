@@ -21,12 +21,12 @@ public class Hinge {
 	
 	static final double GEAR_RATIO = 3; // TODO change if needed
 	
-	static final int ANGLE_TO_TRAVEL_DEGREES = 90; // TODO set proper value
+	static final int ANGLE_TO_TRAVEL_TICKS = 150000; // TODO set proper value
 	
-	static final double VIRTUAL_HOME_OFFSET_DEGREES = 5; // position of virtual home compared to physical home
+	static final double VIRTUAL_HOME_OFFSET_TICKS = 1000; // position of virtual home compared to physical home
 	
 	static final double HOMING_PCT_OUTPUT = 0.2; // ~homing speed
-	static final double MAX_PCT_OUTPUT = 0.6; // ~full speed
+	static final double MAX_PCT_OUTPUT = 0.4; // ~full speed
 	
 	static final int TALON_TIMEOUT_MS = 10;
 	static final int TICKS_PER_REVOLUTION = 4096;
@@ -39,12 +39,12 @@ public class Hinge {
 	
 	static final double REDUCED_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_PROPORTIONAL_GAIN = 0.04;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
 	static final int TALON_TICK_THRESH = 128;
-	static final double TICK_THRESH = 512;	
+	static final double TICK_THRESH = 2048;	
 
 	
 	// variables
@@ -56,7 +56,7 @@ public class Hinge {
 	boolean hasBeenHomed = false;
 
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
-    private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+    private final static int ON_TARGET_MINIMUM_COUNT = 5; // number of times/iterations we need to be on target to really be on target
 
     Robot robot; 
     
@@ -121,7 +121,7 @@ public class Hinge {
 		hinge.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS); // we set the current position to zero
 		
 		setPIDParameters(); // we switch to position mode
-		tac = +convertDegreesToRev(VIRTUAL_HOME_OFFSET_DEGREES) * TICKS_PER_REVOLUTION;
+		tac = +VIRTUAL_HOME_OFFSET_TICKS;
 		hinge.set(ControlMode.Position,tac); // we move to virtual zero
 		
 		isHomingPart2 = true;
@@ -160,6 +160,7 @@ public class Hinge {
 			}
 		} else if (isHomingPart2) {
 			isHomingPart2 = isReallyHomingPart2();
+			//isHomingPart2 = false;
 
 			if (!isHomingPart2) {
 				System.out.println("You have reached the virtual zero.");
@@ -188,6 +189,7 @@ public class Hinge {
 				System.out.println("Triple-check failed (hinge homing part 2).");
 			} else {
 				// we are definitely homing
+				System.out.println("Hinge homing part 2 error: " + Math.abs(error));
 			}
 		}
 		
@@ -257,7 +259,7 @@ public class Hinge {
 			//setPIDParameters();
 			System.out.println("Moving Up");
 
-			tac = +convertDegreesToRev(ANGLE_TO_TRAVEL_DEGREES) * TICKS_PER_REVOLUTION;
+			tac = 0;
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -272,8 +274,8 @@ public class Hinge {
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Down");
-
-			tac = -convertDegreesToRev(0)* TICKS_PER_REVOLUTION;
+	
+			tac = ANGLE_TO_TRAVEL_TICKS;
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -307,9 +309,12 @@ public class Hinge {
 		return isMoving;
 	}
 
-	private double convertDegreesToRev(double degrees) {
-		return degrees / 360 * GEAR_RATIO;
-	}
+	/*private double convertDegreesToRev(double degrees) {
+		double conv = degrees / 360.0 * GEAR_RATIO;
+		System.out.println("degrees:" + degrees);
+		System.out.println("conv:" + conv);
+		return conv;
+	}*/
 
 	/*private double convertRevtoDegrees(double rev) {
 		return rev * 360 / GEAR_RATIO;

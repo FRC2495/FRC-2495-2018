@@ -41,7 +41,7 @@ public class Elevator {
 	
 	static final double REDUCED_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_PROPORTIONAL_GAIN = 0.04;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
