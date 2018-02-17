@@ -321,7 +321,10 @@ public class Hinge {
 	}*/
 
 	public void stop() {	 
-		hinge.set(ControlMode.PercentOutput, 0);
+		if (!isMoving && !isHoming()) // if we are in closed loop we stay in position mode
+		{
+			hinge.set(ControlMode.PercentOutput, 0);
+		}
 		
 		isMoving = false;
 		isHomingPart1 = false;

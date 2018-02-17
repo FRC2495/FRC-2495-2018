@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 	Jack jack;
 	boolean largeDriveTrainSelected = false; // by default we assume small drivetrain is down
 	
-	boolean hingeFlagUp = true;
+	boolean hingeFlagUp = false;
 	Hinge hingeControl;
 	
 	GameData gameData;
@@ -385,6 +385,8 @@ public class Robot extends IterativeRobot {
 			miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
 	                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		}
+		
+		//hingeControl.joystickControl(joyRight);
 				
 		
 		//Stops the robot moving if pressed
@@ -433,17 +435,17 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
 			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			elevatorControl.home();
-		}
+		}*/
 		
-		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
 				control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			hingeControl.home();
-		}*/
+		}
 		
 		//elevator bound to start
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
