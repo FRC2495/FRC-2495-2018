@@ -66,7 +66,7 @@ public class Grasper {
 		grasperLeft.set(ControlMode.PercentOutput, 0);
 	}
 	
-	private void waitALittleAndStop() {
+	private void waitGraspOrRelease() {
 		long start = Calendar.getInstance().getTimeInMillis();
 
 		while (true) { 		
@@ -86,25 +86,7 @@ public class Grasper {
 			//robot.updateToSmartDash();
 		}
 	}
-	
-	// for autonomous mode only
-	public void graspAuto () {
-		grasp();
 		
-		waitALittleAndStop();
-		
-		//stop();
-	}
-	
-	// for autonomous mode only
-	public void releaseAuto() {
-		release();
-		
-		waitALittleAndStop();
-		
-		//stop();
-	}
-	
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES
 	public void setNominalAndPeakOutputs(double peakOutput)
 	{
