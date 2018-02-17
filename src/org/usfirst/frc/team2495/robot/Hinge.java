@@ -61,8 +61,9 @@ public class Hinge {
 
     Robot robot; 
     
-	public Hinge(WPI_TalonSRX hinge_in) {
+	public Hinge(WPI_TalonSRX hinge_in, Robot robot_in) {
 		hinge = hinge_in;
+		robot = robot_in;
 		
 		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
 		// As of right now, there are two options when setting the neutral mode of a motor controller,

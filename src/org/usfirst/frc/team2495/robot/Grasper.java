@@ -21,15 +21,32 @@ public class Grasper {
 	 */
 	static final double MAX_PCT_OUTPUT = 1.0;
 	static final int WAIT_MS = 1000;
+	static final int TIMEOUT_MS = 5000;
 
 	static final int TALON_TIMEOUT_MS = 10;
+
+	static final int GRASP_DISTANCE_INCHES = 12;
+	static final int RELEASE_DISTANCE_INCHES = 24;
 	
 	WPI_TalonSRX grasperLeft , grasperRight; 
+	Sonar sonar;
 	
-	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in) {
+	// shared grasp and release settings
+	private int onTargetCount; // counter indicating how many times/iterations we were on target
+	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	
+	boolean isGrasping;
+	boolean isReleasing;
+	
+	Robot robot;
+	
+	
+	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in, Robot robot_in) {
 		
 		grasperLeft = grasperLeft_in;
 		grasperRight = grasperRight_in;
+		
+		robot = robot_in;
 		
 		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
 		// As of right now, there are two options when setting the neutral mode of a motor controller,
@@ -54,19 +71,37 @@ public class Grasper {
 		// set peak output to max in case if had been reduced previously
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 	}
+	
+	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in, Sonar sonar_in, Robot robot_in) {
+		this(grasperLeft_in, grasperRight_in, robot_in);
+		
+		sonar = sonar_in;
+	}
+	
 
 	public void grasp() {
 		grasperLeft.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
+		
+		isGrasping = true;
+		onTargetCount = 0;
 	}
 	
 	public void release() {
 		grasperLeft.set(ControlMode.PercentOutput, -MAX_PCT_OUTPUT);
+		
+		isReleasing = true;
+		onTargetCount = 0;
 	}
 	
 	public void stop() {
 		grasperLeft.set(ControlMode.PercentOutput, 0);
+		
+		isGrasping = false;
+		isReleasing = false;
 	}
 	
+	// do not use in teleop - for auton only
+	// This version does NOT rely on the sonar. Use only if sonar does not fulfill expectations.
 	private void waitGraspOrRelease() {
 		long start = Calendar.getInstance().getTimeInMillis();
 
@@ -84,7 +119,107 @@ public class Grasper {
 				e.printStackTrace();
 			}
 			
-			//robot.updateToSmartDash();
+			robot.updateToSmartDash();
+		}
+	}
+	
+	public boolean tripleCheckGraspUsingSonar() {
+		if (sonar != null && isGrasping) {
+						
+			boolean isOnTarget = sonar.getRangeInInches() < GRASP_DISTANCE_INCHES;
+			
+			if (isOnTarget) { // if we are on target in this iteration 
+				onTargetCount++; // we increase the counter
+			} else { // if we are not on target in this iteration
+				if (onTargetCount > 0) { // even though we were on target at least once during a previous iteration
+					onTargetCount = 0; // we reset the counter as we are not on target anymore
+					System.out.println("Triple-check failed (grasping).");
+				} else {
+					// we are definitely moving
+				}
+			}
+			
+	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        	isGrasping = false;
+	        }
+			
+			if (!isGrasping) {
+				System.out.println("You have reached the target (grasping).");
+				stop();				 
+			}
+		}
+		return isGrasping;
+	}
+	
+	// do not use in teleop - for auton only
+	public void waitGraspUsingSonar() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (tripleCheckGraspUsingSonar()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (grasping)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
+	}
+	
+	public boolean tripleCheckReleaseUsingSonar() {
+		if (sonar != null && isReleasing) {
+						
+			boolean isOnTarget = sonar.getRangeInInches() > RELEASE_DISTANCE_INCHES;
+			
+			if (isOnTarget) { // if we are on target in this iteration 
+				onTargetCount++; // we increase the counter
+			} else { // if we are not on target in this iteration
+				if (onTargetCount > 0) { // even though we were on target at least once during a previous iteration
+					onTargetCount = 0; // we reset the counter as we are not on target anymore
+					System.out.println("Triple-check failed (releasing).");
+				} else {
+					// we are definitely moving
+				}
+			}
+			
+	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        	isReleasing = false;
+	        }
+			
+			if (!isReleasing) {
+				System.out.println("You have reached the target (releasing).");
+				stop();				 
+			}
+		}
+		return isReleasing;
+	}
+	
+	// do not use in teleop - for auton only
+	public void waitReleaseUsingSonar() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (tripleCheckReleaseUsingSonar()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (releasing)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
 		}
 	}
 		
@@ -100,6 +235,14 @@ public class Grasper {
 		grasperLeft.configNominalOutputForward(0, TALON_TIMEOUT_MS);
 		grasperRight.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
 		grasperLeft.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
+	}
+	
+	public boolean isGrasping() {
+		return isGrasping;
+	}
+	
+	public boolean isReleasing(){
+		return isReleasing;
 	}
 
 	// for debug purpose only

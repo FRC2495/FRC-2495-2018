@@ -56,6 +56,8 @@ public class Robot extends IterativeRobot {
 	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
+
+	WPI_TalonSRX elevator;
 	
 	WPI_TalonSRX grasperLeft;
 	WPI_TalonSRX grasperRight;
@@ -66,6 +68,7 @@ public class Robot extends IterativeRobot {
 	Joystick gamepad;
 	
 	ADXRS450_Gyro gyro; // gyro
+	
 	Sonar sonar;
 	
 	Compressor compressor; // the compressor's lifecycle needs to be the same as the robot
@@ -74,12 +77,10 @@ public class Robot extends IterativeRobot {
 
 	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
 	
-	WPI_TalonSRX elevator;
 	boolean elevatorFlagUp = true;
 	Elevator elevatorControl;
 	
 	Jack jack;
-	
 	boolean largeDriveTrainSelected = false; // by default we assume small drivetrain is down
 	
 	boolean hingeFlagUp = true;
@@ -115,28 +116,28 @@ public class Robot extends IterativeRobot {
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
 		
 		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
-		
-		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
-		
+			
 		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
-		
+		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
+				
 		sonar = new Sonar(Ports.Analog.SONAR); 
-		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
-		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
+		
+		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);		
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
 		
-		grasper = new Grasper(grasperLeft,grasperRight);
+		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
 			
 		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();
 		compressor.checkCompressor();
 		
-		joyLeft = new Joystick ( Ports.USB.LEFT); 
-		joyRight = new Joystick (Ports.USB.RIGHT);
+		joyLeft = new Joystick(Ports.USB.LEFT); 
+		joyRight = new Joystick(Ports.USB.RIGHT);
 		
 		gamepad = new Joystick(Ports.USB.GAMEPAD);
 
@@ -148,12 +149,13 @@ public class Robot extends IterativeRobot {
 		gyro.reset();
 		
 		gameData = new GameData();
+		
 		accelerometer = new HMAccelerometer();
 		
 		elevatorControl = new Elevator(elevator);
 		//elevatorControl.home();
 		
-		hingeControl = new Hinge(hinge);
+		hingeControl = new Hinge(hinge, this);
 		//hingeControl.home();
 	}
 
@@ -354,6 +356,9 @@ public class Robot extends IterativeRobot {
 		hingeControl.checkHome();
 		hingeControl.tripleCheckMove();
 		
+		//grasper.tripleCheckGraspUsingSonar(); - only enable if we want to stop automatically
+		//grasper.tripleCheckReleaseUsingSonar();
+		
 		// drive train flag JJ-			
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN4)
 				|| control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN5))
@@ -389,6 +394,7 @@ public class Robot extends IterativeRobot {
 			miniDrivetrain.stop();
 			elevatorControl.stop();
 			hingeControl.stop();
+			grasper.stop();
 		}
 		
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
@@ -474,7 +480,7 @@ public class Robot extends IterativeRobot {
 		}
 		else 
 		{
-			grasper.stop();		
+			grasper.stop();	// for manual mode, remove if auto stop is desired	
 		}
 		
 		camera.acquireTargets(false);
