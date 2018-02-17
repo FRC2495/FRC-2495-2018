@@ -21,7 +21,7 @@ public class Hinge {
 	
 	static final double GEAR_RATIO = 3; // TODO change if needed
 	
-	static final int ANGLE_TO_TRAVEL_TICKS = 150000; // TODO set proper value
+	static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
 	
 	static final double VIRTUAL_HOME_OFFSET_TICKS = 1000; // position of virtual home compared to physical home
 	
@@ -44,7 +44,7 @@ public class Hinge {
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
 	static final int TALON_TICK_THRESH = 128;
-	static final double TICK_THRESH = 2048;	
+	static final double TICK_THRESH = 4096;	
 
 	
 	// variables
@@ -225,7 +225,8 @@ public class Hinge {
 			
 			if (!isMoving) {
 				System.out.println("You have reached the target (hinge moving).");
-				hinge.set(ControlMode.PercentOutput,0);				 
+				//hinge.set(ControlMode.PercentOutput,0);	
+				stop();
 			}
 		}
 		return isMoving; 
@@ -258,6 +259,8 @@ public class Hinge {
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Up");
+			
+			setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 
 			tac = 0;
 			hinge.set(ControlMode.Position,tac);
@@ -274,6 +277,8 @@ public class Hinge {
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Down");
+			
+			setNominalAndPeakOutputs(HOMING_PCT_OUTPUT);
 	
 			tac = ANGLE_TO_TRAVEL_TICKS;
 			hinge.set(ControlMode.Position,tac);
@@ -321,10 +326,8 @@ public class Hinge {
 	}*/
 
 	public void stop() {	 
-		if (!isMoving && !isHoming()) // if we are in closed loop we stay in position mode
-		{
-			hinge.set(ControlMode.PercentOutput, 0);
-		}
+
+		hinge.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
 		isHomingPart1 = false;
