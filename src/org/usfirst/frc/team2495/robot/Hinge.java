@@ -25,8 +25,8 @@ public class Hinge {
 	
 	static final double VIRTUAL_HOME_OFFSET_DEGREES = 5; // position of virtual home compared to physical home
 	
-	static final double HOMING_PCT_OUTPUT = 0.1; // ~homing speed
-	static final double MAX_PCT_OUTPUT = 1.0; // ~full speed
+	static final double HOMING_PCT_OUTPUT = 0.2; // ~homing speed
+	static final double MAX_PCT_OUTPUT = 0.6; // ~full speed
 	
 	static final int TALON_TIMEOUT_MS = 10;
 	static final int TICKS_PER_REVOLUTION = 4096;
@@ -284,7 +284,7 @@ public class Hinge {
 	}
 
 	public double getPosition() {
-		return hinge.getSelectedSensorPosition(PRIMARY_PID_LOOP) / TICKS_PER_REVOLUTION;
+		return hinge.getSelectedSensorPosition(PRIMARY_PID_LOOP) * GEAR_RATIO / TICKS_PER_REVOLUTION;
 	}
 
 	public double getEncPosition() {
@@ -319,6 +319,8 @@ public class Hinge {
 		hinge.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
+		isHomingPart1 = false;
+		isHomingPart2 = false;
 		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
 	}	
@@ -362,7 +364,7 @@ public class Hinge {
 	// for debug purpose only
 	public void joystickControl(Joystick joystick)
 	{
-		if (!isMoving) // if we are already doing a move we don't take over
+		if (!isMoving && !isHoming()) // if we are already doing a move we don't take over
 		{
 			hinge.set(ControlMode.PercentOutput, joystick.getY());
 		}

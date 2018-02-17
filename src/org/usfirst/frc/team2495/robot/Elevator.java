@@ -319,7 +319,9 @@ public class Elevator {
 	public void stop() {	 
 		elevator.set(ControlMode.PercentOutput, 0);
 		
-		isMoving = false;
+		isMoving = false;		
+		isHomingPart1 = false;
+		isHomingPart2 = false;
 		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
 	}
@@ -363,7 +365,7 @@ public class Elevator {
 	// for debug purpose only
 	public void joystickControl(Joystick joystick)
 	{
-		if (!isMoving) // if we are already doing a move we don't take over
+		if (!isMoving && !isHoming()) // if we are already doing a move we don't take over
 		{
 			elevator.set(ControlMode.PercentOutput, joystick.getY());
 		}
