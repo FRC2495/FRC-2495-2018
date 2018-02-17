@@ -8,8 +8,8 @@ public class Jack {
 	DoubleSolenoid downup;
 
 	public enum Position {
-		UP, // outer drivetrain is up
-		DOWN; // outer drivetrain is down
+		UP, // outer drivetrain is down
+		DOWN; // outer drivetrain is up
 	}
 
 	public Jack() {

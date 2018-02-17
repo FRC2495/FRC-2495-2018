@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
 	boolean elevatorFlagUp = true;
 	Elevator elevatorControl;
 	Jack jack;
-	boolean driveTrainSelect = false;
+	boolean largeDriveTrainSelected = false;
 	
 	Hinge hingeControl;
 	
@@ -312,8 +312,9 @@ public class Robot extends IterativeRobot {
 						//Deliver cube 
 					}
 				}						
-						
+				m_autoSelected = kDefaultAuto; // we are done so next we do nothing		
 				break;
+				
 			case kDefaultAuto:
 			default:
 				// We do nothing
@@ -352,21 +353,20 @@ public class Robot extends IterativeRobot {
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN4)
 				|| control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN5))
 		{
-			if(driveTrainSelect){
-				driveTrainSelect = false; 
+			if(largeDriveTrainSelected){
+				largeDriveTrainSelected = false; 
 				System.out.println("jack down");
 				jack.setPosition(Jack.Position.DOWN);
 			}
 			else{
-				driveTrainSelect = true; 
+				largeDriveTrainSelected = true; 
 				System.out.println("jack up");
 				jack.setPosition(Jack.Position.UP);
-			}
-				
+			}			
 		}
 				
 		
-		if(driveTrainSelect){
+		if(largeDriveTrainSelected){
 			drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
 		                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		}
@@ -516,10 +516,13 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
+        
         SmartDashboard.putBoolean("isCompromised?", DriverStation.getInstance().isDisabled());
+        
         SmartDashboard.putNumber("Distance to Target", camera.getDistanceToTargetUsingVerticalFov());
         SmartDashboard.putNumber("Angle to Target", camera.getAngleToTurnToTarget());
         SmartDashboard.putNumber("Distance to Target Using Horizontal FOV", camera.getDistanceToTargetUsingHorizontalFov());
+        
         SmartDashboard.putBoolean("Elevator Limit Switch", elevatorControl.getLimitSwitchState());
         SmartDashboard.putNumber("Elevator Position", elevatorControl.getPosition());
         SmartDashboard.putNumber("Elevator Enc Position", elevatorControl.getEncPosition());
@@ -527,15 +530,18 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
         SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());     
+        
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
         SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
         SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
         
         SmartDashboard.putNumber("Tilt", accelerometer.getTilt());
+        
         SmartDashboard.putString("First Switch", gameData.getAssignedPlateAtFirstSwitch().toString());
         SmartDashboard.putString("Scale", gameData.getAssignedPlateAtScale().toString());
         SmartDashboard.putString("Second Switch", gameData.getAssignedPlateAtSecondSwitch().toString());
+        
         SmartDashboard.putNumber("Range to target", sonar.getRangeInInches());
         SmartDashboard.putNumber("Sonar Voltage", sonar.getVoltage()); 
 	}
