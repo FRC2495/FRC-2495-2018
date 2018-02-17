@@ -66,6 +66,7 @@ public class Robot extends IterativeRobot {
 	Joystick gamepad;
 	
 	ADXRS450_Gyro gyro; // gyro
+	Sonar sonar;
 	
 	Compressor compressor; // the compressor's lifecycle needs to be the same as the robot
 	
@@ -118,6 +119,7 @@ public class Robot extends IterativeRobot {
 		
 		
 		// TODO 2017 robot is 0, 2018 is 2
+		sonar = new Sonar(0); 
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);
 		
@@ -535,7 +537,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("First Switch", gameData.getAssignedPlateAtFirstSwitch().toString());
         SmartDashboard.putString("Scale", gameData.getAssignedPlateAtScale().toString());
         SmartDashboard.putString("Second Switch", gameData.getAssignedPlateAtSecondSwitch().toString());
-        
+        SmartDashboard.putNumber("Range to target", sonar.getRangeInInches());
+        SmartDashboard.putNumber("Sonar Voltage", sonar.getVoltage()); 
 	}
 	
 	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {

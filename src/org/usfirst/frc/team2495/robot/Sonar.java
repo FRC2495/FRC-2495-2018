@@ -16,10 +16,10 @@ public class Sonar{
         channel = new AnalogInput(_channel);
         //default values
 		use_units = true;
-		min_voltage = .5;
+		min_voltage = .25;
 		voltage_range = 5.0 - min_voltage;
-		min_distance = 3.0;
-		distance_range = 60.0 - min_distance;
+		min_distance = 10.0;
+		distance_range = 360 - min_distance;
     }
     //constructor
     public Sonar(int _channel, boolean _use_units, double _min_voltage,
