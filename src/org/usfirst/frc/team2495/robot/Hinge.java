@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2495.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -312,9 +311,9 @@ public class Hinge {
 		return degrees / 360 * GEAR_RATIO;
 	}
 
-	private double convertRevtoDegrees(double rev) {
+	/*private double convertRevtoDegrees(double rev) {
 		return rev * 360 / GEAR_RATIO;
-	}
+	}*/
 
 	public void stop() {	 
 		hinge.set(ControlMode.PercentOutput, 0);

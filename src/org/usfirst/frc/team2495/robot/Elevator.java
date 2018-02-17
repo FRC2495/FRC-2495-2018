@@ -3,7 +3,6 @@ package org.usfirst.frc.team2495.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
@@ -313,9 +312,9 @@ public class Elevator {
 		return inches / PERIMETER_PULLEY_INCHES * GEAR_RATIO;
 	}
 
-	private double convertRevtoInches(double rev) {
+	/*private double convertRevtoInches(double rev) {
 		return rev * PERIMETER_PULLEY_INCHES / GEAR_RATIO;
-	}
+	}*/
 
 	public void stop() {	 
 		elevator.set(ControlMode.PercentOutput, 0);

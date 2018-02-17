@@ -3,7 +3,6 @@ package org.usfirst.frc.team2495.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

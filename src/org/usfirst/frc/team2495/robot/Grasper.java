@@ -7,7 +7,6 @@ import java.util.Calendar;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -103,7 +102,7 @@ public class Grasper {
 	
 	// do not use in teleop - for auton only
 	// This version does NOT rely on the sonar. Use only if sonar does not fulfill expectations.
-	private void waitGraspOrRelease() {
+	/*private void waitGraspOrRelease() {
 		long start = Calendar.getInstance().getTimeInMillis();
 
 		while (true) { 		
@@ -122,7 +121,7 @@ public class Grasper {
 			
 			robot.updateToSmartDash();
 		}
-	}
+	}*/
 	
 	public boolean tripleCheckGraspUsingSonar() {
 		if (sonar != null && isGrasping) {
