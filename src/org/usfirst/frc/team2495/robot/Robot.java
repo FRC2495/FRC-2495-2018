@@ -77,12 +77,16 @@ public class Robot extends IterativeRobot {
 	WPI_TalonSRX elevator;
 	boolean elevatorFlagUp = true;
 	Elevator elevatorControl;
-	Jack jack;
-	boolean largeDriveTrainSelected = false;
 	
+	Jack jack;
+	
+	boolean largeDriveTrainSelected = false; // by default we assume small drivetrain is down
+	
+	boolean hingeFlagUp = true;
 	Hinge hingeControl;
 	
 	GameData gameData;
+	
 	HMAccelerometer accelerometer;
 
 	
@@ -147,9 +151,10 @@ public class Robot extends IterativeRobot {
 		accelerometer = new HMAccelerometer();
 		
 		elevatorControl = new Elevator(elevator);
-		elevatorControl.home();
+		//elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge);
+		//hingeControl.home();
 	}
 
 	/**
@@ -227,8 +232,7 @@ public class Robot extends IterativeRobot {
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in 
 							miniDrivetrain.waitMoveDistance();
-						}
-						
+						}						
 						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 						{
 							miniDrivetrain.moveDistance(0);//Move Left ____ in
@@ -337,7 +341,7 @@ public class Robot extends IterativeRobot {
 		control.update();
 		camera.acquireTargets(false);
 		
-		
+	
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
 		
@@ -347,9 +351,10 @@ public class Robot extends IterativeRobot {
 		elevatorControl.checkHome();
 		elevatorControl.tripleCheckMove();
 		
-		// drive train flag JJ-
+		hingeControl.checkHome();
+		hingeControl.tripleCheckMove();
 		
-		
+		// drive train flag JJ-			
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN4)
 				|| control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN5))
 		{
@@ -364,8 +369,7 @@ public class Robot extends IterativeRobot {
 				jack.setPosition(Jack.Position.UP);
 			}			
 		}
-				
-		
+						
 		if(largeDriveTrainSelected){
 			drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
 		                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
@@ -383,6 +387,8 @@ public class Robot extends IterativeRobot {
 		{
 			drivetrain.stop();
 			miniDrivetrain.stop();
+			elevatorControl.stop();
+			hingeControl.stop();
 		}
 		
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2) || 
@@ -392,6 +398,7 @@ public class Robot extends IterativeRobot {
 			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
 			elevatorControl.home();
+			hingeControl.home();
 		}
 		else if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
@@ -423,7 +430,13 @@ public class Robot extends IterativeRobot {
 			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			elevatorControl.home();
-		}			
+		}
+		
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN11) ||
+				control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN11))
+		{
+			hingeControl.home();
+		}
 		
 		//elevator bound to start
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
@@ -436,6 +449,20 @@ public class Robot extends IterativeRobot {
 				elevatorControl.moveDown();
 				System.out.println("Should be Moving");
 				elevatorFlagUp = true;
+			}
+		}
+		
+		//hinge bound to back
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) {
+			System.out.println("Button Pushed");
+			if (hingeFlagUp) {
+				hingeControl.moveUp();
+				System.out.println("Should be Moving");
+				hingeFlagUp = false;
+			} else {
+				hingeControl.moveDown();
+				System.out.println("Should be Moving");
+				hingeFlagUp = true;
 			}
 		}
 			
@@ -529,7 +556,15 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Elevator IsHoming?", elevatorControl.isHoming());
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
-        SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());     
+        SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());
+        
+        SmartDashboard.putBoolean("Hinge Limit Switch", hingeControl.getLimitSwitchState());
+        SmartDashboard.putNumber("Hinge Position", hingeControl.getPosition());
+        SmartDashboard.putNumber("Hinge Enc Position", hingeControl.getEncPosition());
+        SmartDashboard.putBoolean("Hinge IsHoming?", hingeControl.isHoming());
+        SmartDashboard.putBoolean("Hinge IsMoving?", hingeControl.isMoving());
+        SmartDashboard.putNumber("Hinge Target", hingeControl.getTarget());
+        SmartDashboard.putBoolean("Hinge Has Been Homed?", hingeControl.hasBeenHomed());
         
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
