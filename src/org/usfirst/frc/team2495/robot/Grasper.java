@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,7 +29,7 @@ public class Grasper {
 	static final int GRASP_DISTANCE_INCHES = 12;
 	static final int RELEASE_DISTANCE_INCHES = 24;
 	
-	WPI_TalonSRX grasperLeft , grasperRight; 
+	BaseMotorController grasperLeft , grasperRight; 
 	Sonar sonar;
 	
 	// shared grasp and release settings
@@ -41,7 +42,7 @@ public class Grasper {
 	Robot robot;
 	
 	
-	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in, Robot robot_in) {
+	public Grasper(BaseMotorController grasperLeft_in, BaseMotorController grasperRight_in, Robot robot_in) {
 		
 		grasperLeft = grasperLeft_in;
 		grasperRight = grasperRight_in;
@@ -72,7 +73,7 @@ public class Grasper {
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 	}
 	
-	public Grasper( WPI_TalonSRX grasperLeft_in, WPI_TalonSRX grasperRight_in, Sonar sonar_in, Robot robot_in) {
+	public Grasper(BaseMotorController grasperLeft_in, BaseMotorController grasperRight_in, Sonar sonar_in, Robot robot_in) {
 		this(grasperLeft_in, grasperRight_in, robot_in);
 		
 		sonar = sonar_in;

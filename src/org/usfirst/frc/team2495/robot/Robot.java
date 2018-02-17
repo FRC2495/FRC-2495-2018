@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2495.robot.GameData.Plate;
 
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 /*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
@@ -51,16 +52,16 @@ public class Robot extends IterativeRobot {
 	
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
-	WPI_TalonSRX rearLeft; 
-	WPI_TalonSRX rearRight;
+	BaseMotorController rearLeft; 
+	BaseMotorController rearRight;
 	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
 
 	WPI_TalonSRX elevator;
 	
-	WPI_TalonSRX grasperLeft;
-	WPI_TalonSRX grasperRight;
+	BaseMotorController grasperLeft;
+	BaseMotorController grasperRight;
 	
 	WPI_TalonSRX hinge; 
 	

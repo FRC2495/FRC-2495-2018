@@ -5,6 +5,7 @@ import java.util.Calendar;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.PIDController;
@@ -70,7 +71,8 @@ public class Drivetrain implements PIDOutput {
 	
 	double ltac, rtac; // target positions 
 
-	WPI_TalonSRX frontLeft,rearLeft,frontRight,rearRight; // motor controllers
+	WPI_TalonSRX frontLeft,frontRight; // motor controllers
+	BaseMotorController rearLeft,rearRight; // motor controllers
 	ADXRS450_Gyro gyro; // gyroscope
 	
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
@@ -80,7 +82,7 @@ public class Drivetrain implements PIDOutput {
 	PIDController turnPidController; // the PID controller used to turn
 	
 	
-	public Drivetrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , WPI_TalonSRX rearLeft_in ,WPI_TalonSRX rearRight_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
+	public Drivetrain(WPI_TalonSRX frontLeft_in ,WPI_TalonSRX frontRight_in , BaseMotorController rearLeft_in ,BaseMotorController rearRight_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
 	{
 		frontLeft = frontLeft_in;
 		frontRight = frontRight_in;
