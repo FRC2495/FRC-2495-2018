@@ -110,6 +110,10 @@ public class MiniDrivetrain implements PIDOutput {
 		frontCenter.setSensorPhase(true);
 		rearCenter.setSensorPhase(true);	
 		
+		// Disables limit switches
+		frontCenter.overrideLimitSwitchesEnable(false);
+		rearCenter.overrideLimitSwitchesEnable(false);
+		
 		// Motor controller output direction can be set by calling the setInverted() function as seen below.
 		// Note: Regardless of invert value, the LEDs will blink green when positive output is requested (by robot code or firmware closed loop).
 		// Only the motor leads are inverted. This feature ensures that sensor phase and limit switches will properly match the LED pattern

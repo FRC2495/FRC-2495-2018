@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -119,6 +121,10 @@ public class Drivetrain implements PIDOutput {
 		// 2018 robot
 		masterLeft.setSensorPhase(false);
 		masterRight.setSensorPhase(false);
+		
+		// Disables limit switches
+		masterLeft.overrideLimitSwitchesEnable(false);
+		masterRight.overrideLimitSwitchesEnable(false);
 		
 		// Motor controller output direction can be set by calling the setInverted() function as seen below.
 		// Note: Regardless of invert value, the LEDs will blink green when positive output is requested (by robot code or firmware closed loop).
