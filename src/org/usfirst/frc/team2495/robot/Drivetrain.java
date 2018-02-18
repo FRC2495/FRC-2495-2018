@@ -261,12 +261,12 @@ public class Drivetrain implements PIDOutput {
 					System.out.println("Triple-check failed (moving).");
 				} else {
 					// we are definitely moving
-					System.out.println("ltac, rtac: " + ltac + ", " + rtac);
-					System.out.println("encoder left: " + masterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP));
-					System.out.println("encoder right: " + masterRight.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+					//System.out.println("ltac, rtac: " + ltac + ", " + rtac);
+					//System.out.println("encoder left: " + masterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+					//System.out.println("encoder right: " + masterRight.getSelectedSensorPosition(PRIMARY_PID_LOOP));
 					
-					System.out.println("moving error left: " + lerror);
-					System.out.println("moving error right: " + rerror);
+					//System.out.println("moving error left: " + lerror);
+					//System.out.println("moving error right: " + rerror);
 				}
 			}
 			
@@ -400,22 +400,22 @@ public class Drivetrain implements PIDOutput {
 			if(!held)
 			{
 
-				masterRight.set(ControlMode.PercentOutput, joyRight.getY() * .75);
-				masterLeft.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
+				//masterRight.set(ControlMode.PercentOutput, joyRight.getY() * .75);
+				//masterLeft.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
 				
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
-				//differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
 			}
 			else
 			{
 				
-				masterRight.set(ControlMode.PercentOutput, joyRight.getY());
-				masterLeft.set(ControlMode.PercentOutput, joyLeft.getY());
+				//masterRight.set(ControlMode.PercentOutput, joyRight.getY());
+				//masterLeft.set(ControlMode.PercentOutput, joyLeft.getY());
 				
 				//differentialDrive.tankDrive(joyLeft.getY(), -joyRight.getY()); // right needs to be reversed
 				
-				//differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
 			}
 		}
 	}	
