@@ -235,8 +235,7 @@ public class Elevator {
 			if (!isMoving) {
 				System.out.println("You have reached the target (elevator moving).");
 				//elevator.set(ControlMode.PercentOutput,0);
-				if (isMovingUp)
-				{
+				if (isMovingUp)	{
 					stay();
 				} else {
 					stop();

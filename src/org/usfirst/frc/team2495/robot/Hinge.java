@@ -46,7 +46,7 @@ public class Hinge {
 
 	
 	// variables
-	boolean isHomingPart1, isHomingPart2, isMoving;
+	boolean isHomingPart1, isHomingPart2, isMoving, isMovingUp;
 	
 	WPI_TalonSRX hinge;
 	
@@ -97,6 +97,7 @@ public class Hinge {
 		isHomingPart1 = false;
 		isHomingPart2 = false;
 		isMoving = false;
+		isMovingUp = false;
 	}
 
 	// returns the state of the limit switch
@@ -224,8 +225,12 @@ public class Hinge {
 			
 			if (!isMoving) {
 				System.out.println("You have reached the target (hinge moving).");
-				//hinge.set(ControlMode.PercentOutput,0);	
-				stop();
+				//hinge.set(ControlMode.PercentOutput,0);
+				if (isMovingUp) {
+					stay();
+				} else {
+					stop();
+				}
 			}
 		}
 		return isMoving; 
@@ -265,6 +270,7 @@ public class Hinge {
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
+			isMovingUp = true;
 			onTargetCount = 0;
 		} else {
 			System.out.println("You have not been home, your mother must be worried sick");
@@ -283,6 +289,7 @@ public class Hinge {
 			hinge.set(ControlMode.Position,tac);
 			
 			isMoving = true;
+			isMovingUp = false;
 			onTargetCount = 0;
 		} else {
 			System.out.println("You have not been home, your mother must be worried sick");
@@ -313,6 +320,12 @@ public class Hinge {
 		return isMoving;
 	}
 
+	public void stay() {	 		
+		isMoving = false;		
+		isHomingPart1 = false;
+		isHomingPart2 = false;
+	}
+	
 	public void stop() {	 
 
 		hinge.set(ControlMode.PercentOutput, 0);
