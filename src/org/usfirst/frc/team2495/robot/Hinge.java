@@ -1,25 +1,23 @@
 package org.usfirst.frc.team2495.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import java.util.Calendar;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Hinge {
 	
 	// general settings
 	static final int TIMEOUT_MS = 15000;
 	
-	static final double GEAR_RATIO = 3; // TODO change if needed
+	static final double GEAR_RATIO = 3.0; // TODO change if needed
 	
 	static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
 	
