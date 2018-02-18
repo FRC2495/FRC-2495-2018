@@ -50,7 +50,7 @@ public class Elevator {
 
 	
 	// variables
-	boolean isHomingPart1, isHomingPart2, isMoving;
+	boolean isHomingPart1, isHomingPart2, isMoving, isMovingUp;
 	
 	WPI_TalonSRX elevator;
 	
@@ -100,6 +100,7 @@ public class Elevator {
 		isHomingPart1 = false;
 		isHomingPart2 = false;
 		isMoving = false;
+		isMovingUp = false;
 	}
 
 	// returns the state of the limit switch
@@ -233,7 +234,13 @@ public class Elevator {
 			
 			if (!isMoving) {
 				System.out.println("You have reached the target (elevator moving).");
-				elevator.set(ControlMode.PercentOutput,0);				 
+				//elevator.set(ControlMode.PercentOutput,0);
+				if (isMovingUp)
+				{
+					stay();
+				} else {
+					stop();
+				}
 			}
 		}
 		return isMoving; 
@@ -271,6 +278,7 @@ public class Elevator {
 			elevator.set(ControlMode.Position,tac);
 			
 			isMoving = true;
+			isMovingUp = true;
 			onTargetCount = 0;
 		} else {
 			System.out.println("You have not been home, your mother must be worried sick");
@@ -287,6 +295,7 @@ public class Elevator {
 			elevator.set(ControlMode.Position,tac);
 			
 			isMoving = true;
+			isMovingUp = false;
 			onTargetCount = 0;
 		} else {
 			System.out.println("You have not been home, your mother must be worried sick");
@@ -325,6 +334,12 @@ public class Elevator {
 		return rev * PERIMETER_PULLEY_INCHES / GEAR_RATIO;
 	}
 
+	public void stay() {	 		
+		isMoving = false;		
+		isHomingPart1 = false;
+		isHomingPart2 = false;
+	}
+	
 	public void stop() {	 
 		elevator.set(ControlMode.PercentOutput, 0);
 		
