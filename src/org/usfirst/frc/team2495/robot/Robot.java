@@ -154,10 +154,10 @@ public class Robot extends IterativeRobot {
 		accelerometer = new HMAccelerometer();
 		
 		elevatorControl = new Elevator(elevator);
-		//elevatorControl.home();
+		elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge, this);
-		//hingeControl.home();
+		hingeControl.home();
 	}
 
 	/**
@@ -387,6 +387,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		//hingeControl.joystickControl(joyRight);
+		//elevatorControl.joystickControl(joyRight);
 				
 		
 		//Stops the robot moving if pressed
@@ -435,17 +436,17 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
 			control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			elevatorControl.home();
-		}*/
+		}
 		
-		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
+		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
 				control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			hingeControl.home();
-		}
+		}*/
 		
 		//elevator bound to start
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {

@@ -23,11 +23,11 @@ public class Elevator {
 	
 	static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
-	static final int LENGTH_OF_TRAVEL_INCHES = 47; // TODO set proper value
+	static final int LENGTH_OF_TRAVEL_INCHES = 37; // TODO set proper value
 	
-	static final double VIRTUAL_HOME_OFFSET_INCHES = 1; // position of virtual home compared to physical home
+	static final double VIRTUAL_HOME_OFFSET_INCHES = 0.1; // position of virtual home compared to physical home
 	
-	static final double HOMING_PCT_OUTPUT = 0.1; // ~homing speed
+	static final double HOMING_PCT_OUTPUT = 0.4; // ~homing speed
 	static final double MAX_PCT_OUTPUT = 1.0; // ~full speed
 	
 	static final int TALON_TIMEOUT_MS = 10;
@@ -41,7 +41,7 @@ public class Elevator {
 	
 	static final double REDUCED_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_PROPORTIONAL_GAIN = 0.04;
+	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
@@ -104,13 +104,13 @@ public class Elevator {
 
 	// returns the state of the limit switch
 	public boolean getLimitSwitchState() {
-		return elevator.getSensorCollection().isRevLimitSwitchClosed();
+		return elevator.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	// Private. We move until we reach the limit switch (in open loop). This gives us the physical zero
 	private void homePart1() {
-		// we assume that the reverse limit switch is enabled
-		elevator.set(ControlMode.PercentOutput,-HOMING_PCT_OUTPUT); // we start moving down
+		// we assume that the forward limit switch is enabled
+		elevator.set(ControlMode.PercentOutput,+HOMING_PCT_OUTPUT); // we start moving down
 		
 		isHomingPart1 = true;
 	}
@@ -121,8 +121,16 @@ public class Elevator {
 		elevator.set(ControlMode.PercentOutput,0); // we stop AND MAKE SURE WE DO NOT MOVE WHEN SETTING POSITION
 		elevator.setSelectedSensorPosition(0, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS); // we set the current position to zero
 		
+		/*try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
 		setPIDParameters(); // we switch to position mode
-		tac = +convertInchesToRev(VIRTUAL_HOME_OFFSET_INCHES) * TICKS_PER_REVOLUTION;
+		tac = -convertInchesToRev(VIRTUAL_HOME_OFFSET_INCHES) * TICKS_PER_REVOLUTION;
 		elevator.set(ControlMode.Position,tac); // we move to virtual zero
 		
 		isHomingPart2 = true;
@@ -189,6 +197,7 @@ public class Elevator {
 				System.out.println("Triple-check failed (elevator homing part 2).");
 			} else {
 				// we are definitely homing
+				System.out.println("Elevator homing part 2 error: " + Math.abs(error));
 			}
 		}
 		
@@ -258,7 +267,7 @@ public class Elevator {
 			//setPIDParameters();
 			System.out.println("Moving Up");
 
-			tac = +convertInchesToRev(LENGTH_OF_TRAVEL_INCHES) * TICKS_PER_REVOLUTION;
+			tac = -convertInchesToRev(LENGTH_OF_TRAVEL_INCHES) * TICKS_PER_REVOLUTION;
 			elevator.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -274,7 +283,7 @@ public class Elevator {
 			//setPIDParameters();
 			System.out.println("Moving Down");
 
-			tac = -convertInchesToRev(0)* TICKS_PER_REVOLUTION;
+			tac = +convertInchesToRev(0)* TICKS_PER_REVOLUTION;
 			elevator.set(ControlMode.Position,tac);
 			
 			isMoving = true;
@@ -285,7 +294,7 @@ public class Elevator {
 	}
 
 	public double getPosition() {
-		return elevator.getSelectedSensorPosition(PRIMARY_PID_LOOP) / TICKS_PER_REVOLUTION;
+		return convertRevtoInches(elevator.getSelectedSensorPosition(PRIMARY_PID_LOOP) / TICKS_PER_REVOLUTION);
 	}
 
 	public double getEncPosition() {
@@ -312,9 +321,9 @@ public class Elevator {
 		return inches / PERIMETER_PULLEY_INCHES * GEAR_RATIO;
 	}
 
-	/*private double convertRevtoInches(double rev) {
+	private double convertRevtoInches(double rev) {
 		return rev * PERIMETER_PULLEY_INCHES / GEAR_RATIO;
-	}*/
+	}
 
 	public void stop() {	 
 		elevator.set(ControlMode.PercentOutput, 0);

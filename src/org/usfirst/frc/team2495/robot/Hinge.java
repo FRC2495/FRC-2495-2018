@@ -314,17 +314,6 @@ public class Hinge {
 		return isMoving;
 	}
 
-	/*private double convertDegreesToRev(double degrees) {
-		double conv = degrees / 360.0 * GEAR_RATIO;
-		System.out.println("degrees:" + degrees);
-		System.out.println("conv:" + conv);
-		return conv;
-	}*/
-
-	/*private double convertRevtoDegrees(double rev) {
-		return rev * 360 / GEAR_RATIO;
-	}*/
-
 	public void stop() {	 
 
 		hinge.set(ControlMode.PercentOutput, 0);
