@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.ParamEnum;
 
 import java.util.Calendar;
 
@@ -108,6 +109,7 @@ public class Hinge {
 	// Private. We move until we reach the limit switch (in open loop). This gives us the physical zero
 	private void homePart1() {
 		// we assume that the reverse limit switch is enabled
+		//hinge.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0, TALON_TIMEOUT_MS);
 		hinge.set(ControlMode.PercentOutput,-HOMING_PCT_OUTPUT); // we start moving down
 		
 		isHomingPart1 = true;
