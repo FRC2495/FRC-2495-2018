@@ -112,8 +112,13 @@ public class Drivetrain implements PIDOutput {
 		// Sensor phase is the term used to explain sensor direction.
 		// In order for limit switches and closed-loop features to function properly the sensor and motor has to be in-phase.
 		// This means that the sensor position must move in a positive direction as the motor controller drives positive output.  
-		masterLeft.setSensorPhase(true);
-		masterRight.setSensorPhase(true);	
+		// 2017 robot
+		/*masterLeft.setSensorPhase(true);
+		masterRight.setSensorPhase(true);*/	
+		
+		// 2018 robot
+		masterLeft.setSensorPhase(false);
+		masterRight.setSensorPhase(false);
 		
 		// Motor controller output direction can be set by calling the setInverted() function as seen below.
 		// Note: Regardless of invert value, the LEDs will blink green when positive output is requested (by robot code or firmware closed loop).
@@ -254,6 +259,12 @@ public class Drivetrain implements PIDOutput {
 					System.out.println("Triple-check failed (moving).");
 				} else {
 					// we are definitely moving
+					System.out.println("ltac, rtac: " + ltac + ", " + rtac);
+					System.out.println("encoder left: " + masterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+					System.out.println("encoder right: " + masterRight.getSelectedSensorPosition(PRIMARY_PID_LOOP));
+					
+					System.out.println("moving error left: " + lerror);
+					System.out.println("moving error right: " + rerror);
 				}
 			}
 			
@@ -357,10 +368,12 @@ public class Drivetrain implements PIDOutput {
 		masterRight.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
 		masterRight.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
 		masterRight.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);
+		masterRight.config_kF(SLOT_0, 0, TALON_TIMEOUT_MS);
 		
 		masterLeft.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
 		masterLeft.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
-		masterLeft.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);		
+		masterLeft.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);	
+		masterLeft.config_kF(SLOT_0, 0, TALON_TIMEOUT_MS);
 	}
 	
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES

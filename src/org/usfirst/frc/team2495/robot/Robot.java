@@ -50,10 +50,17 @@ public class Robot extends IterativeRobot {
 	
 	HMCamera camera;
 	
-	WPI_TalonSRX frontLeft;
+	// 2017 robot
+	/*WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	BaseMotorController rearLeft; 
-	BaseMotorController rearRight;
+	BaseMotorController rearRight;*/
+	
+	// 2018 robot
+	BaseMotorController frontLeft;
+	BaseMotorController frontRight;
+	WPI_TalonSRX rearLeft; 
+	WPI_TalonSRX rearRight;
 	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
@@ -127,7 +134,7 @@ public class Robot extends IterativeRobot {
 		
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		
-		drivetrain = new Drivetrain(frontLeft, frontRight, rearLeft, rearRight, gyro, this);		
+		drivetrain = new Drivetrain(rearLeft, rearRight, frontLeft, frontRight, gyro, this);		
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
 		
 		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
@@ -222,7 +229,7 @@ public class Robot extends IterativeRobot {
 						drivetrain.waitMoveDistance();
 						//Pick up cube  
 						//Deliver cube 
-					}
+					} 
 					
 					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 					{

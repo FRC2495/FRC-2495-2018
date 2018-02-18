@@ -376,6 +376,7 @@ public class Elevator {
 		elevator.config_kP(SLOT_0, MOVE_PROPORTIONAL_GAIN, TALON_TIMEOUT_MS);
 		elevator.config_kI(SLOT_0, MOVE_INTEGRAL_GAIN, TALON_TIMEOUT_MS);
 		elevator.config_kD(SLOT_0, MOVE_DERIVATIVE_GAIN, TALON_TIMEOUT_MS);		
+		elevator.config_kF(SLOT_0, 0, TALON_TIMEOUT_MS);
 	}
 
 	public void setNominalAndPeakOutputs(double peakOutput)
