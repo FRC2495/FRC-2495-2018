@@ -114,13 +114,9 @@ public class Drivetrain implements PIDOutput {
 		// Sensor phase is the term used to explain sensor direction.
 		// In order for limit switches and closed-loop features to function properly the sensor and motor has to be in-phase.
 		// This means that the sensor position must move in a positive direction as the motor controller drives positive output.  
-		// 2017 robot
-		/*masterLeft.setSensorPhase(true);
-		masterRight.setSensorPhase(true);*/	
-		
-		// 2018 robot
-		masterLeft.setSensorPhase(false);
-		masterRight.setSensorPhase(false);
+
+		masterLeft.setSensorPhase(true);
+		masterRight.setSensorPhase(true);
 		
 		// Disables limit switches
 		masterLeft.overrideLimitSwitchesEnable(false);
@@ -404,22 +400,22 @@ public class Drivetrain implements PIDOutput {
 			if(!held)
 			{
 
-				//masterRight.set(ControlMode.PercentOutput, joyRight.getY() * .75);
-				//masterLeft.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
+				masterRight.set(ControlMode.PercentOutput, joyRight.getY() * .75);
+				masterLeft.set(ControlMode.PercentOutput, joyLeft.getY() * .75);
 				
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
-				differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
+				//differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
 			}
 			else
 			{
 				
-				//masterRight.set(ControlMode.PercentOutput, joyRight.getY());
-				//masterLeft.set(ControlMode.PercentOutput, joyLeft.getY());
+				masterRight.set(ControlMode.PercentOutput, joyRight.getY());
+				masterLeft.set(ControlMode.PercentOutput, joyLeft.getY());
 				
 				//differentialDrive.tankDrive(joyLeft.getY(), -joyRight.getY()); // right needs to be reversed
 				
-				differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
+				//differentialDrive.arcadeDrive(-joyRight.getX(), joyLeft.getY()); // right needs to be reversed
 			}
 		}
 	}	

@@ -30,10 +30,10 @@ public class Ports {
 			public static final int PDP = 0;*/
 			
 			// 2018 robot
-			public static final int RIGHT_REAR = 3;
-			public static final int RIGHT_FRONT = 4;
-			public static final int LEFT_REAR = 1;
-			public static final int LEFT_FRONT = 2;
+			public static final int RIGHT_FRONT = 1;
+			public static final int RIGHT_REAR = 2;
+			public static final int LEFT_FRONT = 3;
+			public static final int LEFT_REAR = 4;
 			public static final int FRONT_CENTER = 5;
 			public static final int REAR_CENTER = 6;
 			public static final int ELEVATOR = 7;
