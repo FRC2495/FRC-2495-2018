@@ -205,6 +205,7 @@ public class Hinge {
 		if (isMoving) {
 			
 			double error = hinge.getClosedLoopError(PRIMARY_PID_LOOP);
+			System.out.println("Hinge moving error: " + Math.abs(error));
 			
 			boolean isOnTarget = (Math.abs(error) < TICK_THRESH);
 			
