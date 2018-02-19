@@ -28,7 +28,7 @@ public class MiniDrivetrain implements PIDOutput {
 	static final int TALON_TIMEOUT_MS = 10;
 	static final int TICKS_PER_REVOLUTION = 4096;
 	
-	static final int MINI_DRIVETRAIN_POLARITY = 1.0; 
+	static final int MINI_DRIVETRAIN_POLARITY = 1; 
 	
 	// turn settings
 	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
