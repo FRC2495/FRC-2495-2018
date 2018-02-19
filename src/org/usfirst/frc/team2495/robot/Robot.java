@@ -452,10 +452,18 @@ public class Robot extends IterativeRobot {
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
+				hingeControl.moveDown();
+				System.out.println("Should be Moving");
+				hingeFlagUp = true;
+				
 				elevatorControl.moveUp();
 				System.out.println("Should be Moving");
 				elevatorFlagUp = false;
 			} else {
+				hingeControl.moveDown();
+				System.out.println("Should be Moving");
+				hingeFlagUp = true;
+				
 				elevatorControl.moveDown();
 				System.out.println("Should be Moving");
 				elevatorFlagUp = true;
