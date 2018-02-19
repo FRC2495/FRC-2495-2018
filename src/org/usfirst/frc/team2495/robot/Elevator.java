@@ -281,6 +281,7 @@ public class Elevator {
 		
 		if (hinge != null && hinge.isUp()) {
 			System.out.println("Cannot move when hinge is up");
+			return;
 		}
 		
 		if (hasBeenHomed) {
@@ -302,6 +303,7 @@ public class Elevator {
 		
 		if (hinge != null && hinge.isUp()) {
 			System.out.println("Cannot move when hinge is up");
+			return;
 		}
 		
 		if (hasBeenHomed) {
@@ -323,6 +325,7 @@ public class Elevator {
 		
 		if (hinge != null && hinge.isUp()) {
 			System.out.println("Cannot move when hinge is up");
+			return;
 		}
 		
 		if (hasBeenHomed) {
