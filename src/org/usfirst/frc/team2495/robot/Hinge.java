@@ -22,7 +22,7 @@ public class Hinge {
 	
 	static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
 	
-	static final double VIRTUAL_HOME_OFFSET_TICKS = 1000; // position of virtual home compared to physical home
+	static final double VIRTUAL_HOME_OFFSET_TICKS = 6000; // position of virtual home compared to physical home
 	
 	static final double HOMING_PCT_OUTPUT = 0.2; // ~homing speed
 	static final double MAX_PCT_OUTPUT = 0.4; // ~full speed
@@ -43,7 +43,7 @@ public class Hinge {
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
 	static final int TALON_TICK_THRESH = 128;
-	static final double TICK_THRESH = 4096;	
+	static final double TICK_THRESH = 2048;	
 
 	
 	// variables
@@ -55,7 +55,7 @@ public class Hinge {
 	boolean hasBeenHomed = false;
 
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
-    private final static int ON_TARGET_MINIMUM_COUNT = 5; // number of times/iterations we need to be on target to really be on target
+    private final static int ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
     Robot robot; 
     
