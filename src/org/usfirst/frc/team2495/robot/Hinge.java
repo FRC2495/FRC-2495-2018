@@ -340,6 +340,18 @@ public class Hinge {
 	public boolean isMoving() {
 		return isMoving;
 	}
+	
+	public boolean isUp() {
+		return getEncPosition() < ANGLE_TO_TRAVEL_TICKS * 1/3;
+	}
+	
+	public boolean isDown() {
+		return getEncPosition() > ANGLE_TO_TRAVEL_TICKS * 2/3;
+	}
+	
+	public boolean isMidway() {
+		return !isUp() && !isDown();
+	}
 
 	public void stay() {	 		
 		isMoving = false;		

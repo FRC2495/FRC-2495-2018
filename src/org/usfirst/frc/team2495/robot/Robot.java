@@ -328,21 +328,21 @@ public class Robot extends IterativeRobot {
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
-				hingeControl.moveDown();
-				System.out.println("Should be Moving");
-				hingeFlagUp = true;
-				
-				elevatorControl.moveUp();
-				System.out.println("Should be Moving");
-				elevatorFlagUp = false;
+				if (!hingeControl.isDown()) {
+					elevatorControl.moveUp();
+					System.out.println("Elevator should be moving up");
+					elevatorFlagUp = false;
+				} else {
+					System.out.println("Lower hinge first!");
+				}
 			} else {
-				hingeControl.moveDown();
-				System.out.println("Should be Moving");
-				hingeFlagUp = true;
-				
-				elevatorControl.moveDown();
-				System.out.println("Should be Moving");
-				elevatorFlagUp = true;
+				if (hingeControl.isDown()) {
+					elevatorControl.moveDown();
+					System.out.println("Elevator should be moving down");
+					elevatorFlagUp = true;
+				} else {
+					System.out.println("Lower hinge first!");
+				}
 			}
 		}
 		
@@ -351,11 +351,11 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button Pushed");
 			if (hingeFlagUp) {
 				hingeControl.moveUp();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving up");
 				hingeFlagUp = false;
 			} else {
 				hingeControl.moveDown();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving downn");
 				hingeFlagUp = true;
 			}
 		}

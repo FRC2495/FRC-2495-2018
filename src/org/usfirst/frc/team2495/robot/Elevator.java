@@ -343,6 +343,18 @@ public class Elevator {
 	public boolean isMoving() {
 		return isMoving;
 	}
+	
+	public boolean isUp() {
+		return getPosition() > LENGTH_OF_TRAVEL_INCHES * 2/3;
+	}
+	
+	public boolean isDown() {
+		return getPosition() < LENGTH_OF_TRAVEL_INCHES * 1/3;
+	}
+	
+	public boolean isMidway() {
+		return !isUp() && !isDown();
+	}
 
 	private double convertInchesToRev(double inches) {
 		return inches / PERIMETER_PULLEY_INCHES * GEAR_RATIO;
