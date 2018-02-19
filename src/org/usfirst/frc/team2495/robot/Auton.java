@@ -113,6 +113,8 @@ public class Auton {
 					elevator.moveDown();
 					grasper.grasp();
 					elevator.moveMidway();
+					drivetrain.moveDistance(10);
+					drivetrain.waitMoveDistance();
 					grasper.release();
 					elevator.moveDown();
 				}
@@ -146,6 +148,8 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
 					drivetrain.waitTurnAngleUsingPidController();
 					elevator.moveUp(); 
+					drivetrain.moveDistance(10);
+					drivetrain.waitMoveDistance();
 					grasper.release(); 
 					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
@@ -167,17 +171,23 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					grasper.grasp();
 					elevator.moveMidway();
+					drivetrain.moveDistance(10);
+					drivetrain.waitMoveDistance();
 					grasper.release();
 					elevator.moveDown();
 				
 				}
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
+					drivetrain.moveDistance(196);
+					drivetrain.waitMoveDistance();
+					drivetrain.turnAngleUsingPidController(180);
+					drivetrain.waitTurnAngleUsingPidController();
 					jack.setPosition(Jack.Position.DOWN);
-					// go straight then go right then back get the closest cube and go to the switch 
+					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Left ____ in 
+						miniDrivetrain.moveDistance(30);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
@@ -188,8 +198,13 @@ public class Auton {
 					jack.setPosition(Jack.Position.DOWN);
 					drivetrain.moveDistance(45); // Move forward 45 in
 					drivetrain.waitMoveDistance();
-					//Pick up cube  
-					//Deliver cube 
+					drivetrain.moveDistance(10);
+					drivetrain.waitMoveDistance();
+					grasper.grasp();
+					elevator.moveMidway();
+					drivetrain.moveDistance(10);
+					grasper.release();
+				
 				}
 			}						
 			autoSelected = Robot.kDefaultAuto; // we are done so next we do nothing		
