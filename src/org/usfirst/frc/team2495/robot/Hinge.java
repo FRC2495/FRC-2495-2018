@@ -279,6 +279,25 @@ public class Hinge {
 		}
 	}
 
+	public void moveMidway() {
+		
+		if (hasBeenHomed) {
+			//setPIDParameters();
+			System.out.println("Moving Midway");
+			
+			setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we may need to check if we were up in which case we may want to reduce output
+
+			tac = ANGLE_TO_TRAVEL_TICKS / 2;
+			hinge.set(ControlMode.Position,tac);
+			
+			isMoving = true;
+			isMovingUp = true;
+			onTargetCount = 0;
+		} else {
+			System.out.println("You have not been home, your mother must be worried sick");
+		}
+	}
+	
 	public void moveDown() {
 		
 		if (hasBeenHomed) {

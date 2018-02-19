@@ -286,6 +286,23 @@ public class Elevator {
 		}
 	}
 
+	public void moveMidway() {
+		
+		if (hasBeenHomed) {
+			//setPIDParameters();
+			System.out.println("Moving Midway");
+
+			tac = -convertInchesToRev(LENGTH_OF_TRAVEL_INCHES / 2) * TICKS_PER_REVOLUTION;
+			elevator.set(ControlMode.Position,tac);
+			
+			isMoving = true;
+			isMovingUp = true;
+			onTargetCount = 0;
+		} else {
+			System.out.println("You have not been home, your mother must be worried sick");
+		}
+	}	
+	
 	public void moveDown() {
 		
 		if (hasBeenHomed) {
