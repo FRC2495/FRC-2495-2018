@@ -153,7 +153,7 @@ public class Robot extends IterativeRobot {
 		
 		accelerometer = new HMAccelerometer();
 		
-		elevatorControl = new Elevator(elevator);
+		elevatorControl = new Elevator(elevator,hingeControl);
 		elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge, this);
@@ -328,7 +328,7 @@ public class Robot extends IterativeRobot {
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
-				if (!hingeControl.isDown()) {
+				if (hingeControl.isDown()) {
 					elevatorControl.moveUp();
 					System.out.println("Elevator should be moving up");
 					elevatorFlagUp = false;
@@ -451,6 +451,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
         SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Elevator isDown", elevatorControl.isDown());
+        SmartDashboard.putBoolean("Elevator isMidway", elevatorControl.isMidway());
+        SmartDashboard.putBoolean("Elevator isUp", elevatorControl.isUp());
         
         SmartDashboard.putBoolean("Hinge Limit Switch", hingeControl.getLimitSwitchState());
         SmartDashboard.putNumber("Hinge Position", hingeControl.getPosition());
@@ -459,6 +462,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Hinge IsMoving?", hingeControl.isMoving());
         SmartDashboard.putNumber("Hinge Target", hingeControl.getTarget());
         SmartDashboard.putBoolean("Hinge Has Been Homed?", hingeControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Hinge isDown", hingeControl.isDown());
+        SmartDashboard.putBoolean("Hinge isMidway", hingeControl.isMidway());
+        SmartDashboard.putBoolean("Hinge isUp", hingeControl.isUp());
         
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
