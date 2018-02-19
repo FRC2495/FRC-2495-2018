@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2495.robot.GameData.Plate;
-
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-/*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -90,6 +88,8 @@ public class Robot extends IterativeRobot {
 	GameData gameData;
 	
 	HMAccelerometer accelerometer;
+	
+	Auton auton = null; // autonomous stuff
 
 	
 	/**
@@ -183,7 +183,13 @@ public class Robot extends IterativeRobot {
 		
 		//At this point we should know what auto run, where we started, and where our plates are located.
 		//So we are ready for autonomousPeriodic to be called.
-		updateToSmartDash(); 
+		updateToSmartDash();
+		
+		auton = new Auton(m_autoSelected, startPosition, gameData,
+				drivetrain, jack, miniDrivetrain,
+				hingeControl, grasper, elevatorControl);
+		
+		auton.initialize();
 	}
 
 	/**
@@ -191,142 +197,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// TODO Put custom auto code here
-				if (startPosition == START_POSITION_LEFT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						drivetrain.moveDistance(200); //324
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(+90);//Turn 90 degrees (+)
-						drivetrain.waitTurnAngleUsingPidController();
-						//Deliver cube at scale 
-						drivetrain.turnAngleUsingPidController(+90);//turn (+) 90 degrees
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(45);
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					} 
-					
-					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(196);
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
-						drivetrain.waitTurnAngleUsingPidController();
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}						
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(12);
-						drivetrain.waitMoveDistance();
-						//Deliver cube 
-						drivetrain.moveDistance(0);//move back ___ in.
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					}
-				}
-				else if (startPosition == START_POSITION_CENTER)
-				{
-					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-					{
-						drivetrain.moveDistance(70);
-						drivetrain.waitMoveDistance();
-						jack.setPosition(Jack.Position.DOWN);
-						miniDrivetrain.moveDistance(120);
-						miniDrivetrain.waitMoveDistance();
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(70);
-						drivetrain.waitMoveDistance();
-						
-					}
-					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(140);
-						drivetrain.waitMoveDistance();
-					}	
-				}
-				else if (startPosition == START_POSITION_RIGHT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(324);	// Move forward 324 in
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(-90);//Turn 90 degrees (-)
-						drivetrain.waitTurnAngleUsingPidController();
-						//Deliver cube at scale 
-						drivetrain.turnAngleUsingPidController(-90);//turn (-) 90 degrees
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						
-						{
-							miniDrivetrain.moveDistance(0);//Move Right ____ in 
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Right ____ in 
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(45); // Move forward 45 in
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					
-					}
-					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						jack.setPosition(Jack.Position.DOWN);
-						// go straight then go right then back get the closest cube and go to the switch 
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.DOWN);
-						drivetrain.moveDistance(45); // Move forward 45 in
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					}
-				}						
-				m_autoSelected = kDefaultAuto; // we are done so next we do nothing		
-				break;
-				
-			case kDefaultAuto:
-			default:
-				// We do nothing
-				break;
-		}
+		auton.execute();
 	}
 
 	@Override

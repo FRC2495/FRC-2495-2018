@@ -172,7 +172,11 @@ public class Auton {
 		default:
 			// We do nothing
 			break;
-
+		} // end switch
+	} // end execute()	
+	
+	public void end() {
+		
 	}
 	
-}
+} // end class
