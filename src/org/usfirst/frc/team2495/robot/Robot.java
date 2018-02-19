@@ -233,8 +233,8 @@ public class Robot extends IterativeRobot {
 		hingeControl.checkHome();
 		hingeControl.tripleCheckMove();
 		
-		//grasper.tripleCheckGraspUsingSonar(); - only enable if we want to stop automatically
-		//grasper.tripleCheckReleaseUsingSonar();
+		grasper.tripleCheckGraspUsingSonar(); // - only enable if we want to stop automatically
+		grasper.tripleCheckReleaseUsingSonar();
 		
 		// drive train flag JJ-			
 		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3)
@@ -322,13 +322,19 @@ public class Robot extends IterativeRobot {
 		//elevator bound to start
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
+			
+			if (!hingeControl.isDown()) {
+				System.out.println("Lower hinge first!");
+				return;
+			}
+			
 			if (elevatorFlagUp) {
 				elevatorControl.moveUp();
-				System.out.println("Should be Moving");
+				System.out.println("Elevator should be moving up");
 				elevatorFlagUp = false;
 			} else {
 				elevatorControl.moveDown();
-				System.out.println("Should be Moving");
+				System.out.println("Elevator should be moving down");
 				elevatorFlagUp = true;
 			}
 		}
@@ -338,11 +344,11 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button Pushed");
 			if (hingeFlagUp) {
 				hingeControl.moveUp();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving up");
 				hingeFlagUp = false;
 			} else {
 				hingeControl.moveDown();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving down");
 				hingeFlagUp = true;
 			}
 		}
@@ -355,7 +361,7 @@ public class Robot extends IterativeRobot {
 		}
 		else 
 		{
-			grasper.stop();	// for manual mode, remove if auto stop is desired	
+			//grasper.stop();	// for manual mode, remove if auto stop is desired	
 		}
 		camera.acquireTargets(false);
 		updateToSmartDash(); 	
