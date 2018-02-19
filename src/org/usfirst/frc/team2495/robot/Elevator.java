@@ -63,6 +63,8 @@ public class Elevator {
 
     Robot robot; 
     
+    Hinge hinge;
+    
 	public Elevator(WPI_TalonSRX elevator_in) {
 		elevator = elevator_in;
 		
@@ -102,6 +104,12 @@ public class Elevator {
 		isHomingPart2 = false;
 		isMoving = false;
 		isMovingUp = false;
+	}
+	
+	public Elevator(WPI_TalonSRX elevator_in, Hinge hinge_in) {
+		this(elevator_in);
+		
+		hinge = hinge_in;
 	}
 
 	// returns the state of the limit switch
@@ -271,6 +279,10 @@ public class Elevator {
 
 	public void moveUp() {
 		
+		if (hinge != null && hinge.isUp()) {
+			System.out.println("Cannot move when hinge is up");
+		}
+		
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Up");
@@ -288,6 +300,10 @@ public class Elevator {
 
 	public void moveMidway() {
 		
+		if (hinge != null && hinge.isUp()) {
+			System.out.println("Cannot move when hinge is up");
+		}
+		
 		if (hasBeenHomed) {
 			//setPIDParameters();
 			System.out.println("Moving Midway");
@@ -304,6 +320,10 @@ public class Elevator {
 	}	
 	
 	public void moveDown() {
+		
+		if (hinge != null && hinge.isUp()) {
+			System.out.println("Cannot move when hinge is up");
+		}
 		
 		if (hasBeenHomed) {
 			//setPIDParameters();

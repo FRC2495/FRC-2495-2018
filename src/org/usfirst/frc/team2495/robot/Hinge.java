@@ -342,11 +342,11 @@ public class Hinge {
 	}
 	
 	public boolean isUp() {
-		return getEncPosition() < ANGLE_TO_TRAVEL_TICKS * 1/3;
+		return Math.abs(getEncPosition()) < ANGLE_TO_TRAVEL_TICKS * 1/3;
 	}
 	
 	public boolean isDown() {
-		return getEncPosition() > ANGLE_TO_TRAVEL_TICKS * 2/3;
+		return Math.abs(getEncPosition()) > ANGLE_TO_TRAVEL_TICKS * 2/3;
 	}
 	
 	public boolean isMidway() {

@@ -153,7 +153,7 @@ public class Robot extends IterativeRobot {
 		
 		accelerometer = new HMAccelerometer();
 		
-		elevatorControl = new Elevator(elevator);
+		elevatorControl = new Elevator(elevator,hingeControl);
 		elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge, this);
@@ -328,7 +328,7 @@ public class Robot extends IterativeRobot {
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
-				if (!hingeControl.isDown()) {
+				if (hingeControl.isDown()) {
 					elevatorControl.moveUp();
 					System.out.println("Elevator should be moving up");
 					elevatorFlagUp = false;
