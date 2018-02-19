@@ -357,8 +357,8 @@ public class Robot extends IterativeRobot {
 		hingeControl.checkHome();
 		hingeControl.tripleCheckMove();
 		
-		//grasper.tripleCheckGraspUsingSonar(); - only enable if we want to stop automatically
-		//grasper.tripleCheckReleaseUsingSonar();
+		grasper.tripleCheckGraspUsingSonar(); // only enable if we want to stop automatically
+		grasper.tripleCheckReleaseUsingSonar();
 		
 		// drive train flag JJ-			
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN4)
@@ -492,7 +492,7 @@ public class Robot extends IterativeRobot {
 		}
 		else 
 		{
-			grasper.stop();	// for manual mode, remove if auto stop is desired	
+			//grasper.stop();	// for manual mode, remove if auto stop is desired	
 		}
 		
 		camera.acquireTargets(false);

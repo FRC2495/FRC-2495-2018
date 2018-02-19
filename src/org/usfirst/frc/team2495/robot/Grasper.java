@@ -25,8 +25,8 @@ public class Grasper {
 
 	static final int TALON_TIMEOUT_MS = 10;
 
-	static final int GRASP_DISTANCE_INCHES = 12;
-	static final int RELEASE_DISTANCE_INCHES = 24;
+	static final int GRASP_DISTANCE_INCHES = 18;
+	static final int RELEASE_DISTANCE_INCHES = 36;
 	
 	BaseMotorController grasperLeft , grasperRight; 
 	Sonar sonar;
@@ -59,8 +59,8 @@ public class Grasper {
 		// Only the motor leads are inverted. This feature ensures that sensor phase and limit switches will properly match the LED pattern
 		// (when LEDs are green => forward limit switch and soft limits are being checked).
 		//this might me wrong =j
-		grasperLeft.setInverted(true);
-		grasperRight.setInverted(false);
+		grasperLeft.setInverted(false);
+		grasperRight.setInverted(true);
 		
 		// Both the Talon SRX and Victor SPX have a follower feature that allows the motor controllers to mimic another motor controller's output.
 		// Users will still need to set the motor controller's direction, and neutral mode.
@@ -136,6 +136,7 @@ public class Grasper {
 					System.out.println("Triple-check failed (grasping).");
 				} else {
 					// we are definitely moving
+					System.out.println("Grasping. Sonar range: " + sonar.getRangeInInches());
 				}
 			}
 			
@@ -186,6 +187,7 @@ public class Grasper {
 					System.out.println("Triple-check failed (releasing).");
 				} else {
 					// we are definitely moving
+					System.out.println("Releasing. Sonar range: " + sonar.getRangeInInches());
 				}
 			}
 			
