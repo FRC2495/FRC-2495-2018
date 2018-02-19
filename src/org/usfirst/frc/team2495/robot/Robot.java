@@ -451,6 +451,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
         SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Elevator isDown", elevatorControl.isDown());
+        SmartDashboard.putBoolean("Elevator isMidway", elevatorControl.isMidway());
+        SmartDashboard.putBoolean("Elevator isUp", elevatorControl.isUp());
         
         SmartDashboard.putBoolean("Hinge Limit Switch", hingeControl.getLimitSwitchState());
         SmartDashboard.putNumber("Hinge Position", hingeControl.getPosition());
@@ -459,6 +462,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Hinge IsMoving?", hingeControl.isMoving());
         SmartDashboard.putNumber("Hinge Target", hingeControl.getTarget());
         SmartDashboard.putBoolean("Hinge Has Been Homed?", hingeControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Hinge isDown", hingeControl.isDown());
+        SmartDashboard.putBoolean("Hinge isMidway", hingeControl.isMidway());
+        SmartDashboard.putBoolean("Hinge isUp", hingeControl.isUp());
         
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
