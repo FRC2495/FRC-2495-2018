@@ -61,12 +61,6 @@ public class Winch {
 	}
 	
 
-	public Winch(WPI_TalonSRX winch_int) {
-		// TODO Auto-generated constructor stub
-		winch = winch_int;
-	}
-
-
 	public void winchUp() {
 		winch.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
 		

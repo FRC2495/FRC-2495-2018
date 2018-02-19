@@ -31,14 +31,14 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 
 public class Robot extends IterativeRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
+	public static final String kDefaultAuto = "Default";
+	public static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	private static final String START_POSITION_LEFT = "Left";
-	private static final String START_POSITION_CENTER = "Center";
-	private static final String START_POSITION_RIGHT = "Right";
+	public static final String START_POSITION_LEFT = "Left";
+	public static final String START_POSITION_CENTER = "Center";
+	public static final String START_POSITION_RIGHT = "Right";
 	private String startPosition;
 	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
 	
@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	
 	Grasper grasper;
 	
-	Winch winch;
+	Winch winch; 
 	
 	HMCamera camera;
 	
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 	BaseMotorController grasperLeft;
 	BaseMotorController grasperRight;
 	
-
+	WPI_TalonSRX winchTal;
 	
 	WPI_TalonSRX hinge; 
 	
@@ -98,11 +98,13 @@ public class Robot extends IterativeRobot {
 	boolean hingeFlagUp = false;
 	Hinge hingeControl;
 	
+	Winch winchController;
+	
 	GameData gameData;
 	
 	HMAccelerometer accelerometer;
 	
-	Winch winchControl;
+
 
 	
 	/**
@@ -134,6 +136,8 @@ public class Robot extends IterativeRobot {
 		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
+		winchTal = new WPI_TalonSRX(Ports.CAN.WINCH);
+		
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 				
 		sonar = new Sonar(Ports.Analog.SONAR); 
@@ -145,6 +149,8 @@ public class Robot extends IterativeRobot {
 		
 		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
 	
+		//winch = new Winch(winchTal);
+		
 		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();

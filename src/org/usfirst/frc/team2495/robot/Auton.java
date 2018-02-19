@@ -38,6 +38,7 @@ public class Auton {
 		
 		camera = camera_in;
 		robot = robot_in;
+		
 	}
 	
 	public void initialize() {
