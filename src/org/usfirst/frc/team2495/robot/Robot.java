@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2495.robot.GameData.Plate;
-
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-/*import com.ctre.phoenix.motorcontrol.can.TalonSRX; */
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,21 +46,12 @@ public class Robot extends IterativeRobot {
 	
 	Grasper grasper;
 	
-	Winch winch; 
-	
 	HMCamera camera;
 	
-	// 2017 robot
-	/*WPI_TalonSRX frontLeft;
+	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	BaseMotorController rearLeft; 
-	BaseMotorController rearRight;*/
-	
-	// 2018 robot
-	BaseMotorController frontLeft;
-	BaseMotorController frontRight;
-	WPI_TalonSRX rearLeft; 
-	WPI_TalonSRX rearRight;
+	BaseMotorController rearRight;
 	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
@@ -71,8 +60,6 @@ public class Robot extends IterativeRobot {
 	
 	BaseMotorController grasperLeft;
 	BaseMotorController grasperRight;
-	
-	WPI_TalonSRX winchTal;
 	
 	WPI_TalonSRX hinge; 
 	
@@ -98,13 +85,11 @@ public class Robot extends IterativeRobot {
 	boolean hingeFlagUp = false;
 	Hinge hingeControl;
 	
-	Winch winchController;
-	
 	GameData gameData;
 	
 	HMAccelerometer accelerometer;
 	
-
+	Auton auton = null; // autonomous stuff
 
 	
 	/**
@@ -136,21 +121,17 @@ public class Robot extends IterativeRobot {
 		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
-		winchTal = new WPI_TalonSRX(Ports.CAN.WINCH);
-		
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 				
 		sonar = new Sonar(Ports.Analog.SONAR); 
 		
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		
-		drivetrain = new Drivetrain(rearLeft, rearRight, frontLeft, frontRight, gyro, this);		
+		drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);		
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
 		
 		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-	
-		//winch = new Winch(winchTal);
-		
+			
 		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();
@@ -172,13 +153,11 @@ public class Robot extends IterativeRobot {
 		
 		accelerometer = new HMAccelerometer();
 		
-		elevatorControl = new Elevator(elevator);
+		elevatorControl = new Elevator(elevator,hingeControl);
 		elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge, this);
 		hingeControl.home();
-		
-		
 	}
 
 	/**
@@ -204,7 +183,14 @@ public class Robot extends IterativeRobot {
 		
 		//At this point we should know what auto run, where we started, and where our plates are located.
 		//So we are ready for autonomousPeriodic to be called.
-		updateToSmartDash(); 
+		updateToSmartDash();
+		
+		auton = new Auton(m_autoSelected, startPosition, gameData,
+				drivetrain, jack, miniDrivetrain,
+				hingeControl, grasper, elevatorControl,
+				camera, this);
+		
+		auton.initialize();
 	}
 
 	/**
@@ -212,147 +198,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// TODO Put custom auto code here
-				if (startPosition == START_POSITION_LEFT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						drivetrain.moveDistance(200); //324
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(+90);//Turn 90 degrees (+)
-						drivetrain.waitTurnAngleUsingPidController();
-						//Deliver cube at scale 
-						drivetrain.turnAngleUsingPidController(+90);//turn (+) 90 degrees
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							
-							miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(45);
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					} 
-					
-					else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(196);
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
-						drivetrain.waitTurnAngleUsingPidController();
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}						
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(12);
-						drivetrain.waitMoveDistance();
-						//Deliver cube 
-						drivetrain.moveDistance(0);//move back ___ in.
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					}
-				}
-				else if (startPosition == START_POSITION_CENTER)
-				{
-					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-					{
-						drivetrain.moveDistance(70);
-						drivetrain.waitMoveDistance();
-						jack.setPosition(Jack.Position.DOWN);
-						miniDrivetrain.moveDistance(120);
-						miniDrivetrain.waitMoveDistance();
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(70);
-						drivetrain.waitMoveDistance();
-						
-					}
-					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(140);
-						drivetrain.waitMoveDistance();
-					}	
-				}
-				else if (startPosition == START_POSITION_RIGHT)
-				{
-					if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-					{
-						drivetrain.moveDistance(324);	// Move forward 324 in
-						drivetrain.waitMoveDistance();
-						drivetrain.turnAngleUsingPidController(-90);//Turn 90 degrees (-)
-						drivetrain.waitTurnAngleUsingPidController();
-						//Deliver cube at scale 
-						drivetrain.turnAngleUsingPidController(-90);//turn (-) 90 degrees
-						jack.setPosition(Jack.Position.DOWN);
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						
-						{
-							miniDrivetrain.moveDistance(0);//Move Right ____ in 
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Right ____ in 
-						}
-						jack.setPosition(Jack.Position.UP);
-						drivetrain.moveDistance(45); // Move forward 45 in
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					
-					}
-					else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
-					{
-						jack.setPosition(Jack.Position.DOWN);
-						// go straight then go right then back get the closest cube and go to the switch 
-						if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-						{
-							miniDrivetrain.moveDistance(0);//Move Left ____ in 
-							miniDrivetrain.waitMoveDistance();
-						}
-						jack.setPosition(Jack.Position.DOWN);
-						drivetrain.moveDistance(45); // Move forward 45 in
-						drivetrain.waitMoveDistance();
-						//Pick up cube  
-						//Deliver cube 
-					}
-				}						
-				m_autoSelected = kDefaultAuto; // we are done so next we do nothing		
-				break;
-				
-			case kDefaultAuto:
-			default:
-				// We do nothing
-				break;
-		}
+		auton.execute();
 	}
 
 	@Override
 	public void teleopInit() {
 		drivetrain.stop(); // very important!
+		miniDrivetrain.stop();
+		elevatorControl.stop();
+		hingeControl.stop();
+		grasper.stop();
 		
 		gameData.update();
 	}
@@ -378,8 +233,8 @@ public class Robot extends IterativeRobot {
 		hingeControl.checkHome();
 		hingeControl.tripleCheckMove();
 		
-		//grasper.tripleCheckGraspUsingSonar(); - only enable if we want to stop automatically
-		//grasper.tripleCheckReleaseUsingSonar();
+		grasper.tripleCheckGraspUsingSonar(); // only enable if we want to stop automatically
+		grasper.tripleCheckReleaseUsingSonar();
 		
 		// drive train flag JJ-			
 		if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN4)
@@ -473,13 +328,21 @@ public class Robot extends IterativeRobot {
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
 			System.out.println("Button Pushed");
 			if (elevatorFlagUp) {
-				elevatorControl.moveUp();
-				System.out.println("Should be Moving");
-				elevatorFlagUp = false;
+				if (hingeControl.isDown()) {
+					elevatorControl.moveUp();
+					System.out.println("Elevator should be moving up");
+					elevatorFlagUp = false;
+				} else {
+					System.out.println("Lower hinge first!");
+				}
 			} else {
-				elevatorControl.moveDown();
-				System.out.println("Should be Moving");
-				elevatorFlagUp = true;
+				if (hingeControl.isDown()) {
+					elevatorControl.moveDown();
+					System.out.println("Elevator should be moving down");
+					elevatorFlagUp = true;
+				} else {
+					System.out.println("Lower hinge first!");
+				}
 			}
 		}
 		
@@ -488,11 +351,11 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button Pushed");
 			if (hingeFlagUp) {
 				hingeControl.moveUp();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving up");
 				hingeFlagUp = false;
 			} else {
 				hingeControl.moveDown();
-				System.out.println("Should be Moving");
+				System.out.println("Hinge should be moving downn");
 				hingeFlagUp = true;
 			}
 		}
@@ -505,7 +368,7 @@ public class Robot extends IterativeRobot {
 		}
 		else 
 		{
-			grasper.stop();	// for manual mode, remove if auto stop is desired	
+			//grasper.stop();	// for manual mode, remove if auto stop is desired	
 		}
 		
 		camera.acquireTargets(false);
@@ -541,13 +404,13 @@ public class Robot extends IterativeRobot {
 		updateToSmartDash();
 	}
 	
-	private void turnAngleUsingPidControllerTowardCube() {
+	public void turnAngleUsingPidControllerTowardCube() {
 		drivetrain.turnAngleUsingPidController(camera.getAngleToTurnToTarget());
 		/*drivetrain.turnAngleUsingPidController(calculateProperTurnAngle(
 				camera.getAngleToTurnToTarget(),camera.getDistanceToTargetUsingHorizontalFov()));*/
 	}
 	
-	private void moveDistanceTowardCube() {
+	public void moveDistanceTowardCube() {
 		final int OFFSET_CAMERA_CUBE_INCHES = 10; // we need to leave some space between the camera and the target
 		final int MAX_DISTANCE_TO_CUBE_INCHES = 120; // arbitrary very large distance
 		
@@ -588,6 +451,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
         SmartDashboard.putBoolean("Elevator Has Been Homed?", elevatorControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Elevator isDown", elevatorControl.isDown());
+        SmartDashboard.putBoolean("Elevator isMidway", elevatorControl.isMidway());
+        SmartDashboard.putBoolean("Elevator isUp", elevatorControl.isUp());
         
         SmartDashboard.putBoolean("Hinge Limit Switch", hingeControl.getLimitSwitchState());
         SmartDashboard.putNumber("Hinge Position", hingeControl.getPosition());
@@ -596,6 +462,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Hinge IsMoving?", hingeControl.isMoving());
         SmartDashboard.putNumber("Hinge Target", hingeControl.getTarget());
         SmartDashboard.putBoolean("Hinge Has Been Homed?", hingeControl.hasBeenHomed());
+        SmartDashboard.putBoolean("Hinge isDown", hingeControl.isDown());
+        SmartDashboard.putBoolean("Hinge isMidway", hingeControl.isMidway());
+        SmartDashboard.putBoolean("Hinge isUp", hingeControl.isUp());
         
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
         SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
