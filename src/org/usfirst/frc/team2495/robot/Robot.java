@@ -187,7 +187,8 @@ public class Robot extends IterativeRobot {
 		
 		auton = new Auton(m_autoSelected, startPosition, gameData,
 				drivetrain, jack, miniDrivetrain,
-				hingeControl, grasper, elevatorControl);
+				hingeControl, grasper, elevatorControl,
+				camera, this);
 		
 		auton.initialize();
 	}
@@ -403,13 +404,13 @@ public class Robot extends IterativeRobot {
 		updateToSmartDash();
 	}
 	
-	private void turnAngleUsingPidControllerTowardCube() {
+	public void turnAngleUsingPidControllerTowardCube() {
 		drivetrain.turnAngleUsingPidController(camera.getAngleToTurnToTarget());
 		/*drivetrain.turnAngleUsingPidController(calculateProperTurnAngle(
 				camera.getAngleToTurnToTarget(),camera.getDistanceToTargetUsingHorizontalFov()));*/
 	}
 	
-	private void moveDistanceTowardCube() {
+	public void moveDistanceTowardCube() {
 		final int OFFSET_CAMERA_CUBE_INCHES = 10; // we need to leave some space between the camera and the target
 		final int MAX_DISTANCE_TO_CUBE_INCHES = 120; // arbitrary very large distance
 		

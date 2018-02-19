@@ -15,10 +15,14 @@ public class Auton {
 	Hinge hinge;
 	Grasper grasper;
 	Elevator elevator;
+	
+	HMCamera camera;
+	Robot robot;
 
 	public Auton(String autoSelected_in, String startPosition_in, GameData gameData_in,
 			Drivetrain drivetrain_in, Jack jack_in, MiniDrivetrain miniDrivetrain_in,
-			Hinge hinge_in, Grasper grasper_in, Elevator elevator_in) {		
+			Hinge hinge_in, Grasper grasper_in, Elevator elevator_in,
+			HMCamera camera_in, Robot robot_in) {		
 		
 		autoSelected = autoSelected_in;
 		startPosition = startPosition_in;
@@ -31,6 +35,9 @@ public class Auton {
 		hinge = hinge_in;
 		grasper = grasper_in;
 		elevator = elevator_in;
+		
+		camera = camera_in;
+		robot = robot_in;
 	}
 	
 	public void initialize() {
