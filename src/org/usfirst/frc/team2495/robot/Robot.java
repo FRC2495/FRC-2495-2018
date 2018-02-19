@@ -31,14 +31,14 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 
 public class Robot extends IterativeRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
+	public static final String kDefaultAuto = "Default";
+	public static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	private static final String START_POSITION_LEFT = "Left";
-	private static final String START_POSITION_CENTER = "Center";
-	private static final String START_POSITION_RIGHT = "Right";
+	public static final String START_POSITION_LEFT = "Left";
+	public static final String START_POSITION_CENTER = "Center";
+	public static final String START_POSITION_RIGHT = "Right";
 	private String startPosition;
 	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
 	
