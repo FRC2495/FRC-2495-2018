@@ -57,12 +57,14 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
 					drivetrain.waitTurnAngleUsingPidController();
-					//Deliver cube at scale 
+					grasper.release();
 					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
-					drivetrain.moveDistance(50); //324
-					drivetrain.waitMoveDistance();
 					drivetrain.waitTurnAngleUsingPidController();
+					drivetrain.moveDistance(50); //324
+					drivetrain.waitMoveDistance();	
 					jack.setPosition(Jack.Position.DOWN);
+			
+					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
 						miniDrivetrain.moveDistance(30);//Move Left ____ in//Move Left ____ in 
@@ -70,27 +72,29 @@ public class Auton {
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						
+					
 						miniDrivetrain.moveDistance(210);//Move Left ____ in//Move Left ____ in
-						miniDrivetrain.waitMoveDistance();
-					}
+					miniDrivetrain.waitMoveDistance();
+				}
 					jack.setPosition(Jack.Position.UP);
 					drivetrain.moveDistance(10);
-					drivetrain.waitMoveDistance();
-					//Pick up cube  
-					//Deliver cube 
+				drivetrain.waitMoveDistance();
+					grasper.grasp();
+					elevator.moveMidway();
+					grasper.release();
 				} 
 				
-				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
-				{
+				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)/// this thing 
+			{
 					drivetrain.moveDistance(196);
 					drivetrain.waitMoveDistance();
-					drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
-					drivetrain.waitTurnAngleUsingPidController();
-					jack.setPosition(Jack.Position.DOWN);
-					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+				drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
+				drivetrain.waitTurnAngleUsingPidController();
+				jack.setPosition(Jack.Position.DOWN);
+				
+				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(30);//Move Left ____ in 
+					miniDrivetrain.moveDistance(30);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -101,11 +105,16 @@ public class Auton {
 					jack.setPosition(Jack.Position.UP);
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
-					//Deliver cube 
+					elevator.isMidway();
+					grasper.release();
+					elevator.moveDown();
 					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
-					//Pick up cube  
-					//Deliver cube 
+					elevator.moveDown();
+					grasper.grasp();
+					elevator.moveMidway();
+					grasper.release();
+					elevator.moveDown();
 				}
 			}
 			else if (startPosition == Robot.START_POSITION_CENTER)
