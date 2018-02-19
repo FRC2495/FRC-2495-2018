@@ -25,8 +25,8 @@ public class Grasper {
 
 	static final int TALON_TIMEOUT_MS = 10;
 
-	static final int GRASP_DISTANCE_INCHES = 18;
-	static final int RELEASE_DISTANCE_INCHES = 36;
+	static final int GRASP_DISTANCE_INCHES = 13;
+	static final int RELEASE_DISTANCE_INCHES = 19;
 	
 	BaseMotorController grasperLeft , grasperRight; 
 	Sonar sonar;
@@ -83,6 +83,7 @@ public class Grasper {
 		grasperLeft.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
 		
 		isGrasping = true;
+		isReleasing = false;
 		onTargetCount = 0;
 	}
 	
@@ -90,6 +91,7 @@ public class Grasper {
 		grasperLeft.set(ControlMode.PercentOutput, -MAX_PCT_OUTPUT);
 		
 		isReleasing = true;
+		isGrasping = false;
 		onTargetCount = 0;
 	}
 	
