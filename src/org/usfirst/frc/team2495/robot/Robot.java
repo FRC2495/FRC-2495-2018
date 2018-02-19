@@ -203,6 +203,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		drivetrain.stop(); // very important!
+		miniDrivetrain.stop();
+		elevatorControl.stop();
+		hingeControl.stop();
+		grasper.stop();
 		
 		gameData.update();
 	}
