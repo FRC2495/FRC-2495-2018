@@ -38,6 +38,7 @@ public class Auton {
 		
 		camera = camera_in;
 		robot = robot_in;
+		
 	}
 	
 	public void initialize() {
@@ -52,26 +53,29 @@ public class Auton {
 			{
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(200); //324
+					drivetrain.moveDistance(300); //324
 					drivetrain.waitMoveDistance();
-					drivetrain.turnAngleUsingPidController(+90);//Turn 90 degrees (+)
+					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
 					drivetrain.waitTurnAngleUsingPidController();
 					//Deliver cube at scale 
-					drivetrain.turnAngleUsingPidController(+90);//turn (+) 90 degrees
+					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
+					drivetrain.moveDistance(50); //324
+					drivetrain.waitMoveDistance();
+					drivetrain.waitTurnAngleUsingPidController();
 					jack.setPosition(Jack.Position.DOWN);
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in 
+						miniDrivetrain.moveDistance(30);//Move Left ____ in//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
 						
-						miniDrivetrain.moveDistance(0);//Move Left ____ in//Move Left ____ in
+						miniDrivetrain.moveDistance(210);//Move Left ____ in//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					jack.setPosition(Jack.Position.UP);
-					drivetrain.moveDistance(45);
+					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					//Pick up cube  
 					//Deliver cube 
@@ -86,19 +90,19 @@ public class Auton {
 					jack.setPosition(Jack.Position.DOWN);
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Left ____ in 
+						miniDrivetrain.moveDistance(30);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Left ____ in
+						miniDrivetrain.moveDistance(210);//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					jack.setPosition(Jack.Position.UP);
-					drivetrain.moveDistance(12);
+					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					//Deliver cube 
-					drivetrain.moveDistance(0);//move back ___ in.
+					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
 					//Pick up cube  
 					//Deliver cube 
@@ -128,24 +132,27 @@ public class Auton {
 			{
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(324);	// Move forward 324 in
+					drivetrain.moveDistance(300);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
-					drivetrain.turnAngleUsingPidController(-90);//Turn 90 degrees (-)
+					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
 					drivetrain.waitTurnAngleUsingPidController();
 					//Deliver cube at scale 
-					drivetrain.turnAngleUsingPidController(-90);//turn (-) 90 degrees
+					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
+					drivetrain.waitTurnAngleUsingPidController();
+					drivetrain.moveDistance(50);	// Move forward 324 in
+					drivetrain.waitMoveDistance();
 					jack.setPosition(Jack.Position.DOWN);
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					
 					{
-						miniDrivetrain.moveDistance(0);//Move Right ____ in 
+						miniDrivetrain.moveDistance(-30);//Move Right ____ in 
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Right ____ in 
+						miniDrivetrain.moveDistance(-210);//Move Right ____ in 
 					}
 					jack.setPosition(Jack.Position.UP);
-					drivetrain.moveDistance(45); // Move forward 45 in
+					drivetrain.moveDistance(10); // Move forward 45 in
 					drivetrain.waitMoveDistance();
 					//Pick up cube  
 					//Deliver cube 
