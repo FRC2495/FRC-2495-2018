@@ -145,14 +145,16 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
 					drivetrain.waitTurnAngleUsingPidController();
-					//Deliver cube at scale 
+					elevator.moveUp(); 
+					grasper.release(); 
 					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
+					elevator.moveDown();
 					drivetrain.moveDistance(50);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					jack.setPosition(Jack.Position.DOWN);
-					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					
+					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
 						miniDrivetrain.moveDistance(-30);//Move Right ____ in 
 					}
@@ -163,8 +165,10 @@ public class Auton {
 					jack.setPosition(Jack.Position.UP);
 					drivetrain.moveDistance(10); // Move forward 45 in
 					drivetrain.waitMoveDistance();
-					//Pick up cube  
-					//Deliver cube 
+					grasper.grasp();
+					elevator.moveMidway();
+					grasper.release();
+					elevator.moveDown();
 				
 				}
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
