@@ -63,6 +63,8 @@ public class Robot extends IterativeRobot {
 	
 	WPI_TalonSRX hinge; 
 	
+	BaseMotorController winch;
+	
 	Joystick joyLeft, joyRight;
 	Joystick gamepad;
 	
@@ -88,6 +90,8 @@ public class Robot extends IterativeRobot {
 	GameData gameData;
 	
 	HMAccelerometer accelerometer;
+	
+	Winch winchControl;
 	
 	Auton auton = null; // autonomous stuff
 
@@ -122,6 +126,8 @@ public class Robot extends IterativeRobot {
 		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
 		
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
+		
+		winch = new WPI_TalonSRX(Ports.CAN.WINCH);
 				
 		sonar = new Sonar(Ports.Analog.SONAR); 
 		
@@ -158,6 +164,8 @@ public class Robot extends IterativeRobot {
 		
 		hingeControl = new Hinge(hinge, this);
 		//hingeControl.home();
+		
+		winchControl = new Winch(winch, this);
 	}
 
 	/**
@@ -451,6 +459,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Cannot move to infinity and beyond!");
 		}		
 	}
+	
 	public void updateToSmartDash()
 	{
 		// Send Gyro val to Dashboard
@@ -513,6 +522,8 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Grasper IsGrasping?", grasper.isGrasping());
         SmartDashboard.putBoolean("Grasper IsReleasing?", grasper.isReleasing());
+        
+        SmartDashboard.putBoolean("Winch IsWinchingUp?", winchControl.isWinchingUp());
 	}
 	
 	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {

@@ -36,7 +36,7 @@ public class Winch {
 	Robot robot;
 	
 	
-	public Winch(BaseMotorController winch_in, BaseMotorController winchRight_in, Robot robot_in) {
+	public Winch(BaseMotorController winch_in, Robot robot_in) {
 		
 		winch = winch_in;
 				
