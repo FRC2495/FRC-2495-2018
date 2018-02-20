@@ -217,7 +217,7 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 					
-					drivetrain.moveDistance(36);	// Move forward 324 in
+					drivetrain.moveDistance(70);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
