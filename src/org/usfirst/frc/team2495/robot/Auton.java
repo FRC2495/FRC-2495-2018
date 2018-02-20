@@ -74,20 +74,20 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					drivetrain.moveDistance(50); //324
+					drivetrain.moveDistance(70); //324
 					drivetrain.waitMoveDistance();	
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(30);//Move Left ____ in//Move Left ____ in 
+						miniDrivetrain.moveDistance(36);//Move Left ____ in//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
 					
-						miniDrivetrain.moveDistance(210);//Move Left ____ in//Move Left ____ in
+						miniDrivetrain.moveDistance(144);//Move Left ____ in//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -108,7 +108,7 @@ public class Auton {
 				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)/// this thing 
 				{
-					drivetrain.moveDistance(196);
+					drivetrain.moveDistance(229);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
@@ -118,12 +118,12 @@ public class Auton {
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(30);//Move Left ____ in 
+						miniDrivetrain.moveDistance(144);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(210);//Move Left ____ in
+						miniDrivetrain.moveDistance(36);//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -144,8 +144,8 @@ public class Auton {
 					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
 					
-					elevator.moveDown();
-					elevator.waitMove();
+				//	elevator.moveDown();
+				//	elevator.waitMove();
 					
 					grasper.grasp();
 					grasper.waitGraspUsingSonar();
