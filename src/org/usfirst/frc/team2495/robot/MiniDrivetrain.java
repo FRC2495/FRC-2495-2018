@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class MiniDrivetrain implements PIDOutput {
+public class MiniDrivetrain{
 
 	// general settings
 	static final double DIAMETER_WHEEL_INCHES = 4;
@@ -29,20 +29,7 @@ public class MiniDrivetrain implements PIDOutput {
 	static final int TICKS_PER_REVOLUTION = 4096;
 	
 	static final int MINI_DRIVETRAIN_POLARITY = 1; 
-	
-	// turn settings
-	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
-	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
-	
-	static final double MIN_TURN_PCT_OUTPUT = 0.2;
-	static final double MAX_TURN_PCT_OUTPUT = 0.5;
-	
-	static final double TURN_PROPORTIONAL_GAIN = 0.04;
-	static final double TURN_INTEGRAL_GAIN = 0.0;
-	static final double TURN_DERIVATIVE_GAIN = 0.0;
-	
-	static final int DEGREE_THRESHOLD = 1;
-	
+		
 	
 	// move settings
 	static final int PRIMARY_PID_LOOP = 0;
@@ -66,7 +53,6 @@ public class MiniDrivetrain implements PIDOutput {
 	
 	// variables
 	boolean isMoving; // indicates that the MiniDrivetrain is moving using the PID controllers embedded on the motor controllers 
-	boolean isTurning;  // indicates that the MiniDrivetrain is turning using the PID controller hereunder
 	
 	double ltac, rtac; // target positions 
 
@@ -76,8 +62,6 @@ public class MiniDrivetrain implements PIDOutput {
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
 	
 	Robot robot; // a reference to the robot
-	
-	PIDController turnPidController; // the PID controller used to turn
 	
 	
 	public MiniDrivetrain(WPI_TalonSRX frontCenter_in,WPI_TalonSRX rearCenter_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
@@ -135,88 +119,11 @@ public class MiniDrivetrain implements PIDOutput {
 		*/
 		// set peak output to max in case if had been reduced previously
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
-		
-		//creates a PID controller
-		turnPidController = new PIDController(TURN_PROPORTIONAL_GAIN, TURN_INTEGRAL_GAIN, TURN_DERIVATIVE_GAIN, gyro, this, TURN_PID_CONTROLLER_PERIOD_SECONDS);
-    	
-    	turnPidController.setInputRange(-180, 180); // valid input range 
-    	turnPidController.setOutputRange(-MAX_TURN_PCT_OUTPUT, MAX_TURN_PCT_OUTPUT); // output range NOTE: might need to change signs
-    	
-    	turnPidController.setContinuous(true); // because -180 degrees is the same as 180 degrees (needs input range to be defined first)
-    	turnPidController.setAbsoluteTolerance(DEGREE_THRESHOLD); // 1 degree error tolerated
-		
+				
 		differentialDrive = new DifferentialDrive(frontCenter, rearCenter);
 		differentialDrive.setSafetyEnabled(false); // disables the stupid timeout error when we run in closed loop
 	}
 	
-	// this method needs to be paired with checkTurnAngleUsingPidController()
-	public void turnAngleUsingPidController(double angle) {
-		// switches to percentage vbus
-		stop(); // resets state
-		
-		gyro.reset(); // resets to zero for now
-		//double current = gyro.getAngle();
-		double heading = angle; //+ current; // calculates new heading
-		
-		turnPidController.setSetpoint(heading); // sets the heading
-		turnPidController.enable(); // begins running
-		
-		isTurning = true;
-		onTargetCount = 0;
-	}
-		
-	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
-	// It relies on its own counter
-	public boolean tripleCheckTurnAngleUsingPidController() {	
-		if (isTurning) {
-			boolean isOnTarget = turnPidController.onTarget();
-			
-			if (isOnTarget) { // if we are on target in this iteration 
-				onTargetCount++; // we increase the counter
-			} else { // if we are not on target in this iteration
-				if (onTargetCount > 0) { // even though we were on target at least once during a previous iteration
-					onTargetCount = 0; // we reset the counter as we are not on target anymore
-					System.out.println("Triple-check failed (turning).");
-				} else {
-					// we are definitely turning
-				}
-			}
-			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
-	        	isTurning = false;
-	        }
-			
-			if (!isTurning) {
-				System.out.println("You have reached the target (turning).");
-				stop();				 
-			}
-		}
-		return isTurning;
-	}
-	
-	// do not use in teleop - for auton only
-	public void waitTurnAngleUsingPidController() {
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		while (tripleCheckTurnAngleUsingPidController()) { 		
-			if (!DriverStation.getInstance().isAutonomous()
-					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
-				System.out.println("You went over the time limit (turning)");
-				stop();
-				break;
-			}
-
-			try {
-				Thread.sleep(20); // sleeps a little
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			robot.updateToSmartDash();
-		}		
-		stop();
-	}
-
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
@@ -291,41 +198,12 @@ public class MiniDrivetrain implements PIDOutput {
 		}
 	}
 	
-	private double arclength(int angle) // returns the inches needed to be moved
-	// to turn the specified angle
-	{
-		return Math.toRadians(angle) * RADIUS_DRIVEVETRAIN_INCHES;
-	}
-
-	// this method needs to be paired with checkMoveDistance()
-	public void moveDistanceAlongArc(int angle) {
-		double dist = arclength(angle);
-		double ldist, rdist;
-		
-		ldist = dist;
-		rdist = -dist;
-		
-		resetEncoders();
-		setPIDParameters();
-		
-		rtac = rdist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
-		ltac = ldist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
-		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
-		frontCenter.set(ControlMode.Position, -rtac);
-		rearCenter.set(ControlMode.Position, -ltac);
-		
-		isMoving = true;
-		onTargetCount = 0;
-	}
-	
 	public void stop() {
-		turnPidController.disable(); // exits PID loop
 		 
 		rearCenter.set(ControlMode.PercentOutput, 0);
 		frontCenter.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
-		isTurning = false;
 		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
 	}
@@ -381,7 +259,7 @@ public class MiniDrivetrain implements PIDOutput {
 	// joystick control
 	
 	{
-		if (!isMoving && !isTurning) // if we are already doing a move or turn we don't take over
+		if (!isMoving) // if we are already doing a move or turn we don't take over
 		{
 			if(!held)
 			{
@@ -426,26 +304,6 @@ public class MiniDrivetrain implements PIDOutput {
 	
 	public boolean isMoving() {
 		return isMoving;
-	}
-	
-	public boolean isTurning(){
-		return isTurning;
-	}
-
-	@Override
-	public void pidWrite(double output) {
-		
-		if(Math.abs(turnPidController.getError()) < DEGREE_THRESHOLD)
-		{
-			output = 0;
-		}
-		if(output != 0 && Math.abs(output) < MIN_TURN_PCT_OUTPUT)
-		{
-			double sign = output > 0 ? 1.0 : -1.0;
-			output = MIN_TURN_PCT_OUTPUT * sign;
-		}
-		frontCenter.set(ControlMode.PercentOutput, +output);
-		rearCenter.set(ControlMode.PercentOutput, -output);		
 	}	
 	
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.

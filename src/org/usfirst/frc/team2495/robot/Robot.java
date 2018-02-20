@@ -225,7 +225,6 @@ public class Robot extends IterativeRobot {
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
 		
 		miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
-		miniDrivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning*/
 		
 		elevatorControl.checkHome();
 		elevatorControl.tripleCheckMove();
