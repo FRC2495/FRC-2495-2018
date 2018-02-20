@@ -463,6 +463,12 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
         
+        SmartDashboard.putNumber("Mini Right Value", miniDrivetrain.getRightValue());
+        SmartDashboard.putNumber("Mini Left Value", miniDrivetrain.getLeftValue());
+        SmartDashboard.putNumber("Mini Right Enc Value", miniDrivetrain.getRightEncoderValue());
+        SmartDashboard.putNumber("Mini Left Enc Value", miniDrivetrain.getLeftEncoderValue());
+        SmartDashboard.putBoolean("Mini isMoving?", miniDrivetrain.isMoving());
+        
         SmartDashboard.putBoolean("isCompromised?", DriverStation.getInstance().isDisabled());
         
         SmartDashboard.putNumber("Distance to Target", camera.getDistanceToTargetUsingVerticalFov());
