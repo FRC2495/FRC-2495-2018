@@ -23,7 +23,7 @@ public class Elevator {
 	
 	static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
-	static final int LENGTH_OF_TRAVEL_INCHES = 37; // TODO set proper value
+	static final int LENGTH_OF_TRAVEL_INCHES = 39; // TODO set proper value
 	
 	static final double VIRTUAL_HOME_OFFSET_INCHES = 0.1; // position of virtual home compared to physical home
 	
