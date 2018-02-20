@@ -174,12 +174,12 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
-					miniDrivetrain.moveDistance(120);
+					miniDrivetrain.moveDistance(120); // double check this measurement
 					miniDrivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.UP);
 					
-					drivetrain.moveDistance(70);
+					drivetrain.moveDistance(190);
 					drivetrain.waitMoveDistance();
 					
 				}
