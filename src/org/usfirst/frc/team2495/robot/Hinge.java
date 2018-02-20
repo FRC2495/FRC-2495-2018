@@ -21,6 +21,7 @@ public class Hinge {
 	static final double GEAR_RATIO = 3.0; // TODO change if needed
 	
 	static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
+	static final int FAKE_HOME_POSITION_TICKS = ANGLE_TO_TRAVEL_TICKS; 
 	
 	static final double VIRTUAL_HOME_OFFSET_TICKS = 6000; // position of virtual home compared to physical home
 	
@@ -146,6 +147,26 @@ public class Hinge {
 			homePart2(); // we start part 2 directly
 		}
 	}
+	
+	// DO NOT TRY THIS AT HOME
+	// This is to fake homing the hinge when we cannot home it for real (e.g. because we have a cube loaded).
+	// It might be useful in auton... 
+	// And unlike the real home there is no need to wait for this method.
+	public void fakeHome() {
+		hasBeenHomed = false; // flags that it has not been homed
+		
+		if (getLimitSwitchState()) { // there is a limit to how far we want to fake things... 						
+			System.out.println("REFUSING TO FAKE HOME WHEN YOU COULD HOME!");
+			return;
+		}
+		
+		stop(); // we get out of closed-loop if we were
+		// At this point we should be in percent output mode. This is needed to set the sensor position
+		
+		hinge.setSelectedSensorPosition(FAKE_HOME_POSITION_TICKS, PRIMARY_PID_LOOP, TALON_TIMEOUT_MS); // we claim to be at the fake home
+		
+		hasBeenHomed = true;
+	}
 
 	// this method need to be called to assess the homing progress
 	// (and it takes care of going to step 2 if needed)
@@ -199,6 +220,28 @@ public class Hinge {
         }
 	        
 		return true;
+	}
+	
+	// do not use in teleop - for auton only
+	public void waitHome() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (checkHome()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (hinge homing)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
 	}
 	
 	// This method should be called to assess the progress of a move

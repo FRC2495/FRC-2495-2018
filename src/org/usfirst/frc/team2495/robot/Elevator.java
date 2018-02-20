@@ -219,6 +219,28 @@ public class Elevator {
 		return true;
 	}
 	
+	// do not use in teleop - for auton only
+	public void waitHome() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (checkHome()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (elevator homing)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
+	}
+	
 	// This method should be called to assess the progress of a move
 	public boolean tripleCheckMove() {
 		if (isMoving) {

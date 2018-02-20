@@ -52,6 +52,11 @@ public class Auton {
 			// start position left
 			jack.setPosition(Jack.Position.UP); // just in case
 			
+			hinge.fakeHome(); // just in case, no need to wait
+			
+			elevator.home();
+			elevator.waitHome();
+			
 			if (startPosition == Robot.START_POSITION_LEFT)
 			{
 				// start position left && scale left
