@@ -179,8 +179,14 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.UP);
 					
-					drivetrain.moveDistance(190);
+					drivetrain.moveDistance(70);
 					drivetrain.waitMoveDistance();
+				
+					elevator.moveMidway();
+					elevator.waitMove();
+					
+					grasper.release();
+					grasper.tripleCheckReleaseUsingSonar();
 					
 				}
 				// start position center && switch right
@@ -188,7 +194,15 @@ public class Auton {
 				{
 					drivetrain.moveDistance(140);
 					drivetrain.waitMoveDistance();
+					
+					elevator.moveMidway();
+					elevator.waitMove();
+					
+					grasper.release();
+					grasper.tripleCheckReleaseUsingSonar();
+							
 				}	
+				
 			}
 			// start position right
 			else if (startPosition == Robot.START_POSITION_RIGHT)
