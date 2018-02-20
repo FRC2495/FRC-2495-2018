@@ -2,13 +2,14 @@
  * 
  */
 package org.usfirst.frc.team2495.robot;
-import java.util.Calendar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 /**
  * @author Christian 
@@ -24,6 +25,8 @@ public class Winch {
 	static final int TIMEOUT_MS = 5000;
 
 	static final int TALON_TIMEOUT_MS = 10;
+	
+	protected static final long WINCH_STOP_DELAY_MS = 500; // TODO tune
 
 	BaseMotorController winch; 
 	
@@ -61,19 +64,25 @@ public class Winch {
 	}
 	
 
-	public void winchUp() {
+	public synchronized void winchUp() {
 		winch.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
-		
+						
 		isWinchingUp = true;
+		
+		Timer timer = new Timer();
+		timer.schedule(new WinchStopTask(this), WINCH_STOP_DELAY_MS);
 	}
 	
-	public void winchDown() {
+	public synchronized void winchDown() {
 		winch.set(ControlMode.PercentOutput, -MAX_PCT_OUTPUT);
 		
 		isWinchingDown = true;
+		
+		Timer timer = new Timer();
+		timer.schedule(new WinchStopTask(this), WINCH_STOP_DELAY_MS);
 	}
 	
-	public void stop() {
+	public synchronized void stop() {
 		winch.set(ControlMode.PercentOutput, 0);
 		
 		isWinchingUp = false;
@@ -91,11 +100,11 @@ public class Winch {
 		winch.configNominalOutputReverse(0, TALON_TIMEOUT_MS);
 	}
 	
-	public boolean isWinchingUp() {
+	public synchronized boolean isWinchingUp() {
 		return isWinchingUp;
 	}
 	
-	public boolean isWinchingDown(){
+	public synchronized boolean isWinchingDown(){
 		return isWinchingDown;
 	}
 
@@ -104,6 +113,20 @@ public class Winch {
 	{
 		winch.set(ControlMode.PercentOutput, joystick.getY());
 	}
+	
+	private class WinchStopTask extends TimerTask {
+		Winch winch;
+
+		public WinchStopTask(Winch winch_in) {
+			this.winch = winch_in;
+		}
+
+		@Override
+		public void run() {
+			winch.stop();
+		}
+	}	
+
 }
 
 
