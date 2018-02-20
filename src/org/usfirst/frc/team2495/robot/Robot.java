@@ -154,10 +154,10 @@ public class Robot extends IterativeRobot {
 		accelerometer = new HMAccelerometer();
 		
 		elevatorControl = new Elevator(elevator,hingeControl);
-		elevatorControl.home();
+		//elevatorControl.home();
 		
 		hingeControl = new Hinge(hinge, this);
-		hingeControl.home();
+		//hingeControl.home();
 	}
 
 	/**
@@ -237,8 +237,8 @@ public class Robot extends IterativeRobot {
 		grasper.tripleCheckReleaseUsingSonar();
 		
 		// drive train flag JJ-			
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3)
-				|| control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN4))
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2)
+				|| control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
 		{
 			if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
@@ -253,13 +253,13 @@ public class Robot extends IterativeRobot {
 		}
 						
 		if(largeDriveTrainSelected){
-			drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
-		                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+			drivetrain.joystickControl(joyLeft, joyRight, true);
 		}
 		else
 		{
-			miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
-	                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+			//miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+	        //        || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
+			miniDrivetrain.joystickControl(joyLeft, joyRight, true);
 		}
 		
 		//hingeControl.joystickControl(joyRight);
@@ -313,11 +313,10 @@ public class Robot extends IterativeRobot {
 			elevatorControl.home();
 		}
 		
-		/*if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10) ||
-				control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			hingeControl.home();
-		}*/
+		}
 		
 		//elevator bound to start
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
@@ -352,11 +351,17 @@ public class Robot extends IterativeRobot {
 				hingeFlagUp = true;
 			}
 		}
-			
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) { 
+
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) { 
+			hingeControl.moveMidway();
+			System.out.println("Hinge should be midway");
+			hingeFlagUp = false;
+		}
+
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
 			grasper.grasp();
 		}
-		else if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
+		else if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.B)) {
 			grasper.release();
 		}
 		else 
