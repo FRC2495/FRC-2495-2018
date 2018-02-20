@@ -152,7 +152,8 @@ public class Hinge {
 	// This is to fake homing the hinge when we cannot home it for real (e.g. because we have a cube loaded).
 	// It might be useful in auton... 
 	// And unlike the real home there is no need to wait for this method.
-	public void fakeHome() {
+	// THIS ASSUMES THAT THE HINGE IS ALL THE WAY DOWN!
+	public void fakeHomeWhenDown() {
 		hasBeenHomed = false; // flags that it has not been homed
 		
 		if (getLimitSwitchState()) { // there is a limit to how far we want to fake things... 						

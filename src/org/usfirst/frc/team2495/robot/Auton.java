@@ -48,15 +48,15 @@ public class Auton {
 	public void execute() {		
 		switch (autoSelected) {
 		case Robot.kCustomAuto:
-			// TODO Put custom auto code here
-			// start position left
+			// homing
 			jack.setPosition(Jack.Position.UP); // just in case
 			
-			hinge.fakeHome(); // just in case, no need to wait
+			hinge.fakeHomeWhenDown(); // just in case, no need to wait
 			
-			elevator.home();
+			elevator.home(); // never an issue if we faked home
 			elevator.waitHome();
-			
+
+			// start position left
 			if (startPosition == Robot.START_POSITION_LEFT)
 			{
 				// start position left && scale left
@@ -296,11 +296,22 @@ public class Auton {
 					grasper.waitReleaseUsingSonar();
 				}
 			}						
-			autoSelected = Robot.kDefaultAuto; // we are done so next we do nothing		
+			autoSelected = "we are done"; // this is ok because we have a default case		
 			break;
 			
 		case Robot.kDefaultAuto:
-		default:
+			// homing only
+			jack.setPosition(Jack.Position.UP); // just in case
+			
+			hinge.fakeHomeWhenDown(); // just in case, no need to wait
+			
+			elevator.home(); // never an issue if we faked home
+			elevator.waitHome();
+			
+			autoSelected = "we are done"; // this is ok because we have a default case
+			break;
+			
+		default: // aka "we are done"
 			// We do nothing
 			break;
 		} // end switch
