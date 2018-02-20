@@ -236,9 +236,8 @@ public class Robot extends IterativeRobot {
 		grasper.tripleCheckGraspUsingSonar(); // - only enable if we want to stop automatically
 		grasper.tripleCheckReleaseUsingSonar();
 		
-		// drive train flag JJ-			
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2)
-				|| control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
+		// Jack up or down the robot to switch between main or mini drivetrain			
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
 		{
 			if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
@@ -251,15 +250,18 @@ public class Robot extends IterativeRobot {
 				jack.setPosition(Jack.Position.UP);
 			}			
 		}
-						
+		
+		//Joystick drive only using right joystick
 		if(largeDriveTrainSelected){
-			drivetrain.joystickControl(joyLeft, joyRight, true);
+			//drivetrain.joystickControl(joyLeft, joyRight, true);
+			drivetrain.joystickControl(joyRight, joyRight, true);
 		}
 		else
 		{
 			//miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
 	        //        || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
-			miniDrivetrain.joystickControl(joyLeft, joyRight, true);
+//			miniDrivetrain.joystickControl(joyLeft, joyRight, true);
+			miniDrivetrain.joystickControl(joyRight, joyRight, true);
 		}
 		
 		//hingeControl.joystickControl(joyRight);
@@ -267,7 +269,7 @@ public class Robot extends IterativeRobot {
 				
 		
 		//Stops the robot moving if pressed
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6) || control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN7))
 		{
 			drivetrain.stop();
 			miniDrivetrain.stop();
@@ -276,7 +278,7 @@ public class Robot extends IterativeRobot {
 			grasper.stop();
 		}
 		
-		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN6))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
@@ -284,7 +286,8 @@ public class Robot extends IterativeRobot {
 			elevatorControl.home();
 			hingeControl.home();
 		}
-		else if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
+		
+		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
 		{
 			drivetrain.moveDistance(50);
 		}
@@ -298,17 +301,21 @@ public class Robot extends IterativeRobot {
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
 		}
-		else if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN8))
+
+		//Turn the Robot towards the cube
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
 			turnAngleUsingPidControllerTowardCube();
 		}
-		else if(control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN9))
+		
+		//Move straight towards the cube 
+		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
 			moveDistanceTowardCube();
 		}
 		
 		
-		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10))
+/*		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN10))
 		{
 			elevatorControl.home();
 		}
@@ -317,9 +324,19 @@ public class Robot extends IterativeRobot {
 		{
 			hingeControl.home();
 		}
+*/
+		//Home Elevator
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) { 
+			elevatorControl.home();
+		}
 		
-		//elevator bound to start
-		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) {
+		//Home Hinge
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) { 
+			hingeControl.home();
+		}
+		
+		//elevator up and down using Left button
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.L3)) {
 			System.out.println("Button Pushed");
 			
 			if (!hingeControl.isDown()) {
@@ -338,8 +355,19 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		
+		//Use Left bumper to move elevator midway (switch)
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LB)) { 
+			if (!hingeControl.isDown()) {
+				System.out.println("Lower hinge first!");
+				return;
+			}
+			elevatorControl.moveMidway();
+			System.out.println("Elevator should be midway");
+			elevatorFlagUp = false;
+		}
+
 		//hinge bound to back
-		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) {
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
 			System.out.println("Button Pushed");
 			if (hingeFlagUp) {
 				hingeControl.moveUp();
@@ -352,10 +380,11 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) { 
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) { 
 			hingeControl.moveMidway();
 			System.out.println("Hinge should be midway");
 			hingeFlagUp = false;
+
 		}
 
 		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
