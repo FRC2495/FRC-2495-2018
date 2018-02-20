@@ -67,16 +67,24 @@ public class Winch {
 	public synchronized void winchUp() {
 		winch.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
 						
-		isWinchingUp = true;
-		
-		Timer timer = new Timer();
-		timer.schedule(new WinchStopTask(this), WINCH_STOP_DELAY_MS);
+		isWinchingUp = true;		
 	}
 	
 	public synchronized void winchDown() {
 		winch.set(ControlMode.PercentOutput, -MAX_PCT_OUTPUT);
 		
 		isWinchingDown = true;
+	}
+	
+	public synchronized void winchUpAndStop() {
+		winchUp();
+		
+		Timer timer = new Timer();
+		timer.schedule(new WinchStopTask(this), WINCH_STOP_DELAY_MS);
+	}
+	
+	public synchronized void winchDownAndStop() {
+		winchDown();
 		
 		Timer timer = new Timer();
 		timer.schedule(new WinchStopTask(this), WINCH_STOP_DELAY_MS);
