@@ -283,8 +283,8 @@ public class Robot extends IterativeRobot {
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
-			elevatorControl.home();
-			hingeControl.home();
+			//elevatorControl.home();
+			//hingeControl.home();
 		}
 		
 		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
