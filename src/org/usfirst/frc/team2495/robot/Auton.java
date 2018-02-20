@@ -217,19 +217,19 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 					
-					drivetrain.moveDistance(50);	// Move forward 324 in
+					drivetrain.moveDistance(36);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
-						miniDrivetrain.moveDistance(-30);//Move Right ____ in 
+						miniDrivetrain.moveDistance(-36);//Move Right ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-210);//Move Right ____ in
+						miniDrivetrain.moveDistance(-144);//Move Right ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -256,7 +256,7 @@ public class Auton {
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(196);
+					drivetrain.moveDistance(229);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);
@@ -266,19 +266,19 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(30);//Move Left ____ in 
+						miniDrivetrain.moveDistance(36);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(0);//Move Left ____ in 
+						miniDrivetrain.moveDistance(144);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
-					drivetrain.moveDistance(45); // Move forward 45 in
-					drivetrain.waitMoveDistance();
+					//drivetrain.moveDistance(45); // Move forward 45 in
+					//drivetrain.waitMoveDistance();
 					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
