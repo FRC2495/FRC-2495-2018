@@ -49,21 +49,30 @@ public class Auton {
 		switch (autoSelected) {
 		case Robot.kCustomAuto:
 			// TODO Put custom auto code here
+			// start position left
+			jack.setPosition(Jack.Position.UP); // just in case
+			
 			if (startPosition == Robot.START_POSITION_LEFT)
 			{
+				// start position left && scale left
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
 					drivetrain.moveDistance(300); //324
 					drivetrain.waitMoveDistance();
+					
 					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
 					drivetrain.waitTurnAngleUsingPidController();
+					
 					grasper.release();
+					grasper.waitReleaseUsingSonar();
+					
 					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
+					
 					drivetrain.moveDistance(50); //324
 					drivetrain.waitMoveDistance();	
+					
 					jack.setPosition(Jack.Position.DOWN);
-			
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
@@ -74,27 +83,37 @@ public class Auton {
 					{
 					
 						miniDrivetrain.moveDistance(210);//Move Left ____ in//Move Left ____ in
-					miniDrivetrain.waitMoveDistance();
-				}
+						miniDrivetrain.waitMoveDistance();
+					}
+					
 					jack.setPosition(Jack.Position.UP);
+					
 					drivetrain.moveDistance(10);
-				drivetrain.waitMoveDistance();
+					drivetrain.waitMoveDistance();
+					
 					grasper.grasp();
+					grasper.waitGraspUsingSonar();
+					
 					elevator.moveMidway();
+					elevator.waitMove();
+					
 					grasper.release();
+					grasper.waitReleaseUsingSonar();
 				} 
-				
+				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)/// this thing 
-			{
+				{
 					drivetrain.moveDistance(196);
 					drivetrain.waitMoveDistance();
-				drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
-				drivetrain.waitTurnAngleUsingPidController();
-				jack.setPosition(Jack.Position.DOWN);
+					
+					drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
+					drivetrain.waitTurnAngleUsingPidController();
+					
+					jack.setPosition(Jack.Position.DOWN);
 				
-				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-					miniDrivetrain.moveDistance(30);//Move Left ____ in 
+						miniDrivetrain.moveDistance(30);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -102,87 +121,142 @@ public class Auton {
 						miniDrivetrain.moveDistance(210);//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
+					
 					jack.setPosition(Jack.Position.UP);
+					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
+					
 					elevator.isMidway();
+					elevator.waitMove();
+					
 					grasper.release();
+					grasper.waitReleaseUsingSonar();
+					
 					elevator.moveDown();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
+					
 					elevator.moveDown();
+					elevator.waitMove();
+					
 					grasper.grasp();
+					grasper.waitGraspUsingSonar();
+					
 					elevator.moveMidway();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
+					
 					grasper.release();
+					grasper.waitReleaseUsingSonar();
+					
 					elevator.moveDown();
+					elevator.waitMove();
 				}
 			}
+			// start position center
 			else if (startPosition == Robot.START_POSITION_CENTER)
 			{
+				// start position center && switch left
 				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 				{
 					drivetrain.moveDistance(70);
 					drivetrain.waitMoveDistance();
+					
 					jack.setPosition(Jack.Position.DOWN);
+					
 					miniDrivetrain.moveDistance(120);
 					miniDrivetrain.waitMoveDistance();
+					
 					jack.setPosition(Jack.Position.UP);
+					
 					drivetrain.moveDistance(70);
 					drivetrain.waitMoveDistance();
 					
 				}
+				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 				{
 					drivetrain.moveDistance(140);
 					drivetrain.waitMoveDistance();
 				}	
 			}
+			// start position right
 			else if (startPosition == Robot.START_POSITION_RIGHT)
 			{
+				// start position right && plate right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
 					drivetrain.moveDistance(300);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
+					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
 					drivetrain.waitTurnAngleUsingPidController();
-					elevator.moveUp(); 
+					
+					elevator.moveUp();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
-					grasper.release(); 
+					
+					grasper.release();
+					grasper.waitReleaseUsingSonar();
+					
 					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
+					
 					elevator.moveDown();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(50);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
+					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
 						miniDrivetrain.moveDistance(-30);//Move Right ____ in 
+						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-210);//Move Right ____ in 
+						miniDrivetrain.moveDistance(-210);//Move Right ____ in
+						miniDrivetrain.waitMoveDistance();
 					}
+					
 					jack.setPosition(Jack.Position.UP);
+					
 					drivetrain.moveDistance(10); // Move forward 45 in
 					drivetrain.waitMoveDistance();
+					
 					grasper.grasp();
+					grasper.waitGraspUsingSonar();
+					
 					elevator.moveMidway();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
+					
 					grasper.release();
+					grasper.waitReleaseUsingSonar();
+					
 					elevator.moveDown();
-				
+					elevator.waitMove();
 				}
+				// start position right && plate left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
 					drivetrain.moveDistance(196);
 					drivetrain.waitMoveDistance();
+					
 					drivetrain.turnAngleUsingPidController(180);
 					drivetrain.waitTurnAngleUsingPidController();
+					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -195,16 +269,26 @@ public class Auton {
 						miniDrivetrain.moveDistance(0);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
+					
 					jack.setPosition(Jack.Position.DOWN);
+					
 					drivetrain.moveDistance(45); // Move forward 45 in
 					drivetrain.waitMoveDistance();
+					
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
+					
 					grasper.grasp();
+					grasper.waitGraspUsingSonar();
+					
 					elevator.moveMidway();
+					elevator.waitMove();
+					
 					drivetrain.moveDistance(10);
-					grasper.release();
-				
+					drivetrain.waitMoveDistance();
+					
+					grasper.release();			
+					grasper.waitReleaseUsingSonar();
 				}
 			}						
 			autoSelected = Robot.kDefaultAuto; // we are done so next we do nothing		
