@@ -127,7 +127,7 @@ public class Auton {
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					
-					elevator.isMidway();
+					elevator.moveMidway();
 					elevator.waitMove();
 					
 					grasper.release();
