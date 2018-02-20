@@ -188,7 +188,7 @@ public class Auton {
 			// start position right
 			else if (startPosition == Robot.START_POSITION_RIGHT)
 			{
-				// start position right && plate right
+				// start position right && scale right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
 					drivetrain.moveDistance(300);	// Move forward 324 in
@@ -248,7 +248,7 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 				}
-				// start position right && plate left
+				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
 					drivetrain.moveDistance(196);
