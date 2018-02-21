@@ -8,9 +8,13 @@ public class AutonTester {
 	public static void main(String[] args) {
 		
 		String autoSelected= Robot.kCustomAuto;
+		
+		// CHANGE THE STARTING POSITION HERE (START_POSITION_LEFT or START_POSITION_CENTER or START_POSITION_RIGHT)
 		String startPosition = Robot.START_POSITION_LEFT;
 		
 		EmulatedGameData gameData = new EmulatedGameData();
+		
+		// CHANGE THE GAME SPECIFIC MESSAGE HERE (LLL or LRL or RLR or RRR)
 		gameData.setGameSpecificMessage("LRL");
 
 		IDrivetrain drivetrain = new EmulatedDrivetrain();
