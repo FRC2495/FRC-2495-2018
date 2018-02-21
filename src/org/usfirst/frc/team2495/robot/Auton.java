@@ -41,20 +41,25 @@ public class Auton {
 		
 	}
 	
+	// this method should be called once from autonomousInit() so that we always start in a known state
 	public void initialize() {
+		jack.setPosition(Jack.Position.UP); // just in case in was not up
 		
+		if (!hinge.hasBeenHomed()) { // just in case somebody forgot to home
+			hinge.home(); 
+			hinge.waitHome();
+		}
+		
+		if (!elevator.hasBeenHomed()) { // just in case somebody forgot to home
+			elevator.home(); 
+			elevator.waitHome();	
+		}
 	}
 	
+	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
 	public void execute() {		
 		switch (autoSelected) {
 		case Robot.kCustomAuto:
-			// homing
-			jack.setPosition(Jack.Position.UP); // just in case
-			
-			hinge.fakeHomeWhenDown(); // just in case, no need to wait
-			
-			elevator.home(); // never an issue if we faked home
-			elevator.waitHome();
 
 			// start position left
 			if (startPosition == Robot.START_POSITION_LEFT)
@@ -326,19 +331,12 @@ public class Auton {
 			break;
 			
 		case Robot.kDefaultAuto:
-			// homing only
-			jack.setPosition(Jack.Position.UP); // just in case
-			
-			hinge.fakeHomeWhenDown(); // just in case, no need to wait
-			
-			elevator.home(); // never an issue if we faked home
-			elevator.waitHome();
 			
 			autoSelected = "we are done"; // this is ok because we have a default case
 			break;
 			
 		default: // aka "we are done"
-			// We do nothing
+			// We do nothing (except looping)
 			break;
 		} // end switch
 	} // end execute()	
