@@ -10,8 +10,10 @@ public class AutonTester {
 		String autoSelected= Robot.kCustomAuto;
 		String startPosition = Robot.START_POSITION_LEFT;
 		
-		// todo create emulated devices and pass them
-		GameData gameData = null;
+		EmulatedGameData gameData = new EmulatedGameData();
+		gameData.setGameSpecificMessage("LRL");
+
+		// todo create missing emulated devices
 		Drivetrain drivetrain = null;
 		IJack jack = new EmulatedJack();
 		MiniDrivetrain miniDrivetrain = null;

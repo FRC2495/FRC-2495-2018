@@ -1,26 +1,19 @@
-package org.usfirst.frc.team2495.robot;
+package org.usfirst.frc.team2495.emulator;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team2495.robot.*;
+import org.usfirst.frc.team2495.robot.GameData.Plate;
 
-public class GameData implements IGameData{
+
+public class EmulatedGameData implements IGameData{
 	
-	public enum Plate {
-		UNKNOWN,
-		LEFT,
-		RIGHT,
+	private String gameData = null;
+	
+	public void setGameSpecificMessage(String gameData_in) {
+		gameData = gameData_in;
 	}
-
-	private String gameData;
 	
 	// this method needs to be called to retrieve the data once on the transition to Autonomous Enabled
 	public void update() {
-		DriverStation driverStation = DriverStation.getInstance();
-		
-		if (driverStation != null) {
-			gameData = driverStation.getGameSpecificMessage();
-		} else {
-			gameData = null;
-		}
 	}
 	
 	public Plate getAssignedPlateAtFirstSwitch() {
