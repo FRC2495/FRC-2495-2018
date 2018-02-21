@@ -245,7 +245,7 @@ public class Robot extends IterativeRobot {
 		//RIGHT JOYSTICK
 		
 		//Joystick drive only using right joystick
-		if(largeDriveTrainSelected){
+		if (largeDriveTrainSelected) {
 			//drivetrain.joystickControl(joyLeft, joyRight, true);
 			drivetrain.joystickControl(joyRight, joyRight, true);
 		}
@@ -258,28 +258,42 @@ public class Robot extends IterativeRobot {
 		}			
 		
 		// Jack up or down the robot to switch between main or mini drivetrain			
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
 		{
-			if(largeDriveTrainSelected){
+			//if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
 				System.out.println("jack down");
 				jack.setPosition(Jack.Position.DOWN);
-			}
-			else{
+			//}
+			//else{
+			//	largeDriveTrainSelected = true; 
+			//	System.out.println("jack up");
+			//	jack.setPosition(Jack.Position.UP);
+			//}			
+		}
+		
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3))
+		{
+			//if(largeDriveTrainSelected){
+			//	largeDriveTrainSelected = false; 
+			//	System.out.println("jack down");
+			//	jack.setPosition(Jack.Position.DOWN);
+			//}
+			//else{
 				largeDriveTrainSelected = true; 
 				System.out.println("jack up");
 				jack.setPosition(Jack.Position.UP);
-			}			
+			//}			
 		}
 			
 		//Turn the Robot towards the cube
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
 			turnAngleUsingPidControllerTowardCube();
 		}
 		
 		//Move straight towards the cube 
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
 			moveDistanceTowardCube();
 		}
@@ -292,7 +306,7 @@ public class Robot extends IterativeRobot {
 		}		
 		
 		//Stops the robot moving if pressed
-		if(control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN7))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN7))
 		{
 			drivetrain.stop();
 			miniDrivetrain.stop();
@@ -303,10 +317,7 @@ public class Robot extends IterativeRobot {
 		
 		
 		// LEFT JOYSTICK
-		
-		//hingeControl.joystickControl(joyLeft);
-		elevatorControl.joystickControl(joyLeft);
-		
+						
 		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
 		{
 			drivetrain.moveDistance(50);
@@ -320,6 +331,16 @@ public class Robot extends IterativeRobot {
 		{
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
+		}
+		
+		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
+		{
+			elevatorControl.joystickControl(joyLeft);
+		}
+		
+		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN9))
+		{
+			hingeControl.joystickControl(joyLeft);
 		}
 	
 		
@@ -386,8 +407,9 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
-		// TODO ADD SECOND KEY ON JOYSTICK
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
+		// THIS REQUIRES 2 KEYS
+		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
+				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
 			winchControl.winchUp();
 		}
 		else 
@@ -395,10 +417,10 @@ public class Robot extends IterativeRobot {
 			winchControl.stop();	// for manual mode, remove if auto stop is desired	
 		}
 
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
 			grasper.grasp();
 		}
-		else if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.B)) {
+		else if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.B)) {
 			grasper.release();
 		}
 		else 
