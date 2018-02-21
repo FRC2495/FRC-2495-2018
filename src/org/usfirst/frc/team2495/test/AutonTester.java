@@ -22,6 +22,15 @@ public class AutonTester {
 		
 		HMCamera camera = null;
 		Robot robot = null;
+		
+		System.out.println("AutonTester started with following settings:");
+		
+		System.out.println("Auto selected: " + autoSelected);	
+		System.out.println("Start position: " + startPosition);
+		
+		System.out.println("First switch: " + gameData.getAssignedPlateAtFirstSwitch());
+		System.out.println("Scale: " + gameData.getAssignedPlateAtScale());
+		System.out.println("Second switch: " + gameData.getAssignedPlateAtSecondSwitch());
 
 		Auton auton = new Auton(autoSelected, startPosition, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot);
 		
@@ -29,6 +38,8 @@ public class AutonTester {
 		
 		// todo put in a loop
 		auton.execute();
+		
+		System.out.println("AutonTester finished");
 	}
 
 }

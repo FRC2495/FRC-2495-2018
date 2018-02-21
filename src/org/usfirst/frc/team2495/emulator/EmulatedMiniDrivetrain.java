@@ -11,9 +11,11 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	{	
 	}
 	
+	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
+		System.out.println("MiniDrivetrain: BEGIN move distance: " + dist + " inches");
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -22,12 +24,9 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
+		System.out.println("MiniDrivetrain: END move distance");
 	}
-	
-	// this method needs to be paired with checkMoveDistance()
-	public void moveDistanceAlongArc(int angle) {
-	}
-	
+		
 	public void stop() {
 	}
     

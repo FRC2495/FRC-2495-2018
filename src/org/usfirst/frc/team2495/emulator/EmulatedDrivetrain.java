@@ -14,6 +14,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
+		System.out.println("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees");
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -24,11 +25,13 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	// do not use in teleop - for auton only
 	public void waitTurnAngleUsingPidController() {
+		System.out.println("Drivetrain: END turn angle using PID controller");
 	}
 
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
+		System.out.println("Drivetrain: BEGIN move distance: " + dist + " inches");
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -37,10 +40,12 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
+		System.out.println("Drivetrain: END move distance");
 	}
 	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
+		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
 	}
 	
 	public void stop() {

@@ -15,12 +15,12 @@ public class EmulatedHinge implements IHinge {
 		return false; // we fake hinge is down
 	}
 
-	
 	// homes the hinge
 	// This is done in two steps:
 	// step 1: if not already at the switch, we go down slowly until we hit the limit switch.
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
+		System.out.println("Hinge: BEGIN home");
 	}
 	
 	// DO NOT TRY THIS AT HOME
@@ -29,6 +29,7 @@ public class EmulatedHinge implements IHinge {
 	// And unlike the real home there is no need to wait for this method.
 	// THIS ASSUMES THAT THE HINGE IS ALL THE WAY DOWN!
 	public void fakeHomeWhenDown() {
+		System.out.println("Hinge: fake home");
 	}
 
 	// this method need to be called to assess the homing progress
@@ -40,6 +41,7 @@ public class EmulatedHinge implements IHinge {
 	
 	// do not use in teleop - for auton only
 	public void waitHome() {		
+		System.out.println("Hinge: END home");
 	}
 	
 	// This method should be called to assess the progress of a move
@@ -49,15 +51,19 @@ public class EmulatedHinge implements IHinge {
 
 	// do not use in teleop - for auton only
 	public void waitMove() {
+		System.out.println("Hinge: END move");
 	}
 	
 	public void moveUp() {
+		System.out.println("Hinge: BEGIN move up");
 	}
 
 	public void moveMidway() {		
+		System.out.println("Hinge: BEGIN move midway");
 	}
 	
 	public void moveDown() {
+		System.out.println("Hinge: BEGIN move down");
 	}
 
 	public double getPosition() {

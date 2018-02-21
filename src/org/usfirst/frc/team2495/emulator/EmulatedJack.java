@@ -15,12 +15,12 @@ public class EmulatedJack implements IJack{
 		{
 			case DOWN:
 			{
-				System.out.println("Jack's solenoid set to reverse");
+				System.out.println("Jack: set position down (MiniDrivetrain)");
 				break;
 			}
 			case UP:
 			{
-				System.out.println("Jack's solenoid set to forward");
+				System.out.println("Jack: set position up (Drivetrain)");
 				break;
 			}
 			default:

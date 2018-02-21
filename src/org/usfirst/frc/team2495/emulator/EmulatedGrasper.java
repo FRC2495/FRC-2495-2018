@@ -11,9 +11,11 @@ public class EmulatedGrasper implements IGrasper{
 	
 
 	public void grasp() {
+		System.out.println("Grasper: BEGIN grasp");
 	}
 	
 	public void release() {
+		System.out.println("Grasper: BEGIN release");
 	}
 	
 	public void stop() {
@@ -26,6 +28,7 @@ public class EmulatedGrasper implements IGrasper{
 	
 	// do not use in teleop - for auton only
 	public void waitGraspUsingSonar() {
+		System.out.println("Grasper: END grasp");
 	}
 	
 	public boolean tripleCheckReleaseUsingSonar() {
@@ -34,6 +37,7 @@ public class EmulatedGrasper implements IGrasper{
 	
 	// do not use in teleop - for auton only
 	public void waitReleaseUsingSonar() {
+		System.out.println("Grasper: END release");
 	}
 		
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES

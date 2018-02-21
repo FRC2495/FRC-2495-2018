@@ -20,6 +20,7 @@ public class EmulatedElevator implements IElevator {
 	// step 1: if not already at the switch, we go down slowly until we hit the limit switch.
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
+		System.out.println("Elevator: BEGIN home");
 	}
 
 	// this method need to be called to assess the homing progress
@@ -30,7 +31,8 @@ public class EmulatedElevator implements IElevator {
 
 	
 	// do not use in teleop - for auton only
-	public void waitHome() {		
+	public void waitHome() {
+		System.out.println("Elevator: END home");
 	}
 	
 	// This method should be called to assess the progress of a move
@@ -40,15 +42,19 @@ public class EmulatedElevator implements IElevator {
 
 	// do not use in teleop - for auton only
 	public void waitMove() {
+		System.out.println("Elevator: END move");
 	}
 	
 	public void moveUp() {
+		System.out.println("Elevator: BEGIN move up");
 	}
 
 	public void moveMidway() {		
+		System.out.println("Elevator: BEGIN move midway");
 	}
 	
 	public void moveDown() {
+		System.out.println("Elevator: BEGIN move down");
 	}
 
 	public double getPosition() {

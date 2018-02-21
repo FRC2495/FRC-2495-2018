@@ -38,10 +38,6 @@ public interface IElevator {
 
 	public boolean isHoming();
 	
-	//public boolean isHomingPart1();
-	
-	//public boolean isHomingPart2();
-
 	public boolean isMoving();
 	
 	public boolean isUp();

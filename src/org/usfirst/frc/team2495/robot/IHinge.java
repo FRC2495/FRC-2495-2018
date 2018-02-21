@@ -44,10 +44,6 @@ public interface IHinge {
 	public double getEncPosition();
 
 	public boolean isHoming();
-	
-	//public boolean isHomingPart1();
-	
-	//public boolean isHomingPart2();
 
 	public boolean isMoving();
 	
