@@ -466,7 +466,7 @@ public class Elevator {
 	{
 		if (!isMoving && !isHoming()) // if we are already doing a move we don't take over
 		{
-			elevator.set(ControlMode.PercentOutput, joystick.getY());
+			elevator.set(ControlMode.PercentOutput, -joystick.getY());
 		}
 	}
 	

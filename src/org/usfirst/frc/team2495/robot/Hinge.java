@@ -455,7 +455,7 @@ public class Hinge {
 	{
 		if (!isMoving && !isHoming()) // if we are already doing a move we don't take over
 		{
-			hinge.set(ControlMode.PercentOutput, joystick.getY());
+			hinge.set(ControlMode.PercentOutput, -joystick.getY());
 		}
 	}	
 	
