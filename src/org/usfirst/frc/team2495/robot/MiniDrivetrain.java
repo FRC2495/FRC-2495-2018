@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class MiniDrivetrain{
 
 	// general settings
-	static final double DIAMETER_WHEEL_INCHES = 4;
+	static final double DIAMETER_WHEEL_INCHES = 5;
 	static final double PERIMETER_WHEEL_INCHES = DIAMETER_WHEEL_INCHES * Math.PI;
 	
 	static final int TIMEOUT_MS = 15000;	
