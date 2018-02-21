@@ -14,14 +14,14 @@ public class Auton {
 	
 	IHinge hinge;
 	Grasper grasper;
-	Elevator elevator;
+	IElevator elevator;
 	
 	HMCamera camera;
 	Robot robot;
 
 	public Auton(String autoSelected_in, String startPosition_in, IGameData gameData_in,
 			Drivetrain drivetrain_in, IJack jack_in, MiniDrivetrain miniDrivetrain_in,
-			IHinge hinge_in, Grasper grasper_in, Elevator elevator_in,
+			IHinge hinge_in, Grasper grasper_in, IElevator elevator_in,
 			HMCamera camera_in, Robot robot_in) {		
 		
 		autoSelected = autoSelected_in;

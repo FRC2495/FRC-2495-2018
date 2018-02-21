@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import java.util.Calendar;
 
-public class Elevator {
+public class Elevator implements IElevator {
 	
 	// general settings
 	
@@ -23,7 +23,7 @@ public class Elevator {
 	
 	static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
-	static final int LENGTH_OF_TRAVEL_INCHES = 39; // TODO set proper value
+	public static final int LENGTH_OF_TRAVEL_INCHES = 39; // TODO set proper value
 	
 	static final double VIRTUAL_HOME_OFFSET_INCHES = 0.1; // position of virtual home compared to physical home
 	

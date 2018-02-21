@@ -19,7 +19,7 @@ public class AutonTester {
 		MiniDrivetrain miniDrivetrain = null;
 		IHinge hinge = new EmulatedHinge();
 		Grasper grasper = null;
-		Elevator elevator = null;
+		IElevator elevator = new EmulatedElevator();
 		HMCamera camera = null;
 		Robot robot = null;
 
