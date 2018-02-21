@@ -342,17 +342,22 @@ public class Robot extends IterativeRobot {
 		{
 			hingeControl.joystickControl(joyLeft);
 		}
+		
+		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
+		{
+			winchControl.joystickControl(joyLeft);
+		}
 	
 		
 		// GAMEPAD
 
 		//Home Elevator
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) { 
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) { 
 			elevatorControl.home();
 		}
 		
 		//Home Hinge
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) { 
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) { 
 			hingeControl.home();
 		}
 		
@@ -377,7 +382,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		//Use Left bumper to move elevator midway (switch)
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LB)) { 
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LB)) { 
 			if (!hingeControl.isDown()) {
 				System.out.println("Lower hinge first!");
 				return;
@@ -387,7 +392,7 @@ public class Robot extends IterativeRobot {
 			elevatorFlagUp = false;
 		}
 		
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.RB)) { 
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.RB)) { 
 			hingeControl.moveMidway();
 			System.out.println("Hinge should be midway");
 			hingeFlagUp = false;
@@ -408,8 +413,10 @@ public class Robot extends IterativeRobot {
 		}
 
 		// THIS REQUIRES 2 KEYS
-		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
-				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
+		//if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
+		//		control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
+			
+		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
 			winchControl.winchUp();
 		}
 		else 
