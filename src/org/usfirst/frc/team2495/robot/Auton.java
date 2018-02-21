@@ -81,13 +81,13 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(36);//Move Left ____ in//Move Left ____ in 
+						miniDrivetrain.moveDistance(-36);//Move Left ____ in//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
 					
-						miniDrivetrain.moveDistance(144);//Move Left ____ in//Move Left ____ in
+						miniDrivetrain.moveDistance(-144);//Move Left ____ in//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -118,12 +118,12 @@ public class Auton {
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(144);//Move Left ____ in 
+						miniDrivetrain.moveDistance(-144);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(36);//Move Left ____ in
+						miniDrivetrain.moveDistance(-36);//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -174,7 +174,7 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
-					miniDrivetrain.moveDistance(120); // double check this measurement
+					miniDrivetrain.moveDistance(-120); // double check this measurement
 					miniDrivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.UP);
@@ -238,12 +238,12 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
-						miniDrivetrain.moveDistance(-36);//Move Right ____ in 
+						miniDrivetrain.moveDistance(36);//Move Right ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-144);//Move Right ____ in
+						miniDrivetrain.moveDistance(144);//Move Right ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 					
