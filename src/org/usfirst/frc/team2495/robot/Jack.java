@@ -3,7 +3,7 @@ package org.usfirst.frc.team2495.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 // a class to raise the outer/main drivetrain (by lowering the inner/mini drivetrain)
-public class Jack {
+public class Jack implements IJack{
 	
 	DoubleSolenoid downup;
 

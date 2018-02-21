@@ -9,7 +9,7 @@ public class Auton {
 	GameData gameData;
 	
 	Drivetrain drivetrain;
-	Jack jack;
+	IJack jack;
 	MiniDrivetrain miniDrivetrain;
 	
 	Hinge hinge;
@@ -20,7 +20,7 @@ public class Auton {
 	Robot robot;
 
 	public Auton(String autoSelected_in, String startPosition_in, GameData gameData_in,
-			Drivetrain drivetrain_in, Jack jack_in, MiniDrivetrain miniDrivetrain_in,
+			Drivetrain drivetrain_in, IJack jack_in, MiniDrivetrain miniDrivetrain_in,
 			Hinge hinge_in, Grasper grasper_in, Elevator elevator_in,
 			HMCamera camera_in, Robot robot_in) {		
 		

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2495.test;
 
 import org.usfirst.frc.team2495.robot.*;
+import org.usfirst.frc.team2495.emulator.*;
 
 public class AutonTester {
 
@@ -12,7 +13,7 @@ public class AutonTester {
 		// todo create emulated devices and pass them
 		GameData gameData = null;
 		Drivetrain drivetrain = null;
-		Jack jack = null;
+		IJack jack = new EmulatedJack();
 		MiniDrivetrain miniDrivetrain = null;
 		Hinge hinge = null;
 		Grasper grasper = null;
