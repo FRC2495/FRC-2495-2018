@@ -91,7 +91,7 @@ public class MiniDrivetrain{
 		// In order for limit switches and closed-loop features to function properly the sensor and motor has to be in-phase.
 		// This means that the sensor position must move in a positive direction as the motor controller drives positive output.  
 		frontCenter.setSensorPhase(true);
-		rearCenter.setSensorPhase(true);	
+		rearCenter.setSensorPhase(false);	
 		
 		// Disables limit switches
 		frontCenter.overrideLimitSwitchesEnable(false);
