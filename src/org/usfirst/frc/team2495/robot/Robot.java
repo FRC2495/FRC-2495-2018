@@ -421,7 +421,10 @@ public class Robot extends IterativeRobot {
 		}
 		else 
 		{
-			winchControl.stop();	// for manual mode, remove if auto stop is desired	
+			if (!control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
+			{
+				winchControl.stop();	// for manual mode, remove if auto stop is desired	
+			}
 		}
 
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
