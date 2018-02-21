@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * @author Joshua
  *
  */
-public class Grasper {
+public class Grasper implements IGrasper{
 
 	/**
 	 * 

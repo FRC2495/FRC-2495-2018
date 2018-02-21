@@ -18,7 +18,7 @@ public class AutonTester {
 		IJack jack = new EmulatedJack();
 		MiniDrivetrain miniDrivetrain = null;
 		IHinge hinge = new EmulatedHinge();
-		Grasper grasper = null;
+		IGrasper grasper = new EmulatedGrasper();
 		IElevator elevator = new EmulatedElevator();
 		HMCamera camera = null;
 		Robot robot = null;

@@ -13,7 +13,7 @@ public class Auton {
 	MiniDrivetrain miniDrivetrain;
 	
 	IHinge hinge;
-	Grasper grasper;
+	IGrasper grasper;
 	IElevator elevator;
 	
 	HMCamera camera;
@@ -21,7 +21,7 @@ public class Auton {
 
 	public Auton(String autoSelected_in, String startPosition_in, IGameData gameData_in,
 			Drivetrain drivetrain_in, IJack jack_in, MiniDrivetrain miniDrivetrain_in,
-			IHinge hinge_in, Grasper grasper_in, IElevator elevator_in,
+			IHinge hinge_in, IGrasper grasper_in, IElevator elevator_in,
 			HMCamera camera_in, Robot robot_in) {		
 		
 		autoSelected = autoSelected_in;
