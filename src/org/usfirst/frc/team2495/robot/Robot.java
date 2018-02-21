@@ -242,18 +242,14 @@ public class Robot extends IterativeRobot {
 		grasper.tripleCheckReleaseUsingSonar();
 		
 		
-		//RIGHT JOYSTICK
+		//RIGHT JOYSTICK //RIGHT JOYSTICK //RIGHT JOYSTICK //RIGHT JOYSTICK //RIGHT JOYSTICK
 		
 		//Joystick drive only using right joystick
 		if (largeDriveTrainSelected) {
-			//drivetrain.joystickControl(joyLeft, joyRight, true);
 			drivetrain.joystickControl(joyRight, joyRight, true);
 		}
 		else
 		{
-			//miniDrivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
-	        //        || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
-//			miniDrivetrain.joystickControl(joyLeft, joyRight, true);
 			miniDrivetrain.joystickControl(joyRight, joyRight, true);
 		}			
 		
@@ -298,6 +294,7 @@ public class Robot extends IterativeRobot {
 			moveDistanceTowardCube();
 		}
 
+		//Resets encoders (and gyro) "Reset"
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
 			drivetrain.resetEncoders();
@@ -305,7 +302,7 @@ public class Robot extends IterativeRobot {
 			gyro.reset(); // resets to zero
 		}		
 		
-		//Stops the robot moving if pressed
+		//Stops the robot moving if pressed (or any closed loop operation) "Abort"
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN7))
 		{
 			drivetrain.stop();
@@ -316,7 +313,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		// LEFT JOYSTICK
+		// LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK
 						
 		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
 		{
@@ -331,6 +328,12 @@ public class Robot extends IterativeRobot {
 		{
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
+		}
+		
+		// TODO: document this option
+		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN6))
+		{
+			grasper.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
@@ -349,7 +352,7 @@ public class Robot extends IterativeRobot {
 		}
 	
 		
-		// GAMEPAD
+		// GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD
 
 		//Home Elevator
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) { 
@@ -361,7 +364,7 @@ public class Robot extends IterativeRobot {
 			hingeControl.home();
 		}
 		
-		//elevator up and down using Left button
+		//elevator up and down using Left L3 button
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.L3)) {
 			System.out.println("Button Pushed");
 			
@@ -392,13 +395,14 @@ public class Robot extends IterativeRobot {
 			elevatorFlagUp = false;
 		}
 		
+		//Use Right bumper to move hinge midway (throw)
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.RB)) { 
 			hingeControl.moveMidway();
 			System.out.println("Hinge should be midway");
 			hingeFlagUp = false;
 		}
 
-		//hinge bound to back
+		//hinge bound to X
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
 			System.out.println("Button Pushed");
 			if (hingeFlagUp) {
@@ -412,11 +416,9 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
-		// THIS REQUIRES 2 KEYS
-		//if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
-		//		control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
-			
-		if (control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
+		// THIS REQUIRES 2 KEYS (nuclear option)			
+		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
+				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
 			winchControl.winchUp();
 		}
 		else 
