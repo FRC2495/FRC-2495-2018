@@ -29,6 +29,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
 public class Robot extends IterativeRobot {
+	
+	// set the following two constants to true if using a proto/second bot with no hinge and/or no elevator
+	public static final boolean HINGE_DISABLED = false;
+	public static final boolean ELEVATOR_DISABLED = false;	
+	
 	public static final String kDefaultAuto = "Default";
 	public static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;

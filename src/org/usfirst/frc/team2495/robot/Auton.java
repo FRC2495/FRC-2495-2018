@@ -45,12 +45,12 @@ public class Auton {
 	public void initialize() {
 		jack.setPosition(Jack.Position.UP); // just in case in was not up
 		
-		if (!hinge.hasBeenHomed()) { // just in case somebody forgot to home
+		if (!hinge.hasBeenHomed() && !Robot.HINGE_DISABLED) { // just in case somebody forgot to home
 			hinge.home(); 
 			hinge.waitHome();
 		}
 		
-		if (!elevator.hasBeenHomed()) { // just in case somebody forgot to home
+		if (!elevator.hasBeenHomed() && !Robot.ELEVATOR_DISABLED) { // just in case somebody forgot to home
 			elevator.home(); 
 			elevator.waitHome();	
 		}
