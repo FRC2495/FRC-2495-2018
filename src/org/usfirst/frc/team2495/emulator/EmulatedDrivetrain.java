@@ -14,7 +14,15 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
-		System.out.println("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees");
+		System.out.print("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees ");
+		
+		if (angle > 0) {
+			System.out.println("(turn right " + Math.abs(angle) + " degrees)");
+		} else if (angle < 0) {
+			System.out.println("(turn left " + Math.abs(angle) + " degrees)");
+		} else {
+			System.out.println("(no move)");
+		}
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -31,7 +39,15 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
-		System.out.println("Drivetrain: BEGIN move distance: " + dist + " inches");
+		System.out.print("Drivetrain: BEGIN move distance: " + dist + " inches ");
+		
+		if (dist > 0) {
+			System.out.println("(move forward " + Math.abs(dist) + " inches)");
+		} else if (dist < 0) {
+			System.out.println("(move back " + Math.abs(dist) + " inches)");
+		} else {
+			System.out.println("(no move)");
+		}
 	}
 	
 	public boolean tripleCheckMoveDistance() {

@@ -46,15 +46,15 @@ public class EmulatedElevator implements IElevator {
 	}
 	
 	public void moveUp() {
-		System.out.println("Elevator: BEGIN move up");
+		System.out.println("Elevator: BEGIN move up (move up to scale)");
 	}
 
 	public void moveMidway() {		
-		System.out.println("Elevator: BEGIN move midway");
+		System.out.println("Elevator: BEGIN move midway (move up to switch)");
 	}
 	
 	public void moveDown() {
-		System.out.println("Elevator: BEGIN move down");
+		System.out.println("Elevator: BEGIN move down (move down)");
 	}
 
 	public double getPosition() {

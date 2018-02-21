@@ -11,11 +11,11 @@ public class EmulatedGrasper implements IGrasper{
 	
 
 	public void grasp() {
-		System.out.println("Grasper: BEGIN grasp");
+		System.out.println("Grasper: BEGIN grasp (grasp cube)");
 	}
 	
 	public void release() {
-		System.out.println("Grasper: BEGIN release");
+		System.out.println("Grasper: BEGIN release (release cube)");
 	}
 	
 	public void stop() {

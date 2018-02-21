@@ -15,7 +15,15 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
-		System.out.println("MiniDrivetrain: BEGIN move distance: " + dist + " inches");
+		System.out.print("MiniDrivetrain: BEGIN move distance: " + dist + " inches ");
+		
+		if (dist > 0) {
+			System.out.println("(slide right " + Math.abs(dist) + " inches)");
+		} else if (dist < 0) {
+			System.out.println("(slide left " + Math.abs(dist) + " inches)");
+		} else {
+			System.out.println("(no move)");
+		}		
 	}
 	
 	public boolean tripleCheckMoveDistance() {

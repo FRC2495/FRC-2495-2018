@@ -55,15 +55,15 @@ public class EmulatedHinge implements IHinge {
 	}
 	
 	public void moveUp() {
-		System.out.println("Hinge: BEGIN move up");
+		System.out.println("Hinge: BEGIN move up (retracted)");
 	}
 
 	public void moveMidway() {		
-		System.out.println("Hinge: BEGIN move midway");
+		System.out.println("Hinge: BEGIN move midway (ready to release)");
 	}
 	
 	public void moveDown() {
-		System.out.println("Hinge: BEGIN move down");
+		System.out.println("Hinge: BEGIN move down (ready to grasp)");
 	}
 
 	public double getPosition() {
