@@ -12,14 +12,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import java.util.Calendar;
 
-public class Hinge {
+public class Hinge implements IHinge {
 	
 	// general settings
 	static final int TIMEOUT_MS = 15000;
 	
 	static final double GEAR_RATIO = 3.0; // TODO change if needed
 	
-	static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
+	public static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
 	static final int FAKE_HOME_POSITION_TICKS = ANGLE_TO_TRAVEL_TICKS; 
 	
 	static final double VIRTUAL_HOME_OFFSET_TICKS = 6000; // position of virtual home compared to physical home
