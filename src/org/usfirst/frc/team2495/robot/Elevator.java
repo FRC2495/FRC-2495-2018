@@ -64,8 +64,10 @@ public class Elevator {
     
     Hinge hinge;
     
-	public Elevator(WPI_TalonSRX elevator_in) {
+	public Elevator(WPI_TalonSRX elevator_in, Robot robot_in) {
 		elevator = elevator_in;
+		
+		robot = robot_in;
 		
 		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
 		// As of right now, there are two options when setting the neutral mode of a motor controller,
@@ -105,8 +107,8 @@ public class Elevator {
 		isMovingUp = false;
 	}
 	
-	public Elevator(WPI_TalonSRX elevator_in, Hinge hinge_in) {
-		this(elevator_in);
+	public Elevator(WPI_TalonSRX elevator_in, Hinge hinge_in, Robot robot_in) {
+		this(elevator_in, robot_in);
 		
 		hinge = hinge_in;
 	}

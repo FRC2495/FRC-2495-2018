@@ -68,8 +68,20 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
 					drivetrain.waitTurnAngleUsingPidController();
 					
+					elevator.moveUp();
+					elevator.waitMove();
+					
+					hinge.moveMidway();
+					hinge.waitMove();
+					
 					grasper.release();
 					grasper.waitReleaseUsingSonar();
+					
+					hinge.moveDown();
+					hinge.waitMove();
+					
+					elevator.moveDown();
+					elevator.waitMove();
 					
 					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();

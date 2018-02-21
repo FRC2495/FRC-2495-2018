@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
 		
 		accelerometer = new HMAccelerometer();
 		
-		elevatorControl = new Elevator(elevator,hingeControl);
+		elevatorControl = new Elevator(elevator, hingeControl, this);
 		
 		hingeControl = new Hinge(hinge, this);
 		
