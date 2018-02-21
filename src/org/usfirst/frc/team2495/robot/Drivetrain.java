@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drivetrain implements PIDOutput {
+public class Drivetrain implements PIDOutput, IDrivetrain {
 
 	// general settings
 	static final double DIAMETER_WHEEL_INCHES = 5;

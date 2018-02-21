@@ -13,13 +13,13 @@ public class AutonTester {
 		EmulatedGameData gameData = new EmulatedGameData();
 		gameData.setGameSpecificMessage("LRL");
 
-		// todo create missing emulated devices
-		Drivetrain drivetrain = null;
+		IDrivetrain drivetrain = new EmulatedDrivetrain();
 		IJack jack = new EmulatedJack();
-		MiniDrivetrain miniDrivetrain = null;
+		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain();
 		IHinge hinge = new EmulatedHinge();
 		IGrasper grasper = new EmulatedGrasper();
 		IElevator elevator = new EmulatedElevator();
+		
 		HMCamera camera = null;
 		Robot robot = null;
 
