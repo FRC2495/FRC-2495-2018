@@ -82,11 +82,7 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	public boolean isMoving() {
 		return false;
 	}
-	
-	public boolean isTurning(){
-		return false;
-	}
-	
+		
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
 	public void resetEncoders() {

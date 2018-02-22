@@ -2,12 +2,19 @@ package org.usfirst.frc.team2495.emulator;
 
 import org.usfirst.frc.team2495.robot.*;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDOutput;
 
 
 public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 
+	int leftEncoder = 0;
+	int rightEncoder = 0;
+	
+	int gyro = 0;
+	
 	public EmulatedDrivetrain() 
 	{	
 	}
@@ -23,6 +30,20 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		} else {
 			System.out.println("(no move)");
 		}
+		
+		gyro = (int)angle;
+		
+		double dist = arclength((int)angle);
+		double ldist, rdist;
+		
+		ldist = dist;
+		rdist = -dist;
+		
+		int rtac = (int)(rdist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+
+		rightEncoder = -rtac;
+		leftEncoder = -ltac;		
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -48,6 +69,15 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		} else {
 			System.out.println("(no move)");
 		}
+		
+		int ltac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+		int rtac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+				
+		ltac = - ltac;
+		rtac = - rtac;
+		
+		leftEncoder = ltac;
+		rightEncoder = rtac;
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -59,9 +89,29 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		System.out.println("Drivetrain: END move distance");
 	}
 	
+	private double arclength(int angle) // returns the inches needed to be moved
+	// to turn the specified angle
+	{
+		return Math.toRadians(angle) * Drivetrain.RADIUS_DRIVEVETRAIN_INCHES;
+	}
+	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
 		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
+		
+		gyro = angle;
+		
+		double dist = arclength(angle);
+		double ldist, rdist;
+		
+		ldist = dist;
+		rdist = -dist;
+		
+		int rtac = (int)(rdist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
+
+		rightEncoder = -rtac;
+		leftEncoder = -ltac;
 	}
 	
 	public void stop() {
@@ -81,22 +131,22 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	}	
 	
 	public int getRightEncoderValue() {
-		return 123456789;
+		return rightEncoder;
 	}
 
 	public int getLeftEncoderValue() {
-		return 12345789;
+		return leftEncoder;
 	}
 
 	public int getRightValue() {
-		return 12345;
+		return (int) (rightEncoder*Drivetrain.PERIMETER_WHEEL_INCHES/Drivetrain.TICKS_PER_REVOLUTION);
 	}
 
 	public int getLeftValue() {
-		return 12345;
+		return (int) (leftEncoder*Drivetrain.PERIMETER_WHEEL_INCHES/Drivetrain.TICKS_PER_REVOLUTION);
 	}
 	
-	public boolean isMoving() {
+	public boolean isMoving(){
 		return false;
 	}
 	
@@ -112,6 +162,8 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
 	public void resetEncoders() {
+		leftEncoder = 0;
+		rightEncoder = 0;
 	}	
 }
 
