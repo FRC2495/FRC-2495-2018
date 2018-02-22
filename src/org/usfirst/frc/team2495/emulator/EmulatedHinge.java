@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2495.emulator;
 
+import java.text.DecimalFormat;
+
 import org.usfirst.frc.team2495.robot.*;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -57,7 +59,9 @@ public class EmulatedHinge implements IHinge {
 	}
 	
 	public void printState() {
-		System.out.println("Hinge: STATE homed = " + hasBeenHomed() + ", position = " + getPosition() + " degrees" + 
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		System.out.println("Hinge: STATE homed = " + hasBeenHomed() + ", position = " + df.format(getPosition()) + " degrees" + 
 				", down = " + isDown() + ", midway = " + isMidway() + ", up = " + isUp() + "\n");
 	}
 	

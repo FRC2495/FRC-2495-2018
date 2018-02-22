@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2495.robot;
 
+import java.text.DecimalFormat;
+
 public class PositionTracker {
 	
 	double x = 0.0;
@@ -35,8 +37,10 @@ public class PositionTracker {
 	}
 	
 	public void printState() {
-		System.out.println("PositionTracker: STATE x = " + x + ", y = " + y + " , " +
-				"z = " + z + ", heading = " + heading + "\n");
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		System.out.println("PositionTracker: STATE x = " + df.format(x) + " inches, y = " + df.format(y) + " inches, " +
+				"z = " + df.format(z) + " inches, heading = " + df.format(heading) + " degrees\n");
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2495.emulator;
 
+import java.text.DecimalFormat;
+
 import org.usfirst.frc.team2495.robot.*;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -49,7 +51,9 @@ public class EmulatedElevator implements IElevator {
 	}
 
 	public void printState() {
-		System.out.println("Elevator: STATE homed = " + hasBeenHomed() + ", position = " + getPosition() + " inches, " +
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		System.out.println("Elevator: STATE homed = " + hasBeenHomed() + ", position = " + df.format(getPosition()) + " inches, " +
 				"down = " + isDown() + ", midway = " + isMidway() + ", up = " + isUp() + "\n");
 	}
 	
