@@ -13,7 +13,10 @@ public class EmulatedElevator implements IElevator {
 	
 	boolean hasBeenHomed = false;
 	
-	public EmulatedElevator() {
+	IHinge hinge;
+	
+	public EmulatedElevator(IHinge hinge_in) {
+		hinge = hinge_in;
 	}
 
 	// returns the state of the limit switch

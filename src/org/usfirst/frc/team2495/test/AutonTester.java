@@ -17,12 +17,13 @@ public class AutonTester {
 		// CHANGE THE GAME SPECIFIC MESSAGE HERE (LLL or LRL or RLR or RRR)
 		gameData.setGameSpecificMessage("LRL");
 
-		IDrivetrain drivetrain = new EmulatedDrivetrain();
 		IJack jack = new EmulatedJack();
-		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain();
+		IDrivetrain drivetrain = new EmulatedDrivetrain(jack);
+		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain(jack);
+		
 		IHinge hinge = new EmulatedHinge();
-		IGrasper grasper = new EmulatedGrasper();
-		IElevator elevator = new EmulatedElevator();
+		IElevator elevator = new EmulatedElevator(hinge);
+		IGrasper grasper = new EmulatedGrasper(hinge,elevator);
 		
 		HMCamera camera = null;
 		Robot robot = null;

@@ -5,10 +5,13 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class EmulatedGrasper implements IGrasper{
 
+	IHinge hinge;
+	IElevator elevator;
 	
-	public EmulatedGrasper() {
+	public EmulatedGrasper(IHinge hinge_in, IElevator elevator_in) {
+		hinge = hinge_in;
+		elevator = elevator_in;
 	}
-	
 
 	public void grasp() {
 		System.out.println("Grasper: BEGIN grasp (grasp cube)");
@@ -20,7 +23,6 @@ public class EmulatedGrasper implements IGrasper{
 	
 	public void stop() {
 	}
-	
 	
 	public boolean tripleCheckGraspUsingSonar() {
 		return false;

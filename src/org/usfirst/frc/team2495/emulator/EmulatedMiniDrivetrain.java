@@ -11,8 +11,11 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	int leftEncoder = 0;
 	int rightEncoder = 0;
 	
-	public EmulatedMiniDrivetrain() 
+	IJack jack;
+	
+	public EmulatedMiniDrivetrain(IJack jack_in)
 	{	
+		jack_in = jack;
 	}	
 	
 	// this method needs to be paired with checkMoveDistance()

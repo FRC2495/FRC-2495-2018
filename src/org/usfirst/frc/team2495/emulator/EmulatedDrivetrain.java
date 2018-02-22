@@ -2,8 +2,6 @@ package org.usfirst.frc.team2495.emulator;
 
 import org.usfirst.frc.team2495.robot.*;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDOutput;
 
@@ -15,8 +13,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	int gyro = 0;
 	
-	public EmulatedDrivetrain() 
+	IJack jack;
+	
+	public EmulatedDrivetrain(IJack jack_in)
 	{	
+		jack_in = jack;
 	}
 	
 	// this method needs to be paired with checkTurnAngleUsingPidController()
