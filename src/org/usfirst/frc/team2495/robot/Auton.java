@@ -18,11 +18,13 @@ public class Auton {
 	
 	HMCamera camera;
 	Robot robot;
+	
+	PositionTracker tracker;
 
 	public Auton(String autoSelected_in, String startPosition_in, IGameData gameData_in,
 			IDrivetrain drivetrain_in, IJack jack_in, IMiniDrivetrain miniDrivetrain_in,
 			IHinge hinge_in, IGrasper grasper_in, IElevator elevator_in,
-			HMCamera camera_in, Robot robot_in) {		
+			HMCamera camera_in, Robot robot_in, PositionTracker tracker_in) {		
 		
 		autoSelected = autoSelected_in;
 		startPosition = startPosition_in;
@@ -39,6 +41,7 @@ public class Auton {
 		camera = camera_in;
 		robot = robot_in;
 		
+		tracker = tracker_in;
 	}
 	
 	// this method should be called once from autonomousInit() so that we always start in a known state

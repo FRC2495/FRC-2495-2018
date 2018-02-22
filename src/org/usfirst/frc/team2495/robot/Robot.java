@@ -99,6 +99,8 @@ public class Robot extends IterativeRobot {
 	Winch winchControl;
 	
 	Auton auton = null; // autonomous stuff
+	
+	PositionTracker tracker;
 
 	
 	/**
@@ -169,6 +171,8 @@ public class Robot extends IterativeRobot {
 		hingeControl = new Hinge(hinge, this);
 		
 		winchControl = new Winch(winch, this);
+		
+		tracker = new PositionTracker();
 	}
 
 	/**
@@ -199,7 +203,7 @@ public class Robot extends IterativeRobot {
 		auton = new Auton(m_autoSelected, startPosition, gameData,
 				drivetrain, jack, miniDrivetrain,
 				hingeControl, grasper, elevatorControl,
-				camera, this);
+				camera, this, tracker);
 		
 		auton.initialize();
 	}

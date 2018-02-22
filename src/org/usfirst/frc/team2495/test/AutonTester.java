@@ -40,6 +40,8 @@ public class AutonTester {
 		HMCamera camera = null;
 		Robot robot = null;
 		
+		PositionTracker tracker = new PositionTracker();
+		
 		System.out.println("\nAutonTester started with following settings:\n");
 		
 		System.out.println("Auto selected: " + autoSelected);	
@@ -49,7 +51,7 @@ public class AutonTester {
 		System.out.println("Scale: " + gameData.getAssignedPlateAtScale());
 		System.out.println("Second switch: " + gameData.getAssignedPlateAtSecondSwitch());
 
-		Auton auton = new Auton(autoSelected, startPosition, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot);
+		Auton auton = new Auton(autoSelected, startPosition, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot, tracker);
 		
 		System.out.println("\nAuton initalizing\n");
 		
