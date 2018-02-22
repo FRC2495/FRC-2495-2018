@@ -7,12 +7,18 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class EmulatedHinge implements IHinge {
     
+	private boolean isRevLimitSwitchClosed = true;
+	
+	private int encoder = 0;
+	
+	boolean hasBeenHomed = false;
+	
 	public EmulatedHinge() {
 	}
 
 	// returns the state of the limit switch
 	public boolean getLimitSwitchState() {
-		return false; // we fake hinge is down
+		return isRevLimitSwitchClosed; // we fake hinge is down
 	}
 
 	// homes the hinge
@@ -21,6 +27,12 @@ public class EmulatedHinge implements IHinge {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Hinge: BEGIN home");
+		
+		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
+		
+		encoder = 0; // by definition
+		
+		hasBeenHomed = true;
 	}
 	
 	// DO NOT TRY THIS AT HOME
@@ -30,6 +42,12 @@ public class EmulatedHinge implements IHinge {
 	// THIS ASSUMES THAT THE HINGE IS ALL THE WAY DOWN!
 	public void fakeHomeWhenDown() {
 		System.out.println("Hinge: fake home");
+		
+		isRevLimitSwitchClosed = false;
+		
+		encoder = Hinge.FAKE_HOME_POSITION_TICKS; // by definition
+		
+		hasBeenHomed = true;
 	}
 
 	// this method need to be called to assess the homing progress
@@ -37,7 +55,6 @@ public class EmulatedHinge implements IHinge {
 	public boolean checkHome() {
 		return false;
 	}
-
 	
 	// do not use in teleop - for auton only
 	public void waitHome() {		
@@ -56,22 +73,34 @@ public class EmulatedHinge implements IHinge {
 	
 	public void moveUp() {
 		System.out.println("Hinge: BEGIN move up (retracted)");
+		
+		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
+		
+		encoder = 0; // by definition
 	}
 
 	public void moveMidway() {		
 		System.out.println("Hinge: BEGIN move midway (ready to release)");
+		
+		isRevLimitSwitchClosed = false;
+		
+		encoder = Hinge.ANGLE_TO_TRAVEL_TICKS / 2;
 	}
 	
 	public void moveDown() {
 		System.out.println("Hinge: BEGIN move down (ready to grasp)");
+		
+		isRevLimitSwitchClosed = false;
+		
+		encoder = Hinge.ANGLE_TO_TRAVEL_TICKS;
 	}
 
 	public double getPosition() {
-		return 90;
+		return encoder * Hinge.GEAR_RATIO / Hinge.TICKS_PER_REVOLUTION;
 	}
 
 	public double getEncPosition() {
-		return Hinge.ANGLE_TO_TRAVEL_TICKS;
+		return encoder;
 	}
 
 	public boolean isHoming() {
@@ -118,12 +147,12 @@ public class EmulatedHinge implements IHinge {
 	}	
 	
 	public double getTarget() {
-		return 0.0;
+		return encoder;
 	}
 	
 	public boolean hasBeenHomed()
 	{
-		return true;
+		return hasBeenHomed;
 	}
 
 }

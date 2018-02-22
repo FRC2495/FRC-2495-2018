@@ -17,10 +17,10 @@ public class Hinge implements IHinge {
 	// general settings
 	static final int TIMEOUT_MS = 15000;
 	
-	static final double GEAR_RATIO = 3.0; // TODO change if needed
+	public static final double GEAR_RATIO = 3.0; // TODO change if needed
 	
 	public static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
-	static final int FAKE_HOME_POSITION_TICKS = ANGLE_TO_TRAVEL_TICKS; 
+	public static final int FAKE_HOME_POSITION_TICKS = ANGLE_TO_TRAVEL_TICKS; 
 	
 	static final double VIRTUAL_HOME_OFFSET_TICKS = 6000; // position of virtual home compared to physical home
 	
@@ -28,7 +28,7 @@ public class Hinge implements IHinge {
 	static final double MAX_PCT_OUTPUT = 0.4; // ~full speed
 	
 	static final int TALON_TIMEOUT_MS = 10;
-	static final int TICKS_PER_REVOLUTION = 4096;
+	public static final int TICKS_PER_REVOLUTION = 4096;
 	
 	
 	// move settings
