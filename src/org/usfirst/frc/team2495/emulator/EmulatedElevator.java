@@ -140,12 +140,12 @@ public class EmulatedElevator implements IElevator {
 	}	
 	
 	public double getTarget() {
-		return 0.0;
+		return encoder;
 	}
 	
 	public boolean hasBeenHomed()
 	{
-		return true;
+		return hasBeenHomed;
 	}
 
 }
