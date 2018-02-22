@@ -45,8 +45,8 @@ public class EmulatedElevator implements IElevator {
 	}
 
 	public void printState() {
-		System.out.println("Elevator: STATE homed = " + hasBeenHomed() + ", down = " + isDown() +
-				", midway = " + isMidway() + ", up = " + isUp() + "\n");
+		System.out.println("Elevator: STATE homed = " + hasBeenHomed() + ", position = " + getPosition() + " inches, " +
+				"down = " + isDown() + ", midway = " + isMidway() + ", up = " + isUp() + "\n");
 	}
 	
 	// do not use in teleop - for auton only
@@ -77,7 +77,7 @@ public class EmulatedElevator implements IElevator {
 		
 		isFwdLimitSwitchClosed = false;
 		
-		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES;
+		encoder = (int)(+convertInchesToRev(Elevator.LENGTH_OF_TRAVEL_INCHES) * Elevator.TICKS_PER_REVOLUTION);
 	}
 
 	public void moveMidway() {		
@@ -89,7 +89,7 @@ public class EmulatedElevator implements IElevator {
 		
 		isFwdLimitSwitchClosed = false;
 		
-		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES / 2;
+		encoder = (int)(+convertInchesToRev(Elevator.LENGTH_OF_TRAVEL_INCHES / 2) * Elevator.TICKS_PER_REVOLUTION);
 	}
 	
 	public void moveDown() {
@@ -140,6 +140,10 @@ public class EmulatedElevator implements IElevator {
 		return !isUp() && !isDown();
 	}
 
+	private double convertInchesToRev(double inches) {
+		return inches / Elevator.PERIMETER_PULLEY_INCHES * Elevator.GEAR_RATIO;
+	}
+	
 	private double convertRevtoInches(double rev) {
 		return rev * Elevator.PERIMETER_PULLEY_INCHES / Elevator.GEAR_RATIO;
 	}

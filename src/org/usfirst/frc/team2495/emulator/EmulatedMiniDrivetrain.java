@@ -38,8 +38,8 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		int ltac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
 		int rtac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
 				
-		ltac = - ltac;
-		rtac = - rtac;
+		ltac = + ltac;
+		rtac = + rtac;
 		
 		leftEncoder = ltac;
 		rightEncoder = rtac;		

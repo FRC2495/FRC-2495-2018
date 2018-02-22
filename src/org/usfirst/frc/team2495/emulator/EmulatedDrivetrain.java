@@ -53,8 +53,8 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		int rtac = (int)(rdist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 
-		rightEncoder = -rtac;
-		leftEncoder = -ltac;	
+		rightEncoder = +rtac;
+		leftEncoder = +ltac;	
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -91,8 +91,8 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		int ltac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 		int rtac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 				
-		ltac = - ltac;
-		rtac = - rtac;
+		ltac = + ltac;
+		rtac = + rtac;
 		
 		leftEncoder = ltac;
 		rightEncoder = rtac;
@@ -135,8 +135,8 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		int rtac = (int)(rdist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 
-		rightEncoder = -rtac;
-		leftEncoder = -ltac;
+		rightEncoder = +rtac;
+		leftEncoder = +ltac;
 	}
 	
 	public void stop() {

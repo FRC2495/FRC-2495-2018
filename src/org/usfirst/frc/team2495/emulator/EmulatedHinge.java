@@ -57,8 +57,8 @@ public class EmulatedHinge implements IHinge {
 	}
 	
 	public void printState() {
-		System.out.println("Hinge: STATE homed = " + hasBeenHomed() + ", down = " + isDown() + ", midway = " +
-			isMidway() + ", up = " + isUp() + "\n");
+		System.out.println("Hinge: STATE homed = " + hasBeenHomed() + ", position = " + getPosition() + " degrees" + 
+				", down = " + isDown() + ", midway = " + isMidway() + ", up = " + isUp() + "\n");
 	}
 	
 	// do not use in teleop - for auton only
