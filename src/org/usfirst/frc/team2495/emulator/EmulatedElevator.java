@@ -63,6 +63,10 @@ public class EmulatedElevator implements IElevator {
 	public void moveUp() {
 		System.out.println("Elevator: BEGIN move up (move up to scale)");
 		
+		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
+			System.out.println("VIOLATION: cannot move elevator up when hinge has not been homed or is not down!");
+		}
+		
 		isFwdLimitSwitchClosed = false;
 		
 		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES;
@@ -71,6 +75,10 @@ public class EmulatedElevator implements IElevator {
 	public void moveMidway() {		
 		System.out.println("Elevator: BEGIN move midway (move up to switch)");
 		
+		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
+			System.out.println("VIOLATION: cannot move elevator midway when hinge has not been homed or is not down!");
+		}
+		
 		isFwdLimitSwitchClosed = false;
 		
 		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES / 2;
@@ -78,6 +86,10 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveDown() {
 		System.out.println("Elevator: BEGIN move down (move down)");
+		
+		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
+			System.out.println("VIOLATION: cannot move elevator down when hinge has not been homed or is not down!");
+		}
 		
 		isFwdLimitSwitchClosed = true; // or maybe not if at virtual home but whatever
 		

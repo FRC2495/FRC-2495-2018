@@ -15,10 +15,26 @@ public class EmulatedGrasper implements IGrasper{
 
 	public void grasp() {
 		System.out.println("Grasper: BEGIN grasp (grasp cube)");
+		
+		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
+			System.out.println("VIOLATION: cannot grasp when hinge has not been homed or is not down!");
+		}
+		
+		if (elevator != null && (!elevator.hasBeenHomed() || !elevator.isDown())) {
+			System.out.println("VIOLATION: cannot grasp when elevator has not been homed or is not down!");
+		}
 	}
 	
 	public void release() {
 		System.out.println("Grasper: BEGIN release (release cube)");
+		
+		if (hinge != null && (!hinge.hasBeenHomed() || hinge.isUp())) {
+			System.out.println("VIOLATION: cannot release when hinge has not been homed or is up!");
+		}
+		
+		if (elevator != null && (!elevator.hasBeenHomed() || elevator.isDown())) {
+			System.out.println("VIOLATION: cannot release when elevator has not been homed or is down!");
+		}
 	}
 	
 	public void stop() {
