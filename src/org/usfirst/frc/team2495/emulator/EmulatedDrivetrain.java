@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2495.emulator;
 
 import org.usfirst.frc.team2495.robot.*;
+import org.usfirst.frc.team2495.robot.Jack.Position;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -23,13 +24,17 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
 		System.out.print("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees ");
-		
+			
 		if (angle > 0) {
 			System.out.println("(turn right " + Math.abs(angle) + " degrees)");
 		} else if (angle < 0) {
 			System.out.println("(turn left " + Math.abs(angle) + " degrees)");
 		} else {
 			System.out.println("(no move)");
+		}
+		
+		if (jack != null && (jack.getPosition() != Position.UP)) {
+			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
 		}
 		
 		gyro = (int)angle;
@@ -71,6 +76,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 			System.out.println("(no move)");
 		}
 		
+		if (jack != null && (jack.getPosition() != Position.UP)) {
+			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
+		}
+		
 		int ltac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 		int rtac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 				
@@ -99,6 +108,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
 		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
+		
+		if (jack != null && (jack.getPosition() != Position.UP)) {
+			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
+		}
 		
 		gyro = angle;
 		

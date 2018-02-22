@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2495.emulator;
 
 import org.usfirst.frc.team2495.robot.*;
-
+import org.usfirst.frc.team2495.robot.Jack.Position;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -29,7 +29,11 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 			System.out.println("(slide left " + Math.abs(dist) + " inches)");
 		} else {
 			System.out.println("(no move)");
-		}		
+		}	
+		
+		if (jack != null && (jack.getPosition() != Position.DOWN)) {
+			System.out.println("VIOLATION: cannot move drivetrain when jack is down!");
+		}
 		
 		int ltac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
 		int rtac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
