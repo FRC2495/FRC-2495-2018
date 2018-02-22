@@ -21,6 +21,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		jack_in = jack;
 	}
 	
+	private void printState() {
+		System.out.println("Drivetrain: STATE left position = " + getLeftValue() +
+				" inches, right position = " + getRightValue() + " inches, gyro = " + gyro + " degrees\n");
+	}
+	
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
 		System.out.print("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees ");
@@ -49,7 +54,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 
 		rightEncoder = -rtac;
-		leftEncoder = -ltac;		
+		leftEncoder = -ltac;	
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -61,6 +66,9 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitTurnAngleUsingPidController() {
 		System.out.println("Drivetrain: END turn angle using PID controller");
+		
+		
+		printState();
 	}
 
 	// this method needs to be paired with checkMoveDistance()
@@ -97,6 +105,9 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
 		System.out.println("Drivetrain: END move distance");
+				
+		printState();
+
 	}
 	
 	private double arclength(int angle) // returns the inches needed to be moved

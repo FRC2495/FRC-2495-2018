@@ -56,9 +56,16 @@ public class EmulatedHinge implements IHinge {
 		return false;
 	}
 	
+	public void printState() {
+		System.out.println("Hinge: STATE homed = " + hasBeenHomed() + ", down = " + isDown() + ", midway = " +
+			isMidway() + ", up = " + isUp() + "\n");
+	}
+	
 	// do not use in teleop - for auton only
 	public void waitHome() {		
 		System.out.println("Hinge: END home");
+		
+		printState();
 	}
 	
 	// This method should be called to assess the progress of a move
@@ -69,6 +76,8 @@ public class EmulatedHinge implements IHinge {
 	// do not use in teleop - for auton only
 	public void waitMove() {
 		System.out.println("Hinge: END move");
+		
+		printState();
 	}
 	
 	public void moveUp() {

@@ -13,7 +13,7 @@ public class EmulatedJack implements IJack{
 	public EmulatedJack() {
 		
 	}
-	
+		
 	public void setPosition(Jack.Position pos)
 	{
 		switch(pos)
@@ -22,12 +22,14 @@ public class EmulatedJack implements IJack{
 			{
 				System.out.println("Jack: set position down (Mini Drivetrain activated)");
 				value = DoubleSolenoid.Value.kReverse;
+				System.out.println("Jack: STATE down\n");;
 				break;
 			}
 			case UP:
 			{
 				System.out.println("Jack: set position up (Drivetrain activated)");
 				value = DoubleSolenoid.Value.kForward;
+				System.out.println("Jack: STATE up\n");;
 				break;
 			}
 			default:

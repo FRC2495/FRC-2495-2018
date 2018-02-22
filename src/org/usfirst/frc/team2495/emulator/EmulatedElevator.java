@@ -44,10 +44,16 @@ public class EmulatedElevator implements IElevator {
 		return false;
 	}
 
+	public void printState() {
+		System.out.println("Elevator: STATE homed = " + hasBeenHomed() + ", down = " + isDown() +
+				", midway = " + isMidway() + ", up = " + isUp() + "\n");
+	}
 	
 	// do not use in teleop - for auton only
 	public void waitHome() {
 		System.out.println("Elevator: END home");
+		
+		printState();
 	}
 	
 	// This method should be called to assess the progress of a move
@@ -58,6 +64,8 @@ public class EmulatedElevator implements IElevator {
 	// do not use in teleop - for auton only
 	public void waitMove() {
 		System.out.println("Elevator: END move");
+		
+		printState();
 	}
 	
 	public void moveUp() {

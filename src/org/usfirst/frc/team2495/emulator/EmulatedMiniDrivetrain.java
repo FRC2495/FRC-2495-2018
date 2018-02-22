@@ -49,9 +49,16 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		return false;
 	}
 	
+	private void printState() {
+		System.out.println("MiniDrivetrain: STATE left position = " + getLeftValue() +
+				" inches, right position = " + getRightValue() + " inches\n");
+	}
+	
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
 		System.out.println("MiniDrivetrain: END move distance");
+		
+		printState();
 	}
 		
 	public void stop() {
