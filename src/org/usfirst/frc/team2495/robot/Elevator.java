@@ -17,11 +17,11 @@ public class Elevator implements IElevator {
 	// general settings
 	
 	static final double DIAMETER_PULLEY_INCHES = 1.19; // TODO set proper value
-	static final double PERIMETER_PULLEY_INCHES = DIAMETER_PULLEY_INCHES * Math.PI;
+	public static final double PERIMETER_PULLEY_INCHES = DIAMETER_PULLEY_INCHES * Math.PI;
 	
 	static final int TIMEOUT_MS = 15000;	
 	
-	static final double GEAR_RATIO = 1.0; // TODO change if needed
+	public static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
 	public static final int LENGTH_OF_TRAVEL_INCHES = 39; // TODO set proper value
 	
@@ -31,7 +31,7 @@ public class Elevator implements IElevator {
 	static final double MAX_PCT_OUTPUT = 1.0; // ~full speed
 	
 	static final int TALON_TIMEOUT_MS = 10;
-	static final int TICKS_PER_REVOLUTION = 4096;
+	public static final int TICKS_PER_REVOLUTION = 4096;
 	
 	
 	// move settings

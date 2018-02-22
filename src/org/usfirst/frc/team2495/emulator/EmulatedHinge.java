@@ -120,17 +120,17 @@ public class EmulatedHinge implements IHinge {
 	}
 	
 	public boolean isUp() {
-		return false;
+		return Math.abs(getEncPosition()) < Hinge.ANGLE_TO_TRAVEL_TICKS * 1/3;
 	}
 	
 	public boolean isDown() {
-		return true;
+		return Math.abs(getEncPosition()) > Hinge.ANGLE_TO_TRAVEL_TICKS * 2/3;
 	}
 	
 	public boolean isMidway() {
-		return false;
+		return !isUp() && !isDown();
 	}
-
+	
 	public void stay() {	 		
 	}
 	

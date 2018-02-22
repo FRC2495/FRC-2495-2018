@@ -7,12 +7,18 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class EmulatedElevator implements IElevator {
     
+	private boolean isFwdLimitSwitchClosed = true;
+	
+	private int encoder = 0;
+	
+	boolean hasBeenHomed = false;
+	
 	public EmulatedElevator() {
 	}
 
 	// returns the state of the limit switch
 	public boolean getLimitSwitchState() {
-		return true; // we fake elevator is up
+		return isFwdLimitSwitchClosed;
 	}
 	
 	// homes the elevator
@@ -21,6 +27,12 @@ public class EmulatedElevator implements IElevator {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Elevator: BEGIN home");
+		
+		isFwdLimitSwitchClosed = true;
+		
+		encoder = 0; // by definition
+		
+		hasBeenHomed = true;
 	}
 
 	// this method need to be called to assess the homing progress
@@ -47,22 +59,34 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveUp() {
 		System.out.println("Elevator: BEGIN move up (move up to scale)");
+		
+		isFwdLimitSwitchClosed = false;
+		
+		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES;
 	}
 
 	public void moveMidway() {		
 		System.out.println("Elevator: BEGIN move midway (move up to switch)");
+		
+		isFwdLimitSwitchClosed = false;
+		
+		encoder = Elevator.LENGTH_OF_TRAVEL_INCHES / 2;
 	}
 	
 	public void moveDown() {
 		System.out.println("Elevator: BEGIN move down (move down)");
+		
+		isFwdLimitSwitchClosed = true; // or maybe not if at virtual home but whatever
+		
+		encoder = 0;
 	}
 
 	public double getPosition() {
-		return Elevator.LENGTH_OF_TRAVEL_INCHES;
+		return convertRevtoInches(encoder / Elevator.TICKS_PER_REVOLUTION);
 	}
 
 	public double getEncPosition() {
-		return 123456789;
+		return encoder;
 	}
 
 	public boolean isHoming() {
@@ -82,15 +106,19 @@ public class EmulatedElevator implements IElevator {
 	}
 	
 	public boolean isUp() {
-		return true;
+		return getPosition() > Elevator.LENGTH_OF_TRAVEL_INCHES * 2/3;
 	}
 	
 	public boolean isDown() {
-		return false;
+		return getPosition() < Elevator.LENGTH_OF_TRAVEL_INCHES * 1/3;
 	}
 	
 	public boolean isMidway() {
-		return false;
+		return !isUp() && !isDown();
+	}
+
+	private double convertRevtoInches(double rev) {
+		return rev * Elevator.PERIMETER_PULLEY_INCHES / Elevator.GEAR_RATIO;
 	}
 
 	public void stay() {	 		
