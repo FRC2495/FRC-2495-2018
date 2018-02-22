@@ -9,7 +9,8 @@ public class Jack implements IJack{
 
 	public enum Position {
 		UP, // outer drivetrain is down
-		DOWN; // outer drivetrain is up
+		DOWN, // outer drivetrain is up
+		UNKNOWN;
 	}
 
 	public Jack() {
@@ -38,4 +39,24 @@ public class Jack implements IJack{
 		}
 	}
 
+	public Position getPosition()
+	{
+		DoubleSolenoid.Value value = downup.get();
+		
+		switch(value)
+		{
+			case kReverse:
+			{
+				return Position.DOWN;
+			}
+			case kForward:
+			{
+				return Position.UP;
+			}
+			default:
+			{
+				return Position.UNKNOWN;
+			}
+		}
+	}
 }

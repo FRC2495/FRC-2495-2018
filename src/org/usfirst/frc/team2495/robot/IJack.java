@@ -7,4 +7,5 @@ public interface IJack {
 	
 	public void setPosition(Position pos);	
 	
+	public Position getPosition();
 }
