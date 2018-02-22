@@ -15,7 +15,7 @@ public class MiniDrivetrain implements IMiniDrivetrain{
 
 	// general settings
 	static final double DIAMETER_WHEEL_INCHES = 5;
-	static final double PERIMETER_WHEEL_INCHES = DIAMETER_WHEEL_INCHES * Math.PI;
+	public static final double PERIMETER_WHEEL_INCHES = DIAMETER_WHEEL_INCHES * Math.PI;
 	
 	static final int TIMEOUT_MS = 15000;	
 	
@@ -24,7 +24,7 @@ public class MiniDrivetrain implements IMiniDrivetrain{
 	static final double MAX_PCT_OUTPUT = 1.0;
 		
 	static final int TALON_TIMEOUT_MS = 10;
-	static final int TICKS_PER_REVOLUTION = 4096;
+	public static final int TICKS_PER_REVOLUTION = 4096;
 	
 	static final int MINI_DRIVETRAIN_POLARITY = 1; 
 		

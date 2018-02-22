@@ -2,15 +2,18 @@ package org.usfirst.frc.team2495.emulator;
 
 import org.usfirst.frc.team2495.robot.*;
 
+
 import edu.wpi.first.wpilibj.Joystick;
 
 
 public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 
+	int leftEncoder = 0;
+	int rightEncoder = 0;
+	
 	public EmulatedMiniDrivetrain() 
 	{	
-	}
-	
+	}	
 	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
@@ -24,6 +27,15 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		} else {
 			System.out.println("(no move)");
 		}		
+		
+		int ltac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
+		int rtac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);
+				
+		ltac = - ltac;
+		rtac = - rtac;
+		
+		leftEncoder = ltac;
+		rightEncoder = rtac;		
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -52,19 +64,19 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	}	
 	
 	public int getRightEncoderValue() {
-		return 123456789;
+		return rightEncoder;
 	}
 
 	public int getLeftEncoderValue() {
-		return 12345789;
+		return leftEncoder;
 	}
 
 	public int getRightValue() {
-		return 12345;
+		return (int) (rightEncoder*MiniDrivetrain.PERIMETER_WHEEL_INCHES/MiniDrivetrain.TICKS_PER_REVOLUTION);
 	}
 
 	public int getLeftValue() {
-		return 12345;
+		return (int) (leftEncoder*MiniDrivetrain.PERIMETER_WHEEL_INCHES/MiniDrivetrain.TICKS_PER_REVOLUTION);
 	}
 	
 	public boolean isMoving() {
@@ -78,6 +90,8 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
 	public void resetEncoders() {
+		leftEncoder = 0;
+		rightEncoder = 0;
 	}	
 }
 
