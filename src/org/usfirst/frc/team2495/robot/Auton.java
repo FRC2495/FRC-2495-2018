@@ -54,6 +54,9 @@ public class Auton {
 			elevator.home(); 
 			elevator.waitHome();	
 		}
+		
+		hinge.moveDown(); // always moves hinge down first
+		hinge.waitMove();
 	}
 	
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
