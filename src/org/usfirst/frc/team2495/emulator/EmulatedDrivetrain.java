@@ -16,9 +16,13 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	IJack jack;
 	
-	public EmulatedDrivetrain(IJack jack_in)
+	PositionTracker tracker;
+	
+	public EmulatedDrivetrain(IJack jack_in, PositionTracker tracker_in)
 	{	
-		jack_in = jack;
+		jack = jack_in;
+		
+		tracker = tracker_in;
 	}
 	
 	private void printState() {
@@ -54,7 +58,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		int ltac = (int)(ldist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
 
 		rightEncoder = +rtac;
-		leftEncoder = +ltac;	
+		leftEncoder = +ltac;
+		
+		if (tracker != null) {
+			tracker.turnAngle(angle);
+		}
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -67,8 +75,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	public void waitTurnAngleUsingPidController() {
 		System.out.println("Drivetrain: END turn angle using PID controller");
 		
-		
 		printState();
+		
+		if (tracker != null) {
+			tracker.printState();
+		}
 	}
 
 	// this method needs to be paired with checkMoveDistance()
@@ -96,6 +107,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		
 		leftEncoder = ltac;
 		rightEncoder = rtac;
+		
+		if (tracker != null) {
+			tracker.moveDistance(dist);
+		}
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -108,6 +123,9 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 				
 		printState();
 
+		if (tracker != null) {
+			tracker.printState();
+		}
 	}
 	
 	private double arclength(int angle) // returns the inches needed to be moved
@@ -137,6 +155,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 
 		rightEncoder = +rtac;
 		leftEncoder = +ltac;
+		
+		if (tracker != null) {
+			tracker.turnAngle(angle);
+		}
 	}
 	
 	public void stop() {

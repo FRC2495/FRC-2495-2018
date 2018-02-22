@@ -29,18 +29,18 @@ public class AutonTester {
 		
 	public static void test(String autoSelected, String startPosition, EmulatedGameData gameData) {	
 
+		PositionTracker tracker = new PositionTracker();
+		
 		IJack jack = new EmulatedJack();
-		IDrivetrain drivetrain = new EmulatedDrivetrain(jack);
-		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain(jack);
+		IDrivetrain drivetrain = new EmulatedDrivetrain(jack, tracker);
+		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
 		
 		IHinge hinge = new EmulatedHinge();
-		IElevator elevator = new EmulatedElevator(hinge);
+		IElevator elevator = new EmulatedElevator(hinge, tracker);
 		IGrasper grasper = new EmulatedGrasper(hinge,elevator);
 		
 		HMCamera camera = null;
 		Robot robot = null;
-		
-		PositionTracker tracker = new PositionTracker();
 		
 		System.out.println("\nAutonTester started with following settings:\n");
 		

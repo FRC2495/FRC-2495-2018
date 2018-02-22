@@ -15,8 +15,12 @@ public class EmulatedElevator implements IElevator {
 	
 	IHinge hinge;
 	
-	public EmulatedElevator(IHinge hinge_in) {
+	PositionTracker tracker;
+	
+	public EmulatedElevator(IHinge hinge_in, PositionTracker tracker_in) {
 		hinge = hinge_in;
+		
+		tracker = tracker_in;
 	}
 
 	// returns the state of the limit switch
@@ -54,6 +58,10 @@ public class EmulatedElevator implements IElevator {
 		System.out.println("Elevator: END home");
 		
 		printState();
+		
+		if (tracker != null) {
+			tracker.printState();
+		}
 	}
 	
 	// This method should be called to assess the progress of a move
@@ -66,6 +74,10 @@ public class EmulatedElevator implements IElevator {
 		System.out.println("Elevator: END move");
 		
 		printState();
+		
+		if (tracker != null) {
+			tracker.printState();
+		}
 	}
 	
 	public void moveUp() {
@@ -78,6 +90,10 @@ public class EmulatedElevator implements IElevator {
 		isFwdLimitSwitchClosed = false;
 		
 		encoder = (int)(+convertInchesToRev(Elevator.LENGTH_OF_TRAVEL_INCHES) * Elevator.TICKS_PER_REVOLUTION);
+		
+		if (tracker != null) {
+			tracker.updateAltitude(getPosition());
+		}
 	}
 
 	public void moveMidway() {		
@@ -90,6 +106,10 @@ public class EmulatedElevator implements IElevator {
 		isFwdLimitSwitchClosed = false;
 		
 		encoder = (int)(+convertInchesToRev(Elevator.LENGTH_OF_TRAVEL_INCHES / 2) * Elevator.TICKS_PER_REVOLUTION);
+		
+		if (tracker != null) {
+			tracker.updateAltitude(getPosition());
+		}
 	}
 	
 	public void moveDown() {
@@ -102,6 +122,10 @@ public class EmulatedElevator implements IElevator {
 		isFwdLimitSwitchClosed = true; // or maybe not if at virtual home but whatever
 		
 		encoder = 0;
+		
+		if (tracker != null) {
+			tracker.updateAltitude(getPosition());
+		}
 	}
 
 	public double getPosition() {

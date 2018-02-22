@@ -13,9 +13,13 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	
 	IJack jack;
 	
-	public EmulatedMiniDrivetrain(IJack jack_in)
+	PositionTracker tracker;
+	
+	public EmulatedMiniDrivetrain(IJack jack_in, PositionTracker tracker_in)
 	{	
-		jack_in = jack;
+		jack = jack_in;
+		
+		tracker = tracker_in;
 	}	
 	
 	// this method needs to be paired with checkMoveDistance()
@@ -42,7 +46,11 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		rtac = + rtac;
 		
 		leftEncoder = ltac;
-		rightEncoder = rtac;		
+		rightEncoder = rtac;	
+		
+		if (tracker != null) {
+			tracker.slideDistance(dist);
+		}
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -59,6 +67,10 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		System.out.println("MiniDrivetrain: END move distance");
 		
 		printState();
+		
+		if (tracker != null) {
+			tracker.printState();
+		}
 	}
 		
 	public void stop() {
