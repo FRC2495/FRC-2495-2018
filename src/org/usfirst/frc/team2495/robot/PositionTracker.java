@@ -68,7 +68,7 @@ public class PositionTracker {
 	// distance in inches, positive distance means move right
 	public void moveDistanceAthwart(double dist) {
 		turnAngle(90); // turn right
-		moveDistance(dist);
+		moveDistanceIncognito(dist);
 		turnAngle(-90); // turn back left
 		
 		history.add(new Position("move athwart",x,y,z,heading));
