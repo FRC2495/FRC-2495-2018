@@ -15,6 +15,7 @@ public class PositionTracker {
 	double heading = 0.0;
 	
 	public class Position {
+		String filter;
 		String label;
 		
 		double x = 0.0;
@@ -23,7 +24,8 @@ public class PositionTracker {
 		
 		double heading = 0.0;
 		
-		public Position(String label_in, double x_in, double y_in, double z_in, double heading_in) {
+		public Position(String filter_in, String label_in, double x_in, double y_in, double z_in, double heading_in) {
+			filter = filter_in;
 			label = label_in;
 			
 			x = x_in;
@@ -37,7 +39,7 @@ public class PositionTracker {
 	Vector<Position> history = new Vector<>();
 	
 	public PositionTracker() {
-		history.add(new Position("initial position",x,y,z,heading)); // initial position
+		history.add(new Position("initial position","(initial position)",x,y,z,heading)); // initial position
 	}
 	
 	// distance in inches, positive distance means move forward
@@ -50,7 +52,18 @@ public class PositionTracker {
 	public void moveDistance(double distance) {
 		moveDistanceIncognito(distance);
 		
-		history.add(new Position("move distance",x,y,z,heading));
+		String label;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		if (distance > 0) {
+			label = "(move forward " + df.format(Math.abs(distance)) + " inches)";
+		} else if (distance < 0) {
+			label = "(move back " + df.format(Math.abs(distance)) + " inches)";
+		} else {
+			label =  "(no move)";
+		}
+		
+		history.add(new Position("move distance",label,x,y,z,heading));
 	}
 	
 	// angle in degrees, positive angle means turns clockwise
@@ -62,7 +75,18 @@ public class PositionTracker {
 	public void turnAngle(double angle) {
 		turnAngleIncognito(angle); 
 		
-		history.add(new Position("turn angle",x,y,z,heading));
+		String label;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		if (angle > 0) {
+			label = "(turn right " + df.format(Math.abs(angle)) + " degrees)";
+		} else if (angle < 0) {
+			label = "(turn left " + df.format(Math.abs(angle)) + " degrees)";
+		} else {
+			label = "(no move)";
+		}
+		
+		history.add(new Position("turn angle",label,x,y,z,heading));
 	}
 	
 	// distance in inches, positive distance means move right
@@ -71,13 +95,38 @@ public class PositionTracker {
 		moveDistanceIncognito(distance);
 		turnAngleIncognito(-90); // turn back left
 		
-		history.add(new Position("move athwart",x,y,z,heading));
+		String label;
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		if (distance > 0) {
+			label = "(move arthwart right " + df.format(Math.abs(distance)) + " inches)";
+		} else if (distance < 0) {
+			label = "(move arthwart left " + df.format(Math.abs(distance)) + " inches)";
+		} else {
+			label = "(no move)";
+		}
+		
+		history.add(new Position("move athwart",label,x,y,z,heading));
 	}
 	
 	public void updateAltitude(double altitude) {
+		
+		double old_z = z;
+		
 		z = altitude;
 		
-		history.add(new Position("update altitude",x,y,z,heading));
+		String label;		
+		DecimalFormat df = new DecimalFormat("#.#");
+		
+		if (z > old_z) {
+			label = "(move up to " + df.format(Math.abs(altitude)) + " inches)";
+		} else if (z < old_z) {
+			label = "(move down to " + df.format(Math.abs(altitude)) + " inches)";
+		} else {
+			label = "(no move)";
+		}
+		
+		history.add(new Position("update altitude",label,x,y,z,heading));
 	}
 	
 	public void printState() {
@@ -106,6 +155,8 @@ public class PositionTracker {
         
         sb.append("index");
         sb.append(',');
+        sb.append("filter");
+        sb.append(',');
         sb.append("label");
         sb.append(',');
         sb.append("x");
@@ -122,6 +173,8 @@ public class PositionTracker {
         	Position position = history.get(i);
         	
         	sb.append(i);
+	        sb.append(',');
+	        sb.append(position.filter);
 	        sb.append(',');
         	sb.append(position.label);
 	        sb.append(',');
