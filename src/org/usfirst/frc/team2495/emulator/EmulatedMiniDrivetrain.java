@@ -49,7 +49,7 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		rightEncoder = rtac;	
 		
 		if (tracker != null) {
-			tracker.slideDistance(dist);
+			tracker.moveDistanceAthwart(dist);
 		}
 	}
 	

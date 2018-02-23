@@ -67,6 +67,13 @@ public class AutonTester {
 		auton.end();
 		
 		System.out.println("\nAutonTester finished\n");
+		
+		String filename = autoSelected + "_" + startPosition + "_" + gameData.getAssignedPlateAtFirstSwitch()
+		+ "_" + gameData.getAssignedPlateAtScale() + "_" + gameData.getAssignedPlateAtSecondSwitch()
+		+ ".csv";
+		
+		//UNCOMMENT THIS LINE TO SAVE HISTORY TO .CSV FILE
+		//tracker.saveHistoryAsCsvFile(filename);
 	}
 
 }
