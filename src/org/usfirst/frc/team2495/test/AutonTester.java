@@ -68,12 +68,19 @@ public class AutonTester {
 		
 		System.out.println("\nAutonTester finished\n");
 		
+		
+		final String CURRENT_DIRECTORY = System.getProperty("user.dir");
+        		
 		String filename = autoSelected + "_" + startPosition + "_" + gameData.getAssignedPlateAtFirstSwitch()
 		+ "_" + gameData.getAssignedPlateAtScale() + "_" + gameData.getAssignedPlateAtSecondSwitch()
 		+ ".csv";
 		
+		String fullPath = CURRENT_DIRECTORY + "\\" + filename; 
+		
+		System.out.println("\nSaving .csv file as \"" + fullPath + "\"...\n");
+		
 		//UNCOMMENT THIS LINE TO SAVE HISTORY TO .CSV FILE
-		//tracker.saveHistoryAsCsvFile(filename);
+		//tracker.saveHistoryAsCsvFile(fullPath);
 	}
 
 }
