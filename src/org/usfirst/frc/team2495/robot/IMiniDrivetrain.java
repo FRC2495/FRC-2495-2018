@@ -3,6 +3,14 @@ package org.usfirst.frc.team2495.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public interface IMiniDrivetrain {
+	
+	// this method needs to be paired with checkMoveUsingCameraPidController()
+	public void moveUsingCameraPidController();
+	
+	public boolean tripleCheckMoveUsingCameraPidController();
+	
+	// do not use in teleop - for auton only
+	public void waitMoveUsingCameraPidController();
 		
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist);

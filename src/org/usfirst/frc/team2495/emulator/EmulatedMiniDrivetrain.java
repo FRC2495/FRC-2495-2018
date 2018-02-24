@@ -4,9 +4,11 @@ import org.usfirst.frc.team2495.robot.*;
 import org.usfirst.frc.team2495.robot.Jack.Position;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 
 
-public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
+public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 
 	int leftEncoder = 0;
 	int rightEncoder = 0;
@@ -20,7 +22,24 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		jack = jack_in;
 		
 		tracker = tracker_in;
-	}	
+	}
+	
+	// this method needs to be paired with checkMoveUsingCameraPidController()
+	public void moveUsingCameraPidController()
+	{
+		
+	}
+		
+	public boolean tripleCheckMoveUsingCameraPidController()
+	{
+		return false;
+	}
+		
+	// do not use in teleop - for auton only
+	public void waitMoveUsingCameraPidController()
+	{
+		
+	}
 	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
@@ -107,6 +126,11 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 	
 	public boolean isMoving() {
 		return false;
+	}
+	
+	@Override
+	public void pidWrite(double output) {
+		
 	}
 		
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.

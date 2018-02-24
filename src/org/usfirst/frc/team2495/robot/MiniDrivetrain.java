@@ -9,9 +9,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class MiniDrivetrain implements IMiniDrivetrain{
+public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 
 	// general settings
 	static final double DIAMETER_WHEEL_INCHES = 5;
@@ -60,6 +62,8 @@ public class MiniDrivetrain implements IMiniDrivetrain{
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
 	
 	Robot robot; // a reference to the robot
+	
+	PIDController moveUsingCameraPidController; // the PID controller used to turn
 	
 	
 	public MiniDrivetrain(WPI_TalonSRX frontCenter_in,WPI_TalonSRX rearCenter_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
@@ -120,6 +124,23 @@ public class MiniDrivetrain implements IMiniDrivetrain{
 				
 		differentialDrive = new DifferentialDrive(frontCenter, rearCenter);
 		differentialDrive.setSafetyEnabled(false); // disables the stupid timeout error when we run in closed loop
+	}
+	
+	// this method needs to be paired with checkMoveUsingCameraPidController()
+	public void moveUsingCameraPidController()
+	{
+		
+	}
+		
+	public boolean tripleCheckMoveUsingCameraPidController()
+	{
+		return false;
+	}
+		
+	// do not use in teleop - for auton only
+	public void waitMoveUsingCameraPidController()
+	{
+		
 	}
 	
 	// this method needs to be paired with checkMoveDistance()
@@ -303,6 +324,11 @@ public class MiniDrivetrain implements IMiniDrivetrain{
 	public boolean isMoving() {
 		return isMoving;
 	}	
+	
+	@Override
+	public void pidWrite(double output) {
+		
+	}
 	
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
