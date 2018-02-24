@@ -29,7 +29,21 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	public static final int TICKS_PER_REVOLUTION = 4096;
 	
 	static final int MINI_DRIVETRAIN_POLARITY = 1; 
-		
+
+	
+	// move using camera settings
+	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
+	static final double MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
+	
+	static final double MIN_MOVE_USING_CAMERA_PCT_OUTPUT = 0.1;
+	static final double MAX_MOVE_USING_CAMERA_PCT_OUTPUT = 0.5;
+	
+	static final double MOVE_USING_CAMERA_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_USING_CAMERA_INTEGRAL_GAIN = 0.0;
+	static final double MOVE_USING_CAMERA_DERIVATIVE_GAIN = 0.0;
+	
+	static final int PIXEL_THRESHOLD = HMCamera.HORIZONTAL_CAMERA_RES_PIXELS / 10; // TODO adjust as needed
+	
 	
 	// move settings
 	static final int PRIMARY_PID_LOOP = 0;
@@ -63,16 +77,19 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	Robot robot; // a reference to the robot
 	
+	HMCamera camera;
+	
 	PIDController moveUsingCameraPidController; // the PID controller used to turn
 	
 	
-	public MiniDrivetrain(WPI_TalonSRX frontCenter_in,WPI_TalonSRX rearCenter_in, ADXRS450_Gyro gyro_in, Robot robot_in) 
+	public MiniDrivetrain(WPI_TalonSRX frontCenter_in,WPI_TalonSRX rearCenter_in, ADXRS450_Gyro gyro_in, Robot robot_in, HMCamera camera_in) 
 	{
 		
 		frontCenter = frontCenter_in;
 		rearCenter = rearCenter_in;
 		gyro = gyro_in;	
 		robot = robot_in;
+		camera = camera_in;
 		
 		// Mode of operation during Neutral output may be set by using the setNeutralMode() function.
 		// As of right now, there are two options when setting the neutral mode of a motor controller,
@@ -121,6 +138,14 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 		*/
 		// set peak output to max in case if had been reduced previously
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT);
+		
+		//creates a PID controller
+		moveUsingCameraPidController = new PIDController(MOVE_USING_CAMERA_PROPORTIONAL_GAIN, MOVE_USING_CAMERA_INTEGRAL_GAIN, MOVE_USING_CAMERA_DERIVATIVE_GAIN, camera, this, MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS);
+    	
+		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS); // valid input range 
+		moveUsingCameraPidController.setOutputRange(-MAX_MOVE_USING_CAMERA_PCT_OUTPUT, MAX_MOVE_USING_CAMERA_PCT_OUTPUT); // output range NOTE: might need to change signs
+    	
+		moveUsingCameraPidController.setAbsoluteTolerance(PIXEL_THRESHOLD); // 1 degree error tolerated
 				
 		differentialDrive = new DifferentialDrive(frontCenter, rearCenter);
 		differentialDrive.setSafetyEnabled(false); // disables the stupid timeout error when we run in closed loop

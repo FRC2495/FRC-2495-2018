@@ -1,18 +1,20 @@
 package org.usfirst.frc.team2495.robot;
 
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class HMCamera {
+public class HMCamera implements PIDSource {
 	private static final int BAD_INDEX = -1;
 	
 	NetworkTable nt;
 	double[] area, width, height, centerX, centerY;
 	int largeIndex = BAD_INDEX;
 
-	private static final int HORIZONTAL_CAMERA_RES_PIXELS = 320;
+	public static final int HORIZONTAL_CAMERA_RES_PIXELS = 320;
 	private static final int VERTICAL_CAMERA_RES_PIXELS = 240;
 	private static final double VERTICAL_FOV_DEGREES = 47;
 	private static final double HORIZONTAL_FOV_DEGREES = 56;
@@ -136,7 +138,16 @@ public class HMCamera {
 			return angle;
 		} else
 			return 0;
-	}	
+	}
+	
+	public double getPixelDisplacementToCenterToTarget() {
+		if (isCoherent() && largeIndex != BAD_INDEX) {
+			double diff = (getCenterX()[largeIndex] - (HORIZONTAL_CAMERA_RES_PIXELS / 2))
+					/ HORIZONTAL_CAMERA_RES_PIXELS;
+			return diff;
+		} else
+			return 0;
+	}
 
 	public double[] getArea() {
 		return area;
@@ -156,5 +167,20 @@ public class HMCamera {
 
 	public double[] getCenterY() {
 		return centerY;
+	}
+	
+	public void setPIDSourceType(PIDSourceType pidSource)
+	{
+		// always displacement!
+	}
+
+	public PIDSourceType getPIDSourceType()
+	{
+		return PIDSourceType.kDisplacement;
+	}
+	
+	public double pidGet()
+	{
+		return getPixelDisplacementToCenterToTarget();
 	}
 }

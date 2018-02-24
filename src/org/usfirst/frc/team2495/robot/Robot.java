@@ -112,6 +112,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
+		// choosers
+		
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
@@ -120,6 +122,21 @@ public class Robot extends IterativeRobot {
 		startPositionChooser.addObject("Center", START_POSITION_CENTER);
 		startPositionChooser.addObject("Right", START_POSITION_RIGHT);
 		SmartDashboard.putData("Start positions", startPositionChooser);
+		
+		// sensors
+		
+		sonar = new Sonar(Ports.Analog.SONAR); 
+		
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
+		
+		gyro.calibrate(); 
+		gyro.reset();
+		
+		camera = new HMCamera("GRIP/myContoursReport");
+		
+		accelerometer = new HMAccelerometer();
+		
+		// motorized devices
 		
 		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
 		frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
@@ -137,20 +154,24 @@ public class Robot extends IterativeRobot {
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 		
 		winch = new WPI_TalonSRX(Ports.CAN.WINCH);
-				
-		sonar = new Sonar(Ports.Analog.SONAR); 
-		
-		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0); // we want to instantiate before we pass to drivetrain	
 		
 		drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);		
-		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this);
+		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
 		
 		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-			
-		camera = new HMCamera("GRIP/myContoursReport");
 		
 		compressor = new Compressor();
 		compressor.checkCompressor();
+				
+		jack = new Jack();
+						
+		elevatorControl = new Elevator(elevator, hingeControl, this);
+		
+		hingeControl = new Hinge(hinge, this);
+		
+		winchControl = new Winch(winch, this);
+		
+		// joysticks and gamepad
 		
 		joyLeft = new Joystick(Ports.USB.LEFT); 
 		joyRight = new Joystick(Ports.USB.RIGHT);
@@ -158,21 +179,10 @@ public class Robot extends IterativeRobot {
 		gamepad = new Joystick(Ports.USB.GAMEPAD);
 
 		control = new ControllerBase(gamepad, joyLeft, joyRight);	
-		
-		jack = new Jack();
-		
-		gyro.calibrate(); 
-		gyro.reset();
+
+		// misc.
 		
 		gameData = new GameData();
-		
-		accelerometer = new HMAccelerometer();
-		
-		elevatorControl = new Elevator(elevator, hingeControl, this);
-		
-		hingeControl = new Hinge(hinge, this);
-		
-		winchControl = new Winch(winch, this);
 		
 		tracker = new PositionTracker();
 	}
