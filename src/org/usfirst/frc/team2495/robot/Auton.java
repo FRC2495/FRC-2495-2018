@@ -6,6 +6,9 @@ public class Auton {
 	
 	String autoSelected;
 	String startPosition;
+	String cameraOption;
+	String sonarOption;
+	
 	IGameData gameData;
 	
 	IDrivetrain drivetrain;
@@ -21,13 +24,17 @@ public class Auton {
 	
 	PositionTracker tracker;
 
-	public Auton(String autoSelected_in, String startPosition_in, IGameData gameData_in,
+	public Auton(String autoSelected_in, String startPosition_in, String cameraOption_in,
+			String sonarOption_in, IGameData gameData_in,
 			IDrivetrain drivetrain_in, IJack jack_in, IMiniDrivetrain miniDrivetrain_in,
 			IHinge hinge_in, IGrasper grasper_in, IElevator elevator_in,
 			HMCamera camera_in, Robot robot_in, PositionTracker tracker_in) {		
 		
 		autoSelected = autoSelected_in;
 		startPosition = startPosition_in;
+		cameraOption = cameraOption_in;
+		sonarOption = sonarOption_in;
+		
 		gameData = gameData_in;
 		
 		drivetrain = drivetrain_in;
@@ -113,7 +120,7 @@ public class Auton {
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
 	public void execute() {		
 		switch (autoSelected) {
-		case Robot.CUSTOM_AUTON:
+		case Robot.AUTON_CUSTOM:
 
 			// start position left
 			if (startPosition == Robot.START_POSITION_LEFT)
@@ -384,7 +391,7 @@ public class Auton {
 			autoSelected = "we are done"; // this is ok because we have a default case		
 			break;
 			
-		case Robot.DEFAULT_AUTON:
+		case Robot.AUTON_DO_NOTHING:
 			
 			autoSelected = "we are done"; // this is ok because we have a default case
 			break;

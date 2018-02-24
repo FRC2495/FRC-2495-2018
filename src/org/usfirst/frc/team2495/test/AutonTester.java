@@ -7,28 +7,32 @@ public class AutonTester {
 
 	public static void main(String[] args) {
 		
-		String autonSelected = Robot.CUSTOM_AUTON;
+		String autonSelected = Robot.AUTON_CUSTOM;
 		
 		// CHANGE THE STARTING POSITION HERE (START_POSITION_LEFT or START_POSITION_CENTER or START_POSITION_RIGHT)
 		String startPosition = Robot.START_POSITION_LEFT;
 		
+		String cameraOption = Robot.CAMERA_OPTION_USE_NEVER;
+		
+		String sonarOption = Robot.SONAR_OPTION_USE_ALWAYS;
+		
 		EmulatedGameData gameData = new EmulatedGameData();
 		
 		gameData.setGameSpecificMessage("LLL");
-		test(autonSelected, startPosition, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
 
 		gameData.setGameSpecificMessage("LRL");
-		test(autonSelected, startPosition, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
 
 		gameData.setGameSpecificMessage("RRR");
-		test(autonSelected, startPosition, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
 		
 		gameData.setGameSpecificMessage("RLR");
-		test(autonSelected, startPosition, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
 
 }
 		
-	public static void test(String autoSelected, String startPosition, EmulatedGameData gameData) {	
+	public static void test(String autoSelected, String startPosition, String cameraOption, String sonarOption, EmulatedGameData gameData) {	
 
 		PositionTracker tracker = new PositionTracker();
 		
@@ -48,12 +52,14 @@ public class AutonTester {
 		
 		System.out.println("Auto selected: " + autoSelected);	
 		System.out.println("Start position: " + startPosition);
+		System.out.println("Camera option: " + cameraOption);
+		System.out.println("Sonar option: " + sonarOption);
 		
 		System.out.println("First switch: " + gameData.getAssignedPlateAtFirstSwitch());
 		System.out.println("Scale: " + gameData.getAssignedPlateAtScale());
 		System.out.println("Second switch: " + gameData.getAssignedPlateAtSecondSwitch());
 
-		Auton auton = new Auton(autoSelected, startPosition, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot, tracker);
+		Auton auton = new Auton(autoSelected, startPosition, cameraOption, sonarOption, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot, tracker);
 		
 		System.out.println("\nAuton initalizing\n");
 		
