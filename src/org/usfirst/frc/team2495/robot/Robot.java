@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	public static final boolean HINGE_DISABLED = false;
 	public static final boolean ELEVATOR_DISABLED = false;	
 	
+	// choosers
+	
 	public static final String kDefaultAuto = "Default";
 	public static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
@@ -47,58 +49,67 @@ public class Robot extends IterativeRobot {
 	private String startPosition;
 	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
 	
-	Drivetrain drivetrain;
-	
-	MiniDrivetrain miniDrivetrain;
-	
-	Grasper grasper;
+	// sensors
 	
 	HMCamera camera;
 	
+	ADXRS450_Gyro gyro; // gyro
+	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
+	
+	Sonar sonar;
+	
+	HMAccelerometer accelerometer;
+	
+	// motorized devices
+	
+	Drivetrain drivetrain;
+
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	BaseMotorController rearLeft; 
 	BaseMotorController rearRight;
 	
+	MiniDrivetrain miniDrivetrain;
+	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
 
+	boolean elevatorFlagUp = true;
+	Elevator elevatorControl;
+	
 	WPI_TalonSRX elevator;
+	
+	Grasper grasper;
 	
 	BaseMotorController grasperLeft;
 	BaseMotorController grasperRight;
 	
+	boolean hingeFlagUp = false;
+	Hinge hingeControl;
+	
 	WPI_TalonSRX hinge; 
+	
+	Winch winchControl;
 	
 	BaseMotorController winch;
 	
-	Joystick joyLeft, joyRight;
-	Joystick gamepad;
-	
-	ADXRS450_Gyro gyro; // gyro
-	
-	Sonar sonar;
+	// pneumatic devices
 	
 	Compressor compressor; // the compressor's lifecycle needs to be the same as the robot
-	
-	ControllerBase control;
-
-	boolean hasGyroBeenManuallyCalibratedAtLeastOnce = false;
-	
-	boolean elevatorFlagUp = true;
-	Elevator elevatorControl;
 	
 	Jack jack;
 	boolean largeDriveTrainSelected = false; // by default we assume small drivetrain is down
 	
-	boolean hingeFlagUp = false;
-	Hinge hingeControl;
+	// joysticks and gamepad
+	
+	ControllerBase control;
+	
+	Joystick joyLeft, joyRight;
+	Joystick gamepad;
+	
+	//misc. 
 	
 	GameData gameData;
-	
-	HMAccelerometer accelerometer;
-	
-	Winch winchControl;
 	
 	Auton auton = null; // autonomous stuff
 	
@@ -159,17 +170,19 @@ public class Robot extends IterativeRobot {
 		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
 		
 		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-		
-		compressor = new Compressor();
-		compressor.checkCompressor();
-				
-		jack = new Jack();
-						
+								
 		elevatorControl = new Elevator(elevator, hingeControl, this);
 		
 		hingeControl = new Hinge(hinge, this);
 		
 		winchControl = new Winch(winch, this);
+		
+		// pneumatic devices
+		
+		compressor = new Compressor();
+		compressor.checkCompressor();
+				
+		jack = new Jack();
 		
 		// joysticks and gamepad
 		
