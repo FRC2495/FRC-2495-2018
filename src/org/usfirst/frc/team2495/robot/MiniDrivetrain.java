@@ -143,7 +143,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 		//creates a PID controller
 		moveUsingCameraPidController = new PIDController(MOVE_USING_CAMERA_PROPORTIONAL_GAIN, MOVE_USING_CAMERA_INTEGRAL_GAIN, MOVE_USING_CAMERA_DERIVATIVE_GAIN, camera, this, MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS);
     	
-		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS); // valid input range 
+		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS/2, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS/2); // valid input range 
 		moveUsingCameraPidController.setOutputRange(-MAX_MOVE_USING_CAMERA_PCT_OUTPUT, MAX_MOVE_USING_CAMERA_PCT_OUTPUT); // output range NOTE: might need to change signs
     	
 		moveUsingCameraPidController.setAbsoluteTolerance(PIXEL_THRESHOLD); // error tolerated

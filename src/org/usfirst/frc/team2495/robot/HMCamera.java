@@ -144,8 +144,7 @@ public class HMCamera implements PIDSource {
 	
 	public double getPixelDisplacementToCenterToTarget() {
 		if (isCoherent() && largeIndex != BAD_INDEX) {
-			double diff = (getCenterX()[largeIndex] - (HORIZONTAL_CAMERA_RES_PIXELS / 2))
-					/ HORIZONTAL_CAMERA_RES_PIXELS;
+			double diff = (getCenterX()[largeIndex] - (HORIZONTAL_CAMERA_RES_PIXELS / 2));
 			return diff;
 		} else
 			return 0;
