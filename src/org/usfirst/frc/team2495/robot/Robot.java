@@ -161,7 +161,7 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate(); 
 		gyro.reset();
 		
-		camera = new HMCamera("GRIP/myContoursReport",false);
+		camera = new HMCamera("GRIP/myContoursReport");
 		
 		accelerometer = new HMAccelerometer();
 		
