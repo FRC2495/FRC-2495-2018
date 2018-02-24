@@ -96,8 +96,8 @@ public class ControllerBase {
 	 * @param rightStick the {@code Joystick} to use for the right joystick.
 	 */
 	public ControllerBase(Joystick gamepad, Joystick leftStick, Joystick rightStick) {		
-		btn = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS];
-		btnPrev = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS];
+		btn = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS/*+1*/];
+		btnPrev = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS/*+1*/];
 		
 		// CAUTION: joysticks are indexed according to order defined in Joysticks enum
 		// Therefore changes in Joysticks enum need to be reflected here...
@@ -113,13 +113,13 @@ public class ControllerBase {
 	public void update() {
 		//Dealing with buttons on the different joysticks
 		for (int i = 0; i < ControllerBase.MAX_NUMBER_CONTROLLERS; i++) {
-			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS; j++) {
+			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS/*+1*/; j++) {
 				btnPrev[i][j] = btn[i][j];
 			}
 		}
 
 		for (int i = 0; i < ControllerBase.MAX_NUMBER_CONTROLLERS; i++) {
-			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS; j++) {
+			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS/*+1*/; j++) {
 				btn[i][j] = joysticks[i].getRawButton(j);
 			}
 		}
