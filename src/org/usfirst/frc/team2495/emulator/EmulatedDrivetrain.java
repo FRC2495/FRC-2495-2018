@@ -43,7 +43,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
-			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
+			System.out.println("VIOLATION: cannot turn drivetrain when jack is not up!");
 		}
 		
 		gyro = (int)angle;
@@ -96,7 +96,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
-			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
+			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");
 		}
 		
 		int ltac = (int)(dist / Drivetrain.PERIMETER_WHEEL_INCHES * Drivetrain.TICKS_PER_REVOLUTION);
@@ -139,7 +139,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
-			System.out.println("VIOLATION: cannot move drivetrain when jack is up!");
+			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");
 		}
 		
 		gyro = angle;

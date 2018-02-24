@@ -36,7 +36,7 @@ public class EmulatedMiniDrivetrain implements IMiniDrivetrain {
 		}	
 		
 		if (jack != null && (jack.getPosition() != Position.DOWN)) {
-			System.out.println("VIOLATION: cannot move drivetrain when jack is down!");
+			System.out.println("VIOLATION: cannot move mini drivetrain when jack is not down!");
 		}
 		
 		int ltac = (int)(dist / MiniDrivetrain.PERIMETER_WHEEL_INCHES * MiniDrivetrain.TICKS_PER_REVOLUTION);

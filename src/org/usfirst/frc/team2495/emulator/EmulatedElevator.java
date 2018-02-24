@@ -37,6 +37,10 @@ public class EmulatedElevator implements IElevator {
 	public void home() {
 		System.out.println("Elevator: BEGIN home");
 		
+		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
+			System.out.println("VIOLATION: cannot home elevator when hinge has not been homed or is not down!");
+		}
+		
 		isFwdLimitSwitchClosed = true;
 		
 		encoder = 0; // by definition

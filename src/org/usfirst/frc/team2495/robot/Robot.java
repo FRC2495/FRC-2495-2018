@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
+import org.usfirst.frc.team2495.robot.Jack.Position;
+
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -265,6 +267,8 @@ public class Robot extends IterativeRobot {
 		// Jack up or down the robot to switch between main or mini drivetrain			
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3))
 		{
+			System.out.println("Button RIGHT.BTN3 Pushed");
+			
 			//if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
 				System.out.println("jack down");
@@ -279,6 +283,8 @@ public class Robot extends IterativeRobot {
 		
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
 		{
+			System.out.println("Button RIGHT.BTN2 Pushed");
+			
 			//if(largeDriveTrainSelected){
 			//	largeDriveTrainSelected = false; 
 			//	System.out.println("jack down");
@@ -294,18 +300,24 @@ public class Robot extends IterativeRobot {
 		//Turn the Robot towards the cube
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
+			System.out.println("Button RIGHT.BTN4 Pushed");
+			
 			turnAngleUsingPidControllerTowardCube();
 		}
 		
 		//Move straight towards the cube 
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
+			System.out.println("Button RIGHT.BTN5 Pushed");
+			
 			moveDistanceTowardCube();
 		}
 
 		//Resets encoders (and gyro) "Reset"
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN6))
 		{
+			System.out.println("Button RIGHT.BTN6 Pushed");
+			
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
 			gyro.reset(); // resets to zero
@@ -314,6 +326,8 @@ public class Robot extends IterativeRobot {
 		//Stops the robot moving if pressed (or any closed loop operation) "Abort"
 		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN7))
 		{
+			System.out.println("Button RIGHT.BTN7 Pushed");
+			
 			drivetrain.stop();
 			miniDrivetrain.stop();
 			elevatorControl.stop();
@@ -324,39 +338,75 @@ public class Robot extends IterativeRobot {
 		
 		// LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK
 						
-		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
+		// todo document new option
+		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN2))
 		{
+			System.out.println("Button LEFT.BTN2 Pushed");
+			
+			if (jack != null && (jack.getPosition() != Position.DOWN)) {
+				System.out.println("WARNING: moving mini drivetrain when jack is not down!");
+			}
+			
+			miniDrivetrain.moveDistance(6);
+		}
+		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
+		{
+			System.out.println("Button LEFT.BTN3 Pushed");
+			
+			if (jack != null && (jack.getPosition() != Position.UP)) {
+				System.out.println("WARNING: moving drivetrain when jack is not up!");
+			}
+			
 			drivetrain.moveDistance(50);
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
+			System.out.println("Button LEFT.BTN4 Pushed");
+			
+			if (jack != null && (jack.getPosition() != Position.UP)) {
+				System.out.println("WARNING: turning drivetrain when jack is not up!");
+			}
+			
 			//drivetrain.moveDistanceAlongArc(-90);
 			drivetrain.turnAngleUsingPidController(-90);
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN5))
 		{
+			System.out.println("Button LEFT.BTN5 Pushed");
+			
+			if (jack != null && (jack.getPosition() != Position.UP)) {
+				System.out.println("WARNING: turning drivetrain when jack is not up!");
+			}
+			
 			//drivetrain.moveDistanceAlongArc(+90);
 			drivetrain.turnAngleUsingPidController(+90);
 		}
 		
-		// TODO: document this option
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN6))
 		{
+			System.out.println("Button LEFT.BTN6 Pushed");
+			
 			grasper.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
 		{
+			System.out.println("Button LEFT.BTN8 Pushed");
+			
 			elevatorControl.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN9))
 		{
+			System.out.println("Button LEFT.BTN9 Pushed");
+			
 			hingeControl.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
 		{
+			System.out.println("Button LEFT.BTN10 Pushed");
+			
 			winchControl.joystickControl(joyLeft);
 		}
 	
@@ -364,56 +414,68 @@ public class Robot extends IterativeRobot {
 		// GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD
 
 		//Home Elevator
-		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) { 
-			elevatorControl.home();
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.BACK)) {
+			System.out.println("Button BACK Pushed");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("ORDER DECLINED: cannot home elevator up when hinge has not been homed or is not down!");
+			} else {
+				elevatorControl.home();
+			}
 		}
 		
 		//Home Hinge
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.START)) { 
+			System.out.println("Button START Pushed");
+			
 			hingeControl.home();
 		}
 		
 		//elevator up and down using Left L3 button
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.L3)) {
-			System.out.println("Button Pushed");
+			System.out.println("Button L3 Pushed");
 			
-			if (!hingeControl.isDown()) {
-				System.out.println("Lower hinge first!");
-				return;
-			}
-			
-			if (elevatorFlagUp) {
-				elevatorControl.moveUp();
-				System.out.println("Elevator should be moving up");
-				elevatorFlagUp = false;
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
 			} else {
-				elevatorControl.moveDown();
-				System.out.println("Elevator should be moving down");
-				elevatorFlagUp = true;
+				if (elevatorFlagUp) {
+					elevatorControl.moveUp();
+					System.out.println("Elevator should be moving up");
+					elevatorFlagUp = false;
+				} else {
+					elevatorControl.moveDown();
+					System.out.println("Elevator should be moving down");
+					elevatorFlagUp = true;
+				}
 			}
 		}
 		
 		//Use Left bumper to move elevator midway (switch)
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LB)) { 
-			if (!hingeControl.isDown()) {
-				System.out.println("Lower hinge first!");
-				return;
+			System.out.println("Button LB Pushed");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("ORDER DECLINED: cannot move elevator midway when hinge has not been homed or is not down!");
+			} else {
+				elevatorControl.moveMidway();
+				System.out.println("Elevator should be moving midway");
+				elevatorFlagUp = false;
 			}
-			elevatorControl.moveMidway();
-			System.out.println("Elevator should be midway");
-			elevatorFlagUp = false;
 		}
 		
 		//Use Right bumper to move hinge midway (throw)
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.RB)) { 
+			System.out.println("Button RB Pushed");
+			
 			hingeControl.moveMidway();
-			System.out.println("Hinge should be midway");
+			System.out.println("Hinge should be moving midway");
 			hingeFlagUp = false;
 		}
 
 		//hinge bound to X
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
-			System.out.println("Button Pushed");
+			System.out.println("Button X Pushed");
+			
 			if (hingeFlagUp) {
 				hingeControl.moveUp();
 				System.out.println("Hinge should be moving up");
@@ -429,19 +491,41 @@ public class Robot extends IterativeRobot {
 		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
 				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
 			winchControl.winchUp();
+			control.rumble(true); // provides indicator that we are winching up (both keys are held)
 		}
 		else 
 		{
 			if (!control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
 			{
-				winchControl.stop();	// for manual mode, remove if auto stop is desired	
+				winchControl.stop();	// for manual mode, remove if auto stop is desired
+				control.rumble(false); // provides indicator that we stopped winching (zero or only one key held)
 			}
 		}
 
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.A)) { 
+			System.out.println("Button A Pushed");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("WARNING: grasping when hinge has not been homed or is not down!");
+			}
+			
+			if (elevatorControl != null && (!elevatorControl.hasBeenHomed() || !elevatorControl.isDown())) {
+				System.out.println("WARNING: grasping when elevator has not been homed or is not down!");
+			}
+			
 			grasper.grasp();
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.B)) {
+			System.out.println("Button B Pushed");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || hingeControl.isUp())) {
+				System.out.println("WARNING: releasing when hinge has not been homed or is up!");
+			}
+			
+			if (elevatorControl != null && (!elevatorControl.hasBeenHomed() || elevatorControl.isDown())) {
+				System.out.println("WARNING: releasing when elevator has not been homed or is down!");
+			}
+			
 			grasper.release();
 		}
 		else 
