@@ -7,8 +7,11 @@ public interface IDrivetrain {
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle);
 	
+	public boolean tripleCheckTurnAngleUsingPidController();	
+	
 	// do not use in teleop - for auton only
 	public void waitTurnAngleUsingPidController();
+	
 	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist);
@@ -20,6 +23,7 @@ public interface IDrivetrain {
 
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle);
+	
     
 	public void setPIDParameters();
 	

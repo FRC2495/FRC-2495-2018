@@ -11,6 +11,7 @@ public interface IMiniDrivetrain {
 	
 	// do not use in teleop - for auton only
 	public void waitMoveUsingCameraPidController();
+	
 		
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist);
@@ -19,6 +20,7 @@ public interface IMiniDrivetrain {
 	
 	// do not use in teleop - for auton only
 	public void waitMoveDistance();
+	
 
 	public void setPIDParameters();
 	
