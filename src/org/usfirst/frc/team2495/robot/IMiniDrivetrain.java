@@ -38,6 +38,8 @@ public interface IMiniDrivetrain {
 	public int getLeftValue();
 	
 	public boolean isMoving();
+	
+	public boolean isMovingUsingCamera();
 			
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 

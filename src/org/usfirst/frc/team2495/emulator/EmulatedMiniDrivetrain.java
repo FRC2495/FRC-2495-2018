@@ -1,8 +1,11 @@
 package org.usfirst.frc.team2495.emulator;
 
+import java.util.Calendar;
+
 import org.usfirst.frc.team2495.robot.*;
 import org.usfirst.frc.team2495.robot.Jack.Position;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -17,28 +20,93 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	PositionTracker tracker;
 	
-	public EmulatedMiniDrivetrain(IJack jack_in, PositionTracker tracker_in)
+	private int onTargetCount; // counter indicating how many times/iterations we were on target
+	boolean isMovingUsingCamera;  // indicates that the drivetrain is moving using the PID controller hereunder
+	
+	HMCamera camera;
+	
+	PIDController moveUsingCameraPidController; // the PID controller used to turn
+	
+	
+	public EmulatedMiniDrivetrain(IJack jack_in, PositionTracker tracker_in, HMCamera camera_in)
 	{	
 		jack = jack_in;
 		
 		tracker = tracker_in;
+		
+		camera = camera_in;
+	
+		//creates a PID controller
+		moveUsingCameraPidController = new PIDController(MiniDrivetrain.MOVE_USING_CAMERA_PROPORTIONAL_GAIN, MiniDrivetrain.MOVE_USING_CAMERA_INTEGRAL_GAIN, MiniDrivetrain.MOVE_USING_CAMERA_DERIVATIVE_GAIN, camera, this, MiniDrivetrain.MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS);
+	    	
+		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS); // valid input range 
+		moveUsingCameraPidController.setOutputRange(-MiniDrivetrain.MAX_MOVE_USING_CAMERA_PCT_OUTPUT, MiniDrivetrain.MAX_MOVE_USING_CAMERA_PCT_OUTPUT); // output range NOTE: might need to change signs
+	    	
+		moveUsingCameraPidController.setAbsoluteTolerance(MiniDrivetrain.PIXEL_THRESHOLD); // error tolerated
 	}
 	
-	// this method needs to be paired with checkMoveUsingCameraPidController()
 	public void moveUsingCameraPidController()
 	{
+		// switches to percentage vbus
+		stop(); // resets state 
 		
+		moveUsingCameraPidController.setSetpoint(0); // we want to end centered
+		moveUsingCameraPidController.enable(); // begins running
+		
+		isMovingUsingCamera = true;
+		onTargetCount = 0;
 	}
 		
 	public boolean tripleCheckMoveUsingCameraPidController()
 	{
-		return false;
+		if (isMovingUsingCamera) {
+			boolean isOnTarget = moveUsingCameraPidController.onTarget();
+			
+			if (isOnTarget) { // if we are on target in this iteration 
+				onTargetCount++; // we increase the counter
+			} else { // if we are not on target in this iteration
+				if (onTargetCount > 0) { // even though we were on target at least once during a previous iteration
+					onTargetCount = 0; // we reset the counter as we are not on target anymore
+					System.out.println("Triple-check failed (moving using camera).");
+				} else {
+					// we are definitely turning
+				}
+			}
+			
+	        if (onTargetCount > MiniDrivetrain.ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        	isMovingUsingCamera = false;
+	        }
+			
+			if (!isMovingUsingCamera) {
+				System.out.println("You have reached the target (moving using camera).");
+				stop();				 
+			}
+		}
+		return isMovingUsingCamera;
 	}
 		
 	// do not use in teleop - for auton only
 	public void waitMoveUsingCameraPidController()
 	{
-		
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		while (tripleCheckMoveUsingCameraPidController()) { 		
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= MiniDrivetrain.TIMEOUT_MS) {
+				System.out.println("You went over the time limit (moving using camera)");
+				stop();
+				break;
+			}
+
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			//robot.updateToSmartDash();
+		}		
+		stop();
 	}
 	
 	// this method needs to be paired with checkMoveDistance()
@@ -126,6 +194,10 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	public boolean isMoving() {
 		return false;
+	}
+	
+	public boolean isMovingUsingCamera() {
+		return isMovingUsingCamera;
 	}
 	
 	@Override

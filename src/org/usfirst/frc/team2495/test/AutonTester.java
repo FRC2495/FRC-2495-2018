@@ -32,15 +32,16 @@ public class AutonTester {
 
 		PositionTracker tracker = new PositionTracker();
 		
+		HMCamera camera = new HMCamera("GRIP/myContoursReport");
+		
 		IJack jack = new EmulatedJack();
 		IDrivetrain drivetrain = new EmulatedDrivetrain(jack, tracker);
-		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
+		IMiniDrivetrain miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker, camera);
 		
 		IHinge hinge = new EmulatedHinge();
 		IElevator elevator = new EmulatedElevator(hinge, tracker);
 		IGrasper grasper = new EmulatedGrasper(hinge,elevator);
 		
-		HMCamera camera = null;
 		Robot robot = null;
 		
 		System.out.println("\nAutonTester started with following settings:\n");

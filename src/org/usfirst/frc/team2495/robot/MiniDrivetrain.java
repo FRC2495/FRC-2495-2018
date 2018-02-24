@@ -19,7 +19,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	static final double DIAMETER_WHEEL_INCHES = 5;
 	public static final double PERIMETER_WHEEL_INCHES = DIAMETER_WHEEL_INCHES * Math.PI;
 	
-	static final int TIMEOUT_MS = 15000;	
+	public static final int TIMEOUT_MS = 15000;	
 	
 	static final double RADIUS_DRIVEVETRAIN_INCHES = 13; // 12.5;
 	
@@ -33,16 +33,16 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	// move using camera settings
 	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
-	static final double MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
+	public static final double MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
 	
-	static final double MIN_MOVE_USING_CAMERA_PCT_OUTPUT = 0.1;
-	static final double MAX_MOVE_USING_CAMERA_PCT_OUTPUT = 0.5;
+	public static final double MIN_MOVE_USING_CAMERA_PCT_OUTPUT = 0.1;
+	public static final double MAX_MOVE_USING_CAMERA_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_USING_CAMERA_PROPORTIONAL_GAIN = 0.001; // TODO tune 320 pixels -> 0.3 pct output
-	static final double MOVE_USING_CAMERA_INTEGRAL_GAIN = 0.0;
-	static final double MOVE_USING_CAMERA_DERIVATIVE_GAIN = 0.0;
+	public static final double MOVE_USING_CAMERA_PROPORTIONAL_GAIN = 0.001; // TODO tune 320 pixels -> 0.3 pct output
+	public static final double MOVE_USING_CAMERA_INTEGRAL_GAIN = 0.0;
+	public static final double MOVE_USING_CAMERA_DERIVATIVE_GAIN = 0.0;
 	
-	static final int PIXEL_THRESHOLD = HMCamera.HORIZONTAL_CAMERA_RES_PIXELS / 10; // TODO adjust as needed
+	public static final int PIXEL_THRESHOLD = HMCamera.HORIZONTAL_CAMERA_RES_PIXELS / 10; // TODO adjust as needed
 	
 	
 	// move settings
@@ -62,7 +62,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	// shared turn and move settings
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
-	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	public final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
 
 	
 	// variables
@@ -146,7 +146,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS); // valid input range 
 		moveUsingCameraPidController.setOutputRange(-MAX_MOVE_USING_CAMERA_PCT_OUTPUT, MAX_MOVE_USING_CAMERA_PCT_OUTPUT); // output range NOTE: might need to change signs
     	
-		moveUsingCameraPidController.setAbsoluteTolerance(PIXEL_THRESHOLD); // 1 degree error tolerated
+		moveUsingCameraPidController.setAbsoluteTolerance(PIXEL_THRESHOLD); // error tolerated
 				
 		differentialDrive = new DifferentialDrive(frontCenter, rearCenter);
 		differentialDrive.setSafetyEnabled(false); // disables the stupid timeout error when we run in closed loop
@@ -400,6 +400,10 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	public boolean isMoving() {
 		return isMoving;
 	}	
+	
+	public boolean isMovingUsingCamera() {
+		return isMovingUsingCamera;
+	}
 	
 	@Override
 	public void pidWrite(double output) {
