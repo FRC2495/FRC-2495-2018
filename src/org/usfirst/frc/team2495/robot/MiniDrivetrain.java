@@ -38,7 +38,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	static final double MIN_MOVE_USING_CAMERA_PCT_OUTPUT = 0.1;
 	static final double MAX_MOVE_USING_CAMERA_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_USING_CAMERA_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_USING_CAMERA_PROPORTIONAL_GAIN = 0.001; // TODO tune 320 pixels -> 0.3 pct output
 	static final double MOVE_USING_CAMERA_INTEGRAL_GAIN = 0.0;
 	static final double MOVE_USING_CAMERA_DERIVATIVE_GAIN = 0.0;
 	
@@ -66,7 +66,8 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 
 	
 	// variables
-	boolean isMoving; // indicates that the MiniDrivetrain is moving using the PID controllers embedded on the motor controllers 
+	boolean isMoving; // indicates that the MiniDrivetrain is moving using the PID controllers embedded on the motor controllers
+	boolean isMovingUsingCamera;  // indicates that the drivetrain is moving using the PID controller hereunder
 	
 	double ltac, rtac; // target positions 
 
@@ -154,18 +155,66 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	// this method needs to be paired with checkMoveUsingCameraPidController()
 	public void moveUsingCameraPidController()
 	{
+		// switches to percentage vbus
+		stop(); // resets state 
 		
+		moveUsingCameraPidController.setSetpoint(0); // we want to end centered
+		moveUsingCameraPidController.enable(); // begins running
+		
+		isMovingUsingCamera = true;
+		onTargetCount = 0;
 	}
 		
 	public boolean tripleCheckMoveUsingCameraPidController()
 	{
-		return false;
+		if (isMovingUsingCamera) {
+			boolean isOnTarget = moveUsingCameraPidController.onTarget();
+			
+			if (isOnTarget) { // if we are on target in this iteration 
+				onTargetCount++; // we increase the counter
+			} else { // if we are not on target in this iteration
+				if (onTargetCount > 0) { // even though we were on target at least once during a previous iteration
+					onTargetCount = 0; // we reset the counter as we are not on target anymore
+					System.out.println("Triple-check failed (moving using camera).");
+				} else {
+					// we are definitely turning
+				}
+			}
+			
+	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        	isMovingUsingCamera = false;
+	        }
+			
+			if (!isMovingUsingCamera) {
+				System.out.println("You have reached the target (moving using camera).");
+				stop();				 
+			}
+		}
+		return isMovingUsingCamera;
 	}
 		
 	// do not use in teleop - for auton only
 	public void waitMoveUsingCameraPidController()
 	{
-		
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		while (tripleCheckMoveUsingCameraPidController()) { 		
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (moving using camera)");
+				stop();
+				break;
+			}
+
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}		
+		stop();
 	}
 	
 	// this method needs to be paired with checkMoveDistance()
@@ -243,11 +292,13 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	}
 	
 	public void stop() {
-		 
+		moveUsingCameraPidController.disable(); // exits PID loop
+		
 		rearCenter.set(ControlMode.PercentOutput, 0);
 		frontCenter.set(ControlMode.PercentOutput, 0);
 		
 		isMoving = false;
+		isMovingUsingCamera = false;
 		
 		setNominalAndPeakOutputs(MAX_PCT_OUTPUT); // we undo what me might have changed
 	}
@@ -303,7 +354,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	// joystick control
 	
 	{
-		if (!isMoving) // if we are already doing a move or turn we don't take over
+		if (!isMoving && !isMovingUsingCamera) // if we are already doing a move or turn we don't take over
 		{
 			if(!held)
 			{
