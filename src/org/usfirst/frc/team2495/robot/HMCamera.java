@@ -185,6 +185,6 @@ public class HMCamera implements PIDSource {
 	{
 		acquireTargets(false); // we don't want to wait but the lag might be problematic
 		
-		return getPixelDisplacementToCenterToTarget();
+		return -getPixelDisplacementToCenterToTarget(); // we are located at the opposite or the displacement we need to shift by
 	}
 }
