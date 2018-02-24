@@ -53,13 +53,13 @@ public class Auton {
 			hinge.waitHome();
 		}
 		
+		hinge.moveDown(); // always moves hinge down first
+		hinge.waitMove();
+		
 		if (!elevator.hasBeenHomed() && !Robot.ELEVATOR_DISABLED) { // just in case somebody forgot to home
 			elevator.home(); 
 			elevator.waitHome();	
 		}
-		
-		hinge.moveDown(); // always moves hinge down first
-		hinge.waitMove();
 	}
 	
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
