@@ -113,7 +113,7 @@ public class Auton {
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
 	public void execute() {		
 		switch (autoSelected) {
-		case Robot.kCustomAuto:
+		case Robot.CUSTOM_AUTON:
 
 			// start position left
 			if (startPosition == Robot.START_POSITION_LEFT)
@@ -384,7 +384,7 @@ public class Auton {
 			autoSelected = "we are done"; // this is ok because we have a default case		
 			break;
 			
-		case Robot.kDefaultAuto:
+		case Robot.DEFAULT_AUTON:
 			
 			autoSelected = "we are done"; // this is ok because we have a default case
 			break;

@@ -36,18 +36,28 @@ public class Robot extends IterativeRobot {
 	public static final boolean HINGE_DISABLED = false;
 	public static final boolean ELEVATOR_DISABLED = false;	
 	
-	// choosers
+	// choosers (for auton)
 	
-	public static final String kDefaultAuto = "Default";
-	public static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	public static final String DEFAULT_AUTON = "Default";
+	public static final String CUSTOM_AUTON = "My Auto";
+	private String autonSelected;
+	private SendableChooser<String> autonChooser = new SendableChooser<>();
 	
 	public static final String START_POSITION_LEFT = "Left";
 	public static final String START_POSITION_CENTER = "Center";
 	public static final String START_POSITION_RIGHT = "Right";
 	private String startPosition;
 	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
+	
+	public static final String CAMERA_OPTION_USE_ALWAYS = "Always";
+	public static final String CAMERA_OPTION_USE_NEVER = "Never";
+	private String cameraOption;
+	private SendableChooser<String> cameraOptionChooser = new SendableChooser<>();
+	
+	public static final String SONAR_OPTION_USE_ALWAYS = "Always";
+	public static final String SONAR_OPTION_USER_NEVER = "Never";
+	private String sonarOption;
+	private SendableChooser<String> sonarOptionChooser = new SendableChooser<>();
 	
 	// sensors
 	
@@ -123,16 +133,24 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-		// choosers
+		// choosers (for auton)
 		
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+		autonChooser.addDefault("Default Auto", DEFAULT_AUTON);
+		autonChooser.addObject("My Auto", CUSTOM_AUTON);
+		SmartDashboard.putData("Auto choices", autonChooser);
 		
 		startPositionChooser.addDefault("Left", START_POSITION_LEFT);
 		startPositionChooser.addObject("Center", START_POSITION_CENTER);
 		startPositionChooser.addObject("Right", START_POSITION_RIGHT);
 		SmartDashboard.putData("Start positions", startPositionChooser);
+		
+		cameraOptionChooser.addDefault("Always", CAMERA_OPTION_USE_ALWAYS);
+		cameraOptionChooser.addObject("Never", CAMERA_OPTION_USE_NEVER);
+		SmartDashboard.putData("Camera options", cameraOptionChooser);
+		
+		sonarOptionChooser.addDefault("Always", CAMERA_OPTION_USE_ALWAYS);
+		sonarOptionChooser.addObject("Never", CAMERA_OPTION_USE_NEVER);
+		SmartDashboard.putData("Sonar options", sonarOptionChooser);
 		
 		// sensors
 		
@@ -213,11 +231,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		System.out.println("Auto selected: " + m_autoSelected);
+		autonSelected = autonChooser.getSelected();
+		System.out.println("Auton selected: " + autonSelected);
 		
-		startPosition= startPositionChooser.getSelected();
+		startPosition = startPositionChooser.getSelected();
 		System.out.println("Start position: " + startPosition);
+		
+		cameraOption = cameraOptionChooser.getSelected();
+		System.out.println("Camera option: " + cameraOption);
+		
+		sonarOption = sonarOptionChooser.getSelected();
+		System.out.println("Sonar option: " + sonarOption);
 		
 		gameData.update();
 		
@@ -225,7 +249,7 @@ public class Robot extends IterativeRobot {
 		//So we are ready for autonomousPeriodic to be called.
 		updateToSmartDash();
 		
-		auton = new Auton(m_autoSelected, startPosition, gameData,
+		auton = new Auton(autonSelected, startPosition, gameData,
 				drivetrain, jack, miniDrivetrain,
 				hingeControl, grasper, elevatorControl,
 				camera, this, tracker);

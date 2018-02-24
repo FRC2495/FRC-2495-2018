@@ -7,7 +7,7 @@ public class AutonTester {
 
 	public static void main(String[] args) {
 		
-		String autoSelected = Robot.kCustomAuto;
+		String autonSelected = Robot.CUSTOM_AUTON;
 		
 		// CHANGE THE STARTING POSITION HERE (START_POSITION_LEFT or START_POSITION_CENTER or START_POSITION_RIGHT)
 		String startPosition = Robot.START_POSITION_LEFT;
@@ -15,16 +15,16 @@ public class AutonTester {
 		EmulatedGameData gameData = new EmulatedGameData();
 		
 		gameData.setGameSpecificMessage("LLL");
-		test(autoSelected, startPosition, gameData);
+		test(autonSelected, startPosition, gameData);
 
 		gameData.setGameSpecificMessage("LRL");
-		test(autoSelected, startPosition, gameData);
+		test(autonSelected, startPosition, gameData);
 
 		gameData.setGameSpecificMessage("RRR");
-		test(autoSelected, startPosition, gameData);
+		test(autonSelected, startPosition, gameData);
 		
 		gameData.setGameSpecificMessage("RLR");
-		test(autoSelected, startPosition, gameData);
+		test(autonSelected, startPosition, gameData);
 
 }
 		
