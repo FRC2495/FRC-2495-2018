@@ -23,10 +23,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
 	boolean isMovingUsingCamera;  // indicates that the drivetrain is moving using the PID controller hereunder
 	
-	HMCamera camera;
-	
-	PIDController moveUsingCameraPidController; // the PID controller used to turn
-	
+	HMCamera camera;	
 	
 	public EmulatedMiniDrivetrain(IJack jack_in, PositionTracker tracker_in, HMCamera camera_in)
 	{	
@@ -35,14 +32,6 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 		tracker = tracker_in;
 		
 		camera = camera_in;
-	
-		//creates a PID controller
-		moveUsingCameraPidController = new PIDController(MiniDrivetrain.MOVE_USING_CAMERA_PROPORTIONAL_GAIN, MiniDrivetrain.MOVE_USING_CAMERA_INTEGRAL_GAIN, MiniDrivetrain.MOVE_USING_CAMERA_DERIVATIVE_GAIN, camera, this, MiniDrivetrain.MOVE_USING_CAMERA_PID_CONTROLLER_PERIOD_SECONDS);
-	    	
-		moveUsingCameraPidController.setInputRange(-HMCamera.HORIZONTAL_CAMERA_RES_PIXELS, HMCamera.HORIZONTAL_CAMERA_RES_PIXELS); // valid input range 
-		moveUsingCameraPidController.setOutputRange(-MiniDrivetrain.MAX_MOVE_USING_CAMERA_PCT_OUTPUT, MiniDrivetrain.MAX_MOVE_USING_CAMERA_PCT_OUTPUT); // output range NOTE: might need to change signs
-	    	
-		moveUsingCameraPidController.setAbsoluteTolerance(MiniDrivetrain.PIXEL_THRESHOLD); // error tolerated
 	}
 	
 	public void moveUsingCameraPidController()
@@ -52,13 +41,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 		if (jack != null && (jack.getPosition() != Position.DOWN)) {
 			System.out.println("VIOLATION: cannot move mini drivetrain using camera when jack is not down!");
 		}
-		
-		// switches to percentage vbus
-		stop(); // resets state 
-		
-		moveUsingCameraPidController.setSetpoint(0); // we want to end centered
-		moveUsingCameraPidController.enable(); // begins running
-		
+				
 		isMovingUsingCamera = true;
 		onTargetCount = 0;
 	}
@@ -66,7 +49,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public boolean tripleCheckMoveUsingCameraPidController()
 	{
 		if (isMovingUsingCamera) {
-			boolean isOnTarget = moveUsingCameraPidController.onTarget();
+			boolean isOnTarget = true;
 			
 			if (isOnTarget) { // if we are on target in this iteration 
 				onTargetCount++; // we increase the counter
@@ -210,7 +193,9 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	@Override
 	public void pidWrite(double output) {
-		if(Math.abs(moveUsingCameraPidController.getError()) < MiniDrivetrain.PIXEL_THRESHOLD)
+		double error = 0.0;
+		
+		if(error < MiniDrivetrain.PIXEL_THRESHOLD)
 		{
 			output = 0;
 		}

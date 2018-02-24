@@ -24,9 +24,11 @@ public class HMCamera implements PIDSource {
 	private static final int MAX_NT_RETRY = 5;
 	private static final double CAMERA_CATCHUP_DELAY_SECS = 0.250;
 
-	public HMCamera(String networktable) {
+	public HMCamera(String networktable, boolean isEmulated) {
 		// nt = NetworkTable.getTable(networktable);
-		nt = NetworkTableInstance.getDefault().getTable(networktable);
+		if (!isEmulated) {
+			nt = NetworkTableInstance.getDefault().getTable(networktable);
+		}
 	}
 
 	private void setLocalTables(double[] area, double[] width, double[] height, double[] centerX, double[] centerY) {
