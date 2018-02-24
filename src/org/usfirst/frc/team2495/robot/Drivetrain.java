@@ -451,8 +451,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		}
 		if(output != 0 && Math.abs(output) < MIN_TURN_PCT_OUTPUT)
 		{
-			double sign = output > 0 ? 1.0 : -1.0;
-			output = MIN_TURN_PCT_OUTPUT * sign;
+			output = Math.signum(output) * MIN_TURN_PCT_OUTPUT;
 		}
 		masterRight.set(ControlMode.PercentOutput, +output);
 		masterLeft.set(ControlMode.PercentOutput, -output);		

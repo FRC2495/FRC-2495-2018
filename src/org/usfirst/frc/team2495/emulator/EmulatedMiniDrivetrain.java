@@ -201,8 +201,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 		}
 		if(output != 0 && Math.abs(output) < MiniDrivetrain.MIN_MOVE_USING_CAMERA_PCT_OUTPUT)
 		{
-			double sign = output > 0 ? 1.0 : -1.0;
-			output = MiniDrivetrain.MIN_MOVE_USING_CAMERA_PCT_OUTPUT * sign;
+			output = Math.signum(output) * MiniDrivetrain.MIN_MOVE_USING_CAMERA_PCT_OUTPUT;
 		}
 		
 		System.out.println("MiniDrivetrain.pidWrite() output is " + output + "\n");

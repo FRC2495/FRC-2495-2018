@@ -413,8 +413,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 		}
 		if(output != 0 && Math.abs(output) < MIN_MOVE_USING_CAMERA_PCT_OUTPUT)
 		{
-			double sign = output > 0 ? 1.0 : -1.0;
-			output = MIN_MOVE_USING_CAMERA_PCT_OUTPUT * sign;
+			output = Math.signum(output) * MIN_MOVE_USING_CAMERA_PCT_OUTPUT;
 		}
 		frontCenter.set(ControlMode.PercentOutput, +output);
 		rearCenter.set(ControlMode.PercentOutput, +output);
