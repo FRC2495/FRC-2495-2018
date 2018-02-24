@@ -209,7 +209,7 @@ public class Elevator implements IElevator {
 				System.out.println("Triple-check failed (elevator homing part 2).");
 			} else {
 				// we are definitely homing
-				System.out.println("Elevator homing part 2 error: " + Math.abs(error));
+				//System.out.println("Elevator homing part 2 error: " + Math.abs(error));
 			}
 		}
 		

@@ -138,7 +138,7 @@ public class Grasper implements IGrasper{
 					System.out.println("Triple-check failed (grasping).");
 				} else {
 					// we are definitely moving
-					System.out.println("Grasping. Sonar range: " + sonar.getRangeInInches());
+					//System.out.println("Grasping. Sonar range: " + sonar.getRangeInInches());
 				}
 			}
 			
@@ -189,7 +189,7 @@ public class Grasper implements IGrasper{
 					System.out.println("Triple-check failed (releasing).");
 				} else {
 					// we are definitely moving
-					System.out.println("Releasing. Sonar range: " + sonar.getRangeInInches());
+					//System.out.println("Releasing. Sonar range: " + sonar.getRangeInInches());
 				}
 			}
 			

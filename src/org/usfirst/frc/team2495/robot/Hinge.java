@@ -211,7 +211,7 @@ public class Hinge implements IHinge {
 				System.out.println("Triple-check failed (hinge homing part 2).");
 			} else {
 				// we are definitely homing
-				System.out.println("Hinge homing part 2 error: " + Math.abs(error));
+				//System.out.println("Hinge homing part 2 error: " + Math.abs(error));
 			}
 		}
 		
@@ -249,7 +249,7 @@ public class Hinge implements IHinge {
 		if (isMoving) {
 			
 			double error = hinge.getClosedLoopError(PRIMARY_PID_LOOP);
-			System.out.println("Hinge moving error: " + Math.abs(error));
+			//System.out.println("Hinge moving error: " + Math.abs(error));
 			
 			boolean isOnTarget = (Math.abs(error) < TICK_THRESH);
 			
