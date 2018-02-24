@@ -20,17 +20,12 @@ public class AutonTester {
 		gameData.setGameSpecificMessage("LRL");
 		test(autoSelected, startPosition, gameData);
 
-		gameData.setGameSpecificMessage("LRR");
-		test(autoSelected, startPosition, gameData);
-
 		gameData.setGameSpecificMessage("RRR");
 		test(autoSelected, startPosition, gameData);
 		
 		gameData.setGameSpecificMessage("RLR");
 		test(autoSelected, startPosition, gameData);
 
-		gameData.setGameSpecificMessage("RLL");
-		test(autoSelected, startPosition, gameData);
 }
 		
 	public static void test(String autoSelected, String startPosition, EmulatedGameData gameData) {	
