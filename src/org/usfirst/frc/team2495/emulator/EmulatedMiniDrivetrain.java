@@ -47,6 +47,12 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	public void moveUsingCameraPidController()
 	{
+		System.out.print("MiniDrivetrain: BEGIN move using camera");
+		
+		if (jack != null && (jack.getPosition() != Position.DOWN)) {
+			System.out.println("VIOLATION: cannot move mini drivetrain using camera when jack is not down!");
+		}
+		
 		// switches to percentage vbus
 		stop(); // resets state 
 		
@@ -107,6 +113,8 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 			//robot.updateToSmartDash();
 		}		
 		stop();
+		
+		System.out.println("MiniDrivetrain: END move using camera");
 	}
 	
 	// this method needs to be paired with checkMoveDistance()
@@ -202,7 +210,17 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	@Override
 	public void pidWrite(double output) {
+		if(Math.abs(moveUsingCameraPidController.getError()) < MiniDrivetrain.PIXEL_THRESHOLD)
+		{
+			output = 0;
+		}
+		if(output != 0 && Math.abs(output) < MiniDrivetrain.MIN_MOVE_USING_CAMERA_PCT_OUTPUT)
+		{
+			double sign = output > 0 ? 1.0 : -1.0;
+			output = MiniDrivetrain.MIN_MOVE_USING_CAMERA_PCT_OUTPUT * sign;
+		}
 		
+		System.out.println("MiniDrivetrain.pidWrite() output is " + output + "\n");
 	}
 		
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.

@@ -407,7 +407,17 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	@Override
 	public void pidWrite(double output) {
-		
+		if(Math.abs(moveUsingCameraPidController.getError()) < PIXEL_THRESHOLD)
+		{
+			output = 0;
+		}
+		if(output != 0 && Math.abs(output) < MIN_MOVE_USING_CAMERA_PCT_OUTPUT)
+		{
+			double sign = output > 0 ? 1.0 : -1.0;
+			output = MIN_MOVE_USING_CAMERA_PCT_OUTPUT * sign;
+		}
+		frontCenter.set(ControlMode.PercentOutput, +output);
+		rearCenter.set(ControlMode.PercentOutput, +output);
 	}
 	
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
