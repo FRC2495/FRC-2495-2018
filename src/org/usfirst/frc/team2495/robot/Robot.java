@@ -252,6 +252,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
 		
 		miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
+		miniDrivetrain.tripleCheckMoveUsingCameraPidController(); // checks if we are done moving using camera if we were moving
 		
 		elevatorControl.checkHome();
 		elevatorControl.tripleCheckMove();
@@ -357,17 +358,21 @@ public class Robot extends IterativeRobot {
 				System.out.println("WARNING: moving mini drivetrain when jack is not down!");
 			}
 			
-			miniDrivetrain.moveDistance(6);
+			miniDrivetrain.moveUsingCameraPidController();
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN3))
 		{
 			System.out.println("Button LEFT.BTN3 Pushed");
 			
-			if (jack != null && (jack.getPosition() != Position.UP)) {
-				System.out.println("WARNING: moving drivetrain when jack is not up!");
-			}
+			//if (jack != null && (jack.getPosition() != Position.UP)) {
+			//	System.out.println("WARNING: moving drivetrain when jack is not up!");
+			//}
 			
-			drivetrain.moveDistance(50);
+			if (largeDriveTrainSelected) {
+				drivetrain.moveDistance(50);
+			} else {
+				miniDrivetrain.moveDistance(5);
+			}
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN4))
 		{
@@ -398,7 +403,7 @@ public class Robot extends IterativeRobot {
 			
 			grasper.joystickControl(joyLeft);
 		}
-		
+				
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
 		{
 			System.out.println("Button LEFT.BTN8 Pushed");
