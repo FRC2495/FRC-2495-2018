@@ -276,9 +276,9 @@ public class Robot extends IterativeRobot {
 		}			
 		
 		// Jack up or down the robot to switch between main or mini drivetrain			
-		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
 		{
-			System.out.println("Button RIGHT.BTN3 Pushed");
+			System.out.println("Button RIGHT.BTN2 Pushed");
 			
 			//if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
@@ -292,9 +292,9 @@ public class Robot extends IterativeRobot {
 			//}			
 		}
 		
-		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN2))
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK,ControllerBase.JoystickButtons.BTN3))
 		{
-			System.out.println("Button RIGHT.BTN2 Pushed");
+			System.out.println("Button RIGHT.BTN3 Pushed");
 			
 			//if(largeDriveTrainSelected){
 			//	largeDriveTrainSelected = false; 
