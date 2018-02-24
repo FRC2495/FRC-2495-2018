@@ -44,6 +44,54 @@ public class Auton {
 		tracker = tracker_in;
 	}
 	
+	// begin camera support
+	// The code below is a copy of code that was already in Robot.java
+	// It is copied here to make it easier to run AutonTester with emulated devices (because Robot is set to only use real devices).
+	// NOTE THAT BEFORE USING ANY OF THE METHOD HEREUNDER MAKE SURE YOU CALL camera.acquireTargets() TO FORCE THE CAMERA TO REFRESH ITS INFORMATION.
+	// AND BECAUSE OF THE LAG IT IS SUGGSESTED TO USE camera.acquireTargets(true)
+	// The two methods implemented so far assume that we want to use the large drivetrain since the camera is only useful with the large drivetrain.
+	
+	// In Auton this method needs to be paired with waitTurnAngleUsingPidController().
+	// Regardless this method assumes that the camera is at the center of rotation, which is not true.
+	// But since we cannot properly estimate the distance to the target as the target size is not fixed we cannot correct this.
+	// In practice this should not be a big issue.
+	public void turnAngleUsingPidControllerTowardCube() {
+		drivetrain.turnAngleUsingPidController(camera.getAngleToTurnToTarget());
+		/*drivetrain.turnAngleUsingPidController(calculateProperTurnAngle(
+				camera.getAngleToTurnToTarget(),camera.getDistanceToTargetUsingHorizontalFov()));*/
+	}
+	
+	// In Auton this method needs to be paired with waitMoveDistance()
+	public void moveDistanceTowardCube() {
+		final int OFFSET_CAMERA_CUBE_INCHES = 10; // we need to leave some space between the camera and the target
+		final int MAX_DISTANCE_TO_CUBE_INCHES = 120; // arbitrary very large distance
+		
+		double distanceToTargetReportedByCamera = camera.getDistanceToTargetUsingHorizontalFov();
+		
+		if (distanceToTargetReportedByCamera <= MAX_DISTANCE_TO_CUBE_INCHES) {
+			if (distanceToTargetReportedByCamera >= OFFSET_CAMERA_CUBE_INCHES) {
+				drivetrain.moveDistance((distanceToTargetReportedByCamera - OFFSET_CAMERA_CUBE_INCHES)); // todo: check sign
+			} else {
+				System.out.println("Already at the cube!");
+			}
+		} else {
+			System.out.println("Cannot move to infinity and beyond!");
+		}		
+	}
+
+	/*private double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {
+		try {
+			final double OFFSET_BETWEEN_CAMERA_AND_ROTATION_CENTER_INCHES = 6; // inches - might need adjustment
+			double dist = cameraHorizontalDist * Math.cos(Math.toRadians(cameraTurnAngle));
+			return Math.toDegrees(Math.atan(Math.tan(Math.toRadians(cameraTurnAngle)) * dist
+					/ (dist + OFFSET_BETWEEN_CAMERA_AND_ROTATION_CENTER_INCHES)));
+		} catch (Exception e) {
+			System.out.println("Exception in proper turn angle calculation" + e.toString());
+			return 0;
+		}
+	}*/
+	// end camera support
+
 	// this method should be called once from autonomousInit() so that we always start in a known state
 	public void initialize() {
 		jack.setPosition(Jack.Position.UP); // just in case in was not up
