@@ -32,6 +32,10 @@ public class EmulatedHinge implements IHinge {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Hinge: BEGIN home");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
@@ -92,6 +96,10 @@ public class EmulatedHinge implements IHinge {
 	
 	public void moveUp() {
 		System.out.println("Hinge: BEGIN move up (retracted)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
@@ -101,6 +109,10 @@ public class EmulatedHinge implements IHinge {
 
 	public void moveMidway() {		
 		System.out.println("Hinge: BEGIN move midway (ready to release)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		isRevLimitSwitchClosed = false;
@@ -110,6 +122,10 @@ public class EmulatedHinge implements IHinge {
 	
 	public void moveDown() {
 		System.out.println("Hinge: BEGIN move down (ready to grasp)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		isRevLimitSwitchClosed = false;

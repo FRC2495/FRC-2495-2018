@@ -30,6 +30,10 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public void moveUsingCameraPidController()
 	{
 		System.out.print("MiniDrivetrain: BEGIN move using camera");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.DOWN)) {
@@ -59,15 +63,19 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
 		System.out.print("MiniDrivetrain: BEGIN move distance: " + dist + " inches ");
-		active = true;
-		
+				
 		if (dist > 0) {
 			System.out.println("(move arthwart right " + Math.abs(dist) + " inches)");
 		} else if (dist < 0) {
 			System.out.println("(move arthwart left " + Math.abs(dist) + " inches)");
 		} else {
 			System.out.println("(no move)");
-		}	
+		}
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
+		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.DOWN)) {
 			System.out.println("VIOLATION: cannot move mini drivetrain when jack is not down!");

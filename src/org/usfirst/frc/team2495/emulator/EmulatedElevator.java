@@ -39,6 +39,10 @@ public class EmulatedElevator implements IElevator {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Elevator: BEGIN home");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
@@ -96,6 +100,10 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveUp() {
 		System.out.println("Elevator: BEGIN move up (move up to scale)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
@@ -113,6 +121,10 @@ public class EmulatedElevator implements IElevator {
 
 	public void moveMidway() {		
 		System.out.println("Elevator: BEGIN move midway (move up to switch)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
@@ -130,6 +142,10 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveDown() {
 		System.out.println("Elevator: BEGIN move down (move down)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {

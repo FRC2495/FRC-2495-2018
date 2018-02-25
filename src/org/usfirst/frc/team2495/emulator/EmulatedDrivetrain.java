@@ -36,8 +36,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
 		System.out.print("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees ");
-		active = true;
-			
+					
 		if (angle > 0) {
 			System.out.println("(turn right " + Math.abs(angle) + " degrees)");
 		} else if (angle < 0) {
@@ -45,6 +44,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		} else {
 			System.out.println("(no move)");
 		}
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
+		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
 			System.out.println("VIOLATION: cannot turn drivetrain when jack is not up!");
@@ -91,8 +95,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
 		System.out.print("Drivetrain: BEGIN move distance: " + dist + " inches ");
-		active = true;
-		
+				
 		if (dist > 0) {
 			System.out.println("(move forward " + Math.abs(dist) + " inches)");
 		} else if (dist < 0) {
@@ -100,6 +103,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		} else {
 			System.out.println("(no move)");
 		}
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
+		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
 			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");
@@ -144,6 +152,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
 		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {

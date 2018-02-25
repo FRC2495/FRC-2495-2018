@@ -18,6 +18,10 @@ public class EmulatedGrasper implements IGrasper{
 
 	public void grasp() {
 		System.out.println("Grasper: BEGIN grasp (grasp cube)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
@@ -31,6 +35,10 @@ public class EmulatedGrasper implements IGrasper{
 	
 	public void release() {
 		System.out.println("Grasper: BEGIN release (release cube)");
+		
+		if (active) {
+			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
+		}
 		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || hinge.isUp())) {
