@@ -245,10 +245,16 @@ public class Auton {
 										
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
-					{
+					{	
+						jack.setPosition(Jack.Position.DOWN);
+						
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
+						
+						jack.setPosition(Jack.Position.UP);
+						
 						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
@@ -375,6 +381,7 @@ public class Auton {
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
@@ -439,9 +446,15 @@ public class Auton {
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
+						jack.setPosition(Jack.Position.DOWN);
+						
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
+						
+						jack.setPosition(Jack.Position.UP);
+						
 						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
