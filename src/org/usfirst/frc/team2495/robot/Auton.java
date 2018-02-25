@@ -19,7 +19,7 @@ public class Auton {
 	IGrasper grasper;
 	IElevator elevator;
 	
-	HMCamera camera;
+	IHMCamera camera;
 	Robot robot;
 	
 	PositionTracker tracker;
@@ -28,7 +28,7 @@ public class Auton {
 			String sonarOption_in, IGameData gameData_in,
 			IDrivetrain drivetrain_in, IJack jack_in, IMiniDrivetrain miniDrivetrain_in,
 			IHinge hinge_in, IGrasper grasper_in, IElevator elevator_in,
-			HMCamera camera_in, Robot robot_in, PositionTracker tracker_in) {		
+			IHMCamera camera_in, Robot robot_in, PositionTracker tracker_in) {		
 		
 		autoSelected = autoSelected_in;
 		startPosition = startPosition_in;
