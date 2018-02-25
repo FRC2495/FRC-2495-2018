@@ -163,8 +163,7 @@ public class Auton {
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-					{
-					
+					{				
 						miniDrivetrain.moveDistance(-144);//Move Left ____ in//Move Left ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
@@ -181,6 +180,12 @@ public class Auton {
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						camera.acquireTargets(true);
+						
+						this.turnAngleUsingPidControllerTowardCube();
+						drivetrain.waitTurnAngleUsingPidController();
+						
+						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
@@ -201,7 +206,6 @@ public class Auton {
 
 					elevator.moveDown();
 					elevator.waitMove();
-
 				} 
 				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)/// this thing 
@@ -255,6 +259,11 @@ public class Auton {
 						
 						camera.acquireTargets(true);
 						
+						this.turnAngleUsingPidControllerTowardCube();
+						drivetrain.waitTurnAngleUsingPidController();
+						
+						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
@@ -303,8 +312,7 @@ public class Auton {
 					grasper.tripleCheckReleaseUsingSonar();
 
 					elevator.moveDown();
-					elevator.waitMove();
-					
+					elevator.waitMove();				
 				}
 				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
@@ -382,6 +390,11 @@ public class Auton {
 					{
 						camera.acquireTargets(true);
 						
+						this.turnAngleUsingPidControllerTowardCube();
+						drivetrain.waitTurnAngleUsingPidController();
+						
+						camera.acquireTargets(true);
+						
 						this.moveDistanceTowardCube();
 						drivetrain.waitMoveDistance();
 					}
@@ -452,6 +465,11 @@ public class Auton {
 						miniDrivetrain.waitMoveUsingCameraPidController();
 						
 						jack.setPosition(Jack.Position.UP);
+						
+						camera.acquireTargets(true);
+						
+						this.turnAngleUsingPidControllerTowardCube();
+						drivetrain.waitTurnAngleUsingPidController();
 						
 						camera.acquireTargets(true);
 						
