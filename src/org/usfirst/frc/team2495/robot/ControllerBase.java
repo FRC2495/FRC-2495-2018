@@ -14,7 +14,13 @@ public class ControllerBase {
 	private boolean[][] btnPrev;
 
 	public static final int MAX_NUMBER_CONTROLLERS = 3;
-	public static final int MAX_NUMBER_BUTTONS = 11; 
+	public static final int MAX_NUMBER_BUTTONS = 11;
+		
+	private double[] gamepadAxes;
+	private double[] gamepadAxesPrev;
+	
+	public static final int MAX_NUMBER_GAMEPAD_AXES = 7;
+	public static final double GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD = 0.5;
 	
 	/**
 	 * The {@code GamepadButtons} class contains all the button bindings for the
@@ -30,8 +36,8 @@ public class ControllerBase {
 			RB = 6,
 			BACK = 7,
 			START = 8,
-			L3 = 9,
-			R3 = 10;
+			LS = 9,
+			RS = 10;
 		/**
 		 * <pre>
 		 * private GamepadButtons()
@@ -40,6 +46,30 @@ public class ControllerBase {
 		 * Unused constructor.
 		 */
 		private GamepadButtons() {
+			
+		}
+	}
+	
+	public static class GamepadAxes {
+		public static final int
+			LX = 1,
+			LY = 2,
+			TRIGGER = 3,
+			LT = 31, // appears trigger might be shared
+			RT = 32,
+			RX = 4,
+			RY = 5,
+			PX = 6,
+			PY = 7;
+		
+		/**
+		 * <pre>
+		 * private GamepadButtons()
+		 * </pre>
+		 * 
+		 * Unused constructor.
+		 */
+		private GamepadAxes() {
 			
 		}
 	}
@@ -61,7 +91,7 @@ public class ControllerBase {
 			BTN8 = 8,
 			BTN9 = 9,
 			BTN10 = 10,
-			BTN11_UNAVAILABLE = 11;
+			BTN11_UNAVAILABLE = 11; // because gamepad has only 10 buttons and that we share an array
 		
 		/**
 		 * <pre>
@@ -102,6 +132,9 @@ public class ControllerBase {
 		// CAUTION: joysticks are indexed according to order defined in Joysticks enum
 		// Therefore changes in Joysticks enum need to be reflected here...
 		joysticks = new Joystick[]{gamepad, leftStick, rightStick};
+		
+		gamepadAxes = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1];
+		gamepadAxesPrev = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1];
 	}
 	
 	/**
@@ -122,6 +155,14 @@ public class ControllerBase {
 			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS/*+1*/; j++) {
 				btn[i][j] = joysticks[i].getRawButton(j);
 			}
+		}
+		
+		for (int j = 1; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1; j++) {
+			gamepadAxesPrev[j] = gamepadAxes[j];
+		}
+		
+		for (int j = 1; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1; j++) {
+			gamepadAxes[j] = joysticks[Joysticks.GAMEPAD.ordinal()].getRawAxis(j);
 		}
 	}	
 
@@ -158,6 +199,61 @@ public class ControllerBase {
 	 */
 	public boolean getReleased(Joysticks contNum, int buttonNum){
 		return !btn[contNum.ordinal()][buttonNum] && btnPrev[contNum.ordinal()][buttonNum];
+	}
+	
+	
+	public boolean getGamepadTriggerDown(int buttonNum) {
+		
+		if (buttonNum == GamepadAxes.LT)
+		{
+			return (Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+					!(Math.max(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else if (buttonNum == GamepadAxes.RT)
+		{
+			return (-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+					!(-Math.min(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else
+		{
+			return (gamepadAxes[buttonNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				!(gamepadAxesPrev[buttonNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+	}	
+	
+	public boolean getGamepadTriggerHeld(int buttonNum)
+	{
+		if (buttonNum == GamepadAxes.LT)
+		{
+			return (Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else if (buttonNum == GamepadAxes.RT)
+		{
+			return (-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else
+		{
+			return (gamepadAxes[buttonNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+	}
+	
+	public boolean getGamePadTriggerReleased(int buttonNum){
+		
+		if (buttonNum == GamepadAxes.LT)
+		{
+			return !(Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+					(Math.max(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else if (buttonNum == GamepadAxes.RT)
+		{
+			return !(-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+					(-Math.min(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
+		else
+		{
+			return !(gamepadAxes[buttonNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				(gamepadAxesPrev[buttonNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
 	}
 	
 	/**

@@ -483,9 +483,9 @@ public class Robot extends IterativeRobot {
 			hingeControl.home();
 		}
 		
-		//elevator up and down using Left L3 button
-		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.L3)) {
-			System.out.println("Button L3 Pushed");
+		//elevator up and down using Left LS button
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LS)) {
+			System.out.println("Button LS Pushed");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
 				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
