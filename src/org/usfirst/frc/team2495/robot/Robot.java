@@ -50,12 +50,16 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
 	
 	public static final String CAMERA_OPTION_USE_ALWAYS = "Always";
+	public static final String CAMERA_OPTION_USE_OPEN_LOOP_ONLY = "Open Loop Only";
+	public static final String CAMERA_OPTION_USE_CLOSED_LOOP_ONLY = "Closed Loop Only";
 	public static final String CAMERA_OPTION_USE_NEVER = "Never";
 	private String cameraOption;
 	private SendableChooser<String> cameraOptionChooser = new SendableChooser<>();
 	
 	public static final String SONAR_OPTION_USE_ALWAYS = "Always";
-	public static final String SONAR_OPTION_USER_NEVER = "Never";
+	public static final String SONAR_OPTION_USE_RELEASE_ONLY = "Release Only";
+	public static final String SONAR_OPTION_USE_GRASP_ONLY = "Grasp Only";
+	public static final String SONAR_OPTION_USE_NEVER = "Never";
 	private String sonarOption;
 	private SendableChooser<String> sonarOptionChooser = new SendableChooser<>();
 	
@@ -145,11 +149,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Start positions", startPositionChooser);
 		
 		cameraOptionChooser.addObject("Always", CAMERA_OPTION_USE_ALWAYS);
-		cameraOptionChooser.addDefault("Never", CAMERA_OPTION_USE_NEVER);
+		cameraOptionChooser.addDefault("Open Loop Only", CAMERA_OPTION_USE_OPEN_LOOP_ONLY);
+		cameraOptionChooser.addObject("Closed Loop Only", CAMERA_OPTION_USE_CLOSED_LOOP_ONLY);
+		cameraOptionChooser.addObject("Never", CAMERA_OPTION_USE_NEVER);		
 		SmartDashboard.putData("Camera options", cameraOptionChooser);
 		
-		sonarOptionChooser.addDefault("Always", CAMERA_OPTION_USE_ALWAYS);
-		sonarOptionChooser.addObject("Never", CAMERA_OPTION_USE_NEVER);
+		sonarOptionChooser.addDefault("Always", SONAR_OPTION_USE_ALWAYS);
+		sonarOptionChooser.addObject("Release Only", SONAR_OPTION_USE_RELEASE_ONLY);
+		sonarOptionChooser.addObject("Grasp Only", SONAR_OPTION_USE_GRASP_ONLY);		
+		sonarOptionChooser.addObject("Never", SONAR_OPTION_USE_NEVER);
 		SmartDashboard.putData("Sonar options", sonarOptionChooser);
 		
 		// sensors
