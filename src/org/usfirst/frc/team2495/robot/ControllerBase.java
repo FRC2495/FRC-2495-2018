@@ -202,21 +202,35 @@ public class ControllerBase {
 	}
 	
 	
-	public boolean getGamepadAxisPressedDown(int axisNum) {
+	public boolean getGamepadAxisPressedDown(int axisNum, boolean polarity) {
 		
-		return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-				!(gamepadAxesPrev[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		if (polarity) {
+			return (Math.max(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				!(Math.max(gamepadAxesPrev[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		} else  {
+			return (-Math.min(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				!(-Math.min(gamepadAxesPrev[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
 	}	
 	
-	public boolean getGamepadAxisHeld(int axisNum)
+	public boolean getGamepadAxisHeld(int axisNum, boolean polarity)
 	{
-		return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		if (polarity) {
+			return (Math.max(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);				
+		} else  {
+			return (-Math.min(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
 	}
 	
-	public boolean getGamePadAxisReleased(int axisNum){
+	public boolean getGamePadAxisReleased(int axisNum, boolean polarity){
 		
-		return !(gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-			(gamepadAxesPrev[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		if (polarity) {
+			return !(Math.max(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				(Math.max(gamepadAxesPrev[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		} else  {
+			return !(-Math.min(gamepadAxes[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+				(-Math.min(gamepadAxesPrev[axisNum],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
+		}
 	}
 	
 	/**

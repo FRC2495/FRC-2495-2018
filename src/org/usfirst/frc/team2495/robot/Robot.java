@@ -587,20 +587,33 @@ public class Robot extends IterativeRobot {
 		
 		
 		// experimental code to see if we can detect gamepad axes virtually pressed as buttons
-		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX)) {
-			System.out.println("Gamepad axis LX Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY)) {
-			System.out.println("Gamepad axis LY Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT)) {
-			System.out.println("Gamepad axis LT Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT)) {
-			System.out.println("Gamepad axis RT Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX)) {
-			System.out.println("Gamepad axis RX Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY)) {
-			System.out.println("Gamepad axis RY Pushed");
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, true)) {
+			System.out.println("Gamepad axis LX Pushed positively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, true)) {
+			System.out.println("Gamepad axis LY Pushed positively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT, true)) {
+			System.out.println("Gamepad axis LT Pushed positively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT, true)) {
+			System.out.println("Gamepad axis RT Pushed positively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, true)) {
+			System.out.println("Gamepad axis RX Pushed positively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, true)) {
+			System.out.println("Gamepad axis RY Pushed positively");
 		}
 		
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, false)) {
+			System.out.println("Gamepad axis LX Pushed negatively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, false)) {
+			System.out.println("Gamepad axis LY Pushed negatively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT, false)) {
+			System.out.println("Gamepad axis LT Pushed negatively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT, false)) {
+			System.out.println("Gamepad axis RT Pushed negatively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, false)) {
+			System.out.println("Gamepad axis RX Pushed negatively");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, false)) {
+			System.out.println("Gamepad axis RY Pushed negatively");
+		}
 		
 		camera.acquireTargets(false);
 		updateToSmartDash(); 	
