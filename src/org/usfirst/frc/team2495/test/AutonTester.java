@@ -64,7 +64,7 @@ public class AutonTester {
 
 		PositionTracker tracker = new PositionTracker();
 		
-		HMCamera camera = null; // we need to create an emulated camera if we want to use a camera
+		IHMCamera camera = new EmulatedHMCamera("GRIP/myContoursReport");
 		
 		IJack jack = new EmulatedJack();
 		IDrivetrain drivetrain = new EmulatedDrivetrain(jack, tracker);
