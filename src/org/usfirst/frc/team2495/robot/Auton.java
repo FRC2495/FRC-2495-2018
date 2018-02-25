@@ -142,7 +142,7 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -205,7 +205,7 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
 						grasper.waitGraspUsingSonar();
@@ -219,7 +219,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -264,7 +264,7 @@ public class Auton {
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -307,7 +307,7 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
 						grasper.waitGraspUsingSonar();
@@ -321,7 +321,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -358,7 +358,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -381,7 +381,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -415,7 +415,7 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -478,7 +478,7 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
 						grasper.waitGraspUsingSonar();
@@ -492,7 +492,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -537,7 +537,7 @@ public class Auton {
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
@@ -580,7 +580,7 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
 						grasper.waitGraspUsingSonar();
@@ -594,7 +594,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
 					{
 						grasper.release();
 						grasper.waitReleaseUsingSonar();
