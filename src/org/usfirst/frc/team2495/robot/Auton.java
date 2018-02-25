@@ -180,7 +180,9 @@ public class Auton {
 					
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
+						camera.acquireTargets(true);
 						this.moveDistanceTowardCube();
+						drivetrain.waitMoveDistance();
 					}
 					else
 					{
@@ -246,7 +248,9 @@ public class Auton {
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
+						camera.acquireTargets(true);
 						this.moveDistanceTowardCube();
+						drivetrain.waitMoveDistance();
 					}
 					else
 					{
@@ -370,7 +374,9 @@ public class Auton {
 					
 					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
+						camera.acquireTargets(true);
 						this.moveDistanceTowardCube();
+						drivetrain.waitMoveDistance();
 					}
 					else
 					{
@@ -435,7 +441,9 @@ public class Auton {
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
+						camera.acquireTargets(true);
 						this.moveDistanceTowardCube();
+						drivetrain.waitMoveDistance();
 					}
 					else
 					{
