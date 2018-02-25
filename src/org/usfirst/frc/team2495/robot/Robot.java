@@ -586,6 +586,26 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
+		// experimental code to see if we can detect gamepad axes virtually pressed as buttons
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX)) {
+			System.out.println("Gamepad axis LX Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY)) {
+			System.out.println("Gamepad axis LY Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT)) {
+			System.out.println("Gamepad axis LT Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT)) {
+			System.out.println("Gamepad axis RT Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX)) {
+			System.out.println("Gamepad axis RX Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY)) {
+			System.out.println("Gamepad axis RY Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.PX)) {
+			System.out.println("Gamepad axis PX Pushed");
+		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.PY)) {
+			System.out.println("Gamepad axis PY Pushed");
+		}
+		
+		
 		camera.acquireTargets(false);
 		updateToSmartDash(); 	
 	}
