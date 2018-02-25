@@ -8,6 +8,9 @@ public class EmulatedGrasper implements IGrasper{
 	IHinge hinge;
 	IElevator elevator;
 	
+	boolean active = false;
+	
+	
 	public EmulatedGrasper(IHinge hinge_in, IElevator elevator_in) {
 		hinge = hinge_in;
 		elevator = elevator_in;
@@ -15,6 +18,7 @@ public class EmulatedGrasper implements IGrasper{
 
 	public void grasp() {
 		System.out.println("Grasper: BEGIN grasp (grasp cube)");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
 			System.out.println("VIOLATION: cannot grasp when hinge has not been homed or is not down!");
@@ -27,6 +31,7 @@ public class EmulatedGrasper implements IGrasper{
 	
 	public void release() {
 		System.out.println("Grasper: BEGIN release (release cube)");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || hinge.isUp())) {
 			System.out.println("VIOLATION: cannot release when hinge has not been homed or is up!");
@@ -47,6 +52,8 @@ public class EmulatedGrasper implements IGrasper{
 	// do not use in teleop - for auton only
 	public void waitGraspUsingSonar() {
 		System.out.println("Grasper: END grasp");
+		active = false;
+		
 		System.out.println("Grasper: STATE full\n");
 	}
 	
@@ -57,6 +64,8 @@ public class EmulatedGrasper implements IGrasper{
 	// do not use in teleop - for auton only
 	public void waitReleaseUsingSonar() {
 		System.out.println("Grasper: END release");
+		active = false;
+		
 		System.out.println("Grasper: STATE empty\n");
 	}
 		

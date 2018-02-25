@@ -19,6 +19,9 @@ public class EmulatedElevator implements IElevator {
 	
 	PositionTracker tracker;
 	
+	boolean active = false;
+	
+	
 	public EmulatedElevator(IHinge hinge_in, PositionTracker tracker_in) {
 		hinge = hinge_in;
 		
@@ -36,6 +39,7 @@ public class EmulatedElevator implements IElevator {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Elevator: BEGIN home");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
 			System.out.println("VIOLATION: cannot home elevator when hinge has not been homed or is not down!");
@@ -64,6 +68,7 @@ public class EmulatedElevator implements IElevator {
 	// do not use in teleop - for auton only
 	public void waitHome() {
 		System.out.println("Elevator: END home");
+		active = false;
 		
 		printState();
 		
@@ -80,6 +85,7 @@ public class EmulatedElevator implements IElevator {
 	// do not use in teleop - for auton only
 	public void waitMove() {
 		System.out.println("Elevator: END move");
+		active = false;
 		
 		printState();
 		
@@ -90,6 +96,7 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveUp() {
 		System.out.println("Elevator: BEGIN move up (move up to scale)");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
 			System.out.println("VIOLATION: cannot move elevator up when hinge has not been homed or is not down!");
@@ -106,6 +113,7 @@ public class EmulatedElevator implements IElevator {
 
 	public void moveMidway() {		
 		System.out.println("Elevator: BEGIN move midway (move up to switch)");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
 			System.out.println("VIOLATION: cannot move elevator midway when hinge has not been homed or is not down!");
@@ -122,6 +130,7 @@ public class EmulatedElevator implements IElevator {
 	
 	public void moveDown() {
 		System.out.println("Elevator: BEGIN move down (move down)");
+		active = true;
 		
 		if (hinge != null && (!hinge.hasBeenHomed() || !hinge.isDown())) {
 			System.out.println("VIOLATION: cannot move elevator down when hinge has not been homed or is not down!");

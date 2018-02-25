@@ -18,6 +18,9 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	
 	PositionTracker tracker;
 	
+	boolean active = false;
+	
+	
 	public EmulatedDrivetrain(IJack jack_in, PositionTracker tracker_in)
 	{	
 		jack = jack_in;
@@ -33,6 +36,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkTurnAngleUsingPidController()
 	public void turnAngleUsingPidController(double angle) {
 		System.out.print("Drivetrain: BEGIN turn angle using PID controller: " + angle + " degrees ");
+		active = true;
 			
 		if (angle > 0) {
 			System.out.println("(turn right " + Math.abs(angle) + " degrees)");
@@ -74,6 +78,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitTurnAngleUsingPidController() {
 		System.out.println("Drivetrain: END turn angle using PID controller");
+		active = false;
 		
 		printState();
 		
@@ -86,6 +91,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
 		System.out.print("Drivetrain: BEGIN move distance: " + dist + " inches ");
+		active = true;
 		
 		if (dist > 0) {
 			System.out.println("(move forward " + Math.abs(dist) + " inches)");
@@ -120,6 +126,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
 		System.out.println("Drivetrain: END move distance");
+		active = false;
 				
 		printState();
 
@@ -137,6 +144,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
 		System.out.println("Drivetrain: BEGIN move distance along arc: " + angle + " degrees");
+		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.UP)) {
 			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");

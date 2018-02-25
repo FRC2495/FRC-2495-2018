@@ -15,6 +15,9 @@ public class EmulatedHinge implements IHinge {
 	
 	boolean hasBeenHomed = false;
 	
+	boolean active = false;
+	
+	
 	public EmulatedHinge() {
 	}
 
@@ -29,6 +32,7 @@ public class EmulatedHinge implements IHinge {
 	// step 2: we go back up a little and mark the position as the virtual/logical zero.
 	public void home() {
 		System.out.println("Hinge: BEGIN home");
+		active = true;
 		
 		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
 		
@@ -68,6 +72,7 @@ public class EmulatedHinge implements IHinge {
 	// do not use in teleop - for auton only
 	public void waitHome() {		
 		System.out.println("Hinge: END home");
+		active = false;
 		
 		printState();
 	}
@@ -80,12 +85,14 @@ public class EmulatedHinge implements IHinge {
 	// do not use in teleop - for auton only
 	public void waitMove() {
 		System.out.println("Hinge: END move");
+		active = false;
 		
 		printState();
 	}
 	
 	public void moveUp() {
 		System.out.println("Hinge: BEGIN move up (retracted)");
+		active = true;
 		
 		isRevLimitSwitchClosed = true; // maybe not if we are at virtual home but whatever
 		
@@ -94,6 +101,7 @@ public class EmulatedHinge implements IHinge {
 
 	public void moveMidway() {		
 		System.out.println("Hinge: BEGIN move midway (ready to release)");
+		active = true;
 		
 		isRevLimitSwitchClosed = false;
 		
@@ -102,6 +110,7 @@ public class EmulatedHinge implements IHinge {
 	
 	public void moveDown() {
 		System.out.println("Hinge: BEGIN move down (ready to grasp)");
+		active = true;
 		
 		isRevLimitSwitchClosed = false;
 		

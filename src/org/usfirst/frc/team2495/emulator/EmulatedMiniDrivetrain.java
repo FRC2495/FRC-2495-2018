@@ -17,6 +17,9 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	PositionTracker tracker;
 	
+	boolean active = false;
+	
+	
 	public EmulatedMiniDrivetrain(IJack jack_in, PositionTracker tracker_in)
 	{	
 		jack = jack_in;
@@ -27,6 +30,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public void moveUsingCameraPidController()
 	{
 		System.out.print("MiniDrivetrain: BEGIN move using camera");
+		active = true;
 		
 		if (jack != null && (jack.getPosition() != Position.DOWN)) {
 			System.out.println("VIOLATION: cannot move mini drivetrain using camera when jack is not down!");
@@ -42,6 +46,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public void waitMoveUsingCameraPidController()
 	{
 		System.out.println("MiniDrivetrain: END move using camera");
+		active = false;
 		
 		printState();
 		
@@ -54,6 +59,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
 		System.out.print("MiniDrivetrain: BEGIN move distance: " + dist + " inches ");
+		active = true;
 		
 		if (dist > 0) {
 			System.out.println("(move arthwart right " + Math.abs(dist) + " inches)");
@@ -93,6 +99,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitMoveDistance() {
 		System.out.println("MiniDrivetrain: END move distance");
+		active = false;
 		
 		printState();
 		
