@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class HMCamera implements PIDSource {
+public class HMCamera implements PIDSource, IHMCamera {
 	private static final int BAD_INDEX = -1;
 	
 	NetworkTable nt;
