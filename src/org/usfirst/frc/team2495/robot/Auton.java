@@ -179,7 +179,7 @@ public class Auton {
 					}
 
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
@@ -187,7 +187,7 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.UP);
 					
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
 					{
 						camera.acquireTargets(true);
 						
@@ -282,24 +282,30 @@ public class Auton {
 					elevator.waitMove();
 										
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 					{	
-						jack.setPosition(Jack.Position.DOWN);
+						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
+						{
+							jack.setPosition(Jack.Position.DOWN);
 						
-						miniDrivetrain.moveUsingCameraPidController();
-						miniDrivetrain.waitMoveUsingCameraPidController();
+							miniDrivetrain.moveUsingCameraPidController();
+							miniDrivetrain.waitMoveUsingCameraPidController();
 						
-						jack.setPosition(Jack.Position.UP);
+							jack.setPosition(Jack.Position.UP);
+						}
 						
-						camera.acquireTargets(true);
+						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
+						{
+							camera.acquireTargets(true);
 						
-						this.turnAngleUsingPidControllerTowardCube();
-						drivetrain.waitTurnAngleUsingPidController();
+							this.turnAngleUsingPidControllerTowardCube();
+							drivetrain.waitTurnAngleUsingPidController();
 						
-						camera.acquireTargets(true);
+							camera.acquireTargets(true);
 						
-						this.moveDistanceTowardCube();
-						drivetrain.waitMoveDistance();
+							this.moveDistanceTowardCube();
+							drivetrain.waitMoveDistance();
+						}
 					}
 					else
 					{
@@ -452,7 +458,7 @@ public class Auton {
 					}
 
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
@@ -460,7 +466,7 @@ public class Auton {
 	
 					jack.setPosition(Jack.Position.UP);
 					
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
 					{
 						camera.acquireTargets(true);
 						
@@ -555,24 +561,30 @@ public class Auton {
 					elevator.waitMove();
 										
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 					{
-						jack.setPosition(Jack.Position.DOWN);
+						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
+						{
+							jack.setPosition(Jack.Position.DOWN);
 						
-						miniDrivetrain.moveUsingCameraPidController();
-						miniDrivetrain.waitMoveUsingCameraPidController();
+							miniDrivetrain.moveUsingCameraPidController();
+							miniDrivetrain.waitMoveUsingCameraPidController();
 						
-						jack.setPosition(Jack.Position.UP);
+							jack.setPosition(Jack.Position.UP);
+						}
 						
-						camera.acquireTargets(true);
+						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
+						{
+							camera.acquireTargets(true);
 						
-						this.turnAngleUsingPidControllerTowardCube();
-						drivetrain.waitTurnAngleUsingPidController();
+							this.turnAngleUsingPidControllerTowardCube();
+							drivetrain.waitTurnAngleUsingPidController();
 						
-						camera.acquireTargets(true);
+							camera.acquireTargets(true);
 						
-						this.moveDistanceTowardCube();
-						drivetrain.waitMoveDistance();
+							this.moveDistanceTowardCube();
+							drivetrain.waitMoveDistance();
+						}
 					}
 					else
 					{
