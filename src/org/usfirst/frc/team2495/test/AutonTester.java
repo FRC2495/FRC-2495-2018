@@ -107,7 +107,8 @@ public class AutonTester {
 		
 		final String CURRENT_DIRECTORY = System.getProperty("user.dir");
         		
-		String filename = autoSelected + "_" + startPosition + "_" + gameData.getAssignedPlateAtFirstSwitch()
+		String filename = autoSelected + "_" + startPosition + "_"
+		+ cameraOption + "_" +  sonarOption + "_" + gameData.getAssignedPlateAtFirstSwitch()
 		+ "_" + gameData.getAssignedPlateAtScale() + "_" + gameData.getAssignedPlateAtSecondSwitch()
 		+ ".csv";
 		
