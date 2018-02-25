@@ -19,7 +19,7 @@ public class ControllerBase {
 	private double[] gamepadAxes;
 	private double[] gamepadAxesPrev;
 	
-	public static final int MAX_NUMBER_GAMEPAD_AXES = 7;
+	public static final int MAX_NUMBER_GAMEPAD_AXES = 6;
 	public static final double GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD = 0.5;
 	
 	/**
@@ -55,15 +55,12 @@ public class ControllerBase {
 	// At this point it is written based on conflicting information and totally untested
 	public static class GamepadAxes {
 		public static final int
-			LX = 1,
-			LY = 2,
-			TRIGGER = 3,
-			LT = 31, // appears trigger might be shared
-			RT = 32,
+			LX = 0,
+			LY = 1,
+			LT = 2,
+			RT = 3,
 			RX = 4,
-			RY = 5,
-			PX = 6,
-			PY = 7;
+			RY = 5;
 		
 		/**
 		 * <pre>
@@ -136,8 +133,8 @@ public class ControllerBase {
 		// Therefore changes in Joysticks enum need to be reflected here...
 		joysticks = new Joystick[]{gamepad, leftStick, rightStick};
 		
-		gamepadAxes = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1];
-		gamepadAxesPrev = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1];
+		gamepadAxes = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES];
+		gamepadAxesPrev = new double[ControllerBase.MAX_NUMBER_GAMEPAD_AXES];
 	}
 	
 	/**
@@ -160,11 +157,11 @@ public class ControllerBase {
 			}
 		}
 		
-		for (int j = 1; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1; j++) {
+		for (int j = 0; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES; j++) {
 			gamepadAxesPrev[j] = gamepadAxes[j];
 		}
 		
-		for (int j = 1; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES+1; j++) {
+		for (int j = 0; j < ControllerBase.MAX_NUMBER_GAMEPAD_AXES; j++) {
 			gamepadAxes[j] = joysticks[Joysticks.GAMEPAD.ordinal()].getRawAxis(j);
 		}
 	}	
@@ -207,56 +204,19 @@ public class ControllerBase {
 	
 	public boolean getGamepadAxisPressedDown(int axisNum) {
 		
-		if (axisNum == GamepadAxes.LT)
-		{
-			return (Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-					!(Math.max(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else if (axisNum == GamepadAxes.RT)
-		{
-			return (-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-					!(-Math.min(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else
-		{
-			return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+		return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
 				!(gamepadAxesPrev[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
 	}	
 	
 	public boolean getGamepadAxisHeld(int axisNum)
 	{
-		if (axisNum == GamepadAxes.LT)
-		{
-			return (Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else if (axisNum == GamepadAxes.RT)
-		{
-			return (-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else
-		{
-			return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
+		return (gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
 	}
 	
 	public boolean getGamePadAxisReleased(int axisNum){
 		
-		if (axisNum == GamepadAxes.LT)
-		{
-			return !(Math.max(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-					(Math.max(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else if (axisNum == GamepadAxes.RT)
-		{
-			return !(-Math.min(gamepadAxes[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-					(-Math.min(gamepadAxesPrev[GamepadAxes.TRIGGER],0) > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
-		else
-		{
-			return !(gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
-				(gamepadAxesPrev[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
-		}
+		return !(gamepadAxes[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD) &&
+			(gamepadAxesPrev[axisNum] > GAMEPAD_AXIS_PRESSED_AS_BUTTON_THRESHOLD);
 	}
 	
 	/**

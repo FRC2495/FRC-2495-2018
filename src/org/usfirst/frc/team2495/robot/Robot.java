@@ -599,10 +599,6 @@ public class Robot extends IterativeRobot {
 			System.out.println("Gamepad axis RX Pushed");
 		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY)) {
 			System.out.println("Gamepad axis RY Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.PX)) {
-			System.out.println("Gamepad axis PX Pushed");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.PY)) {
-			System.out.println("Gamepad axis PY Pushed");
 		}
 		
 		
