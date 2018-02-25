@@ -12,12 +12,40 @@ public class AutonTester {
 		// CHANGE THE STARTING POSITION HERE (START_POSITION_LEFT or START_POSITION_CENTER or START_POSITION_RIGHT)
 		String startPosition = Robot.START_POSITION_LEFT;
 		
-		String cameraOption = Robot.CAMERA_OPTION_USE_NEVER;
+		String cameraOption = Robot.CAMERA_OPTION_USE_ALWAYS;
 		
 		String sonarOption = Robot.SONAR_OPTION_USE_ALWAYS;
 		
 		EmulatedGameData gameData = new EmulatedGameData();
 		
+		gameData.setGameSpecificMessage("LLL");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		gameData.setGameSpecificMessage("LRL");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		gameData.setGameSpecificMessage("RRR");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		
+		gameData.setGameSpecificMessage("RLR");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		startPosition = Robot.START_POSITION_RIGHT;
+
+		gameData.setGameSpecificMessage("LLL");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		gameData.setGameSpecificMessage("LRL");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		gameData.setGameSpecificMessage("RRR");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		
+		gameData.setGameSpecificMessage("RLR");
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+
+		startPosition = Robot.START_POSITION_CENTER;
+
 		gameData.setGameSpecificMessage("LLL");
 		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
 
