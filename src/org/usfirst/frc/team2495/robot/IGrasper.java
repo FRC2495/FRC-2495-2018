@@ -9,6 +9,8 @@ public interface IGrasper {
 	public void release();
 	
 	public void stop();
+	
+	public void waitGraspOrRelease();
 		
 	public boolean tripleCheckGraspUsingSonar();
 	

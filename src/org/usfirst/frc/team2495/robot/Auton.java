@@ -142,8 +142,16 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 					
 					hinge.moveDown();
 					hinge.waitMove();
@@ -171,7 +179,7 @@ public class Auton {
 					}
 
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
@@ -179,7 +187,7 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.UP);
 					
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						camera.acquireTargets(true);
 						
@@ -197,14 +205,30 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 					
-					grasper.grasp();
-					grasper.waitGraspUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.grasp();
+						grasper.waitGraspUsingSonar();
+					}
+					else
+					{
+						grasper.grasp();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 
 					elevator.moveDown();
 					elevator.waitMove();
@@ -240,8 +264,16 @@ public class Auton {
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 
 					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
@@ -250,7 +282,7 @@ public class Auton {
 					elevator.waitMove();
 										
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{	
 						jack.setPosition(Jack.Position.DOWN);
 						
@@ -275,14 +307,30 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 
-					grasper.grasp();
-					grasper.waitGraspUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.grasp();
+						grasper.waitGraspUsingSonar();
+					}
+					else
+					{
+						grasper.grasp();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveDown();
 					elevator.waitMove();
@@ -310,8 +358,16 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.tripleCheckReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 
 					elevator.moveDown();
 					elevator.waitMove();				
@@ -325,8 +381,16 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.tripleCheckReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 							
 					elevator.moveDown();
 					elevator.waitMove();
@@ -351,8 +415,16 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 					
 					hinge.moveDown();
 					hinge.waitMove();
@@ -380,7 +452,7 @@ public class Auton {
 					}
 
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						miniDrivetrain.moveUsingCameraPidController();
 						miniDrivetrain.waitMoveUsingCameraPidController();
@@ -388,7 +460,7 @@ public class Auton {
 	
 					jack.setPosition(Jack.Position.UP);
 					
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						camera.acquireTargets(true);
 						
@@ -406,14 +478,30 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 					
-					grasper.grasp();
-					grasper.waitGraspUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.grasp();
+						grasper.waitGraspUsingSonar();
+					}
+					else
+					{
+						grasper.grasp();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveDown();
 					elevator.waitMove();
@@ -449,8 +537,16 @@ public class Auton {
 					drivetrain.moveDistance(10);
 					drivetrain.waitMoveDistance();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 
 					drivetrain.moveDistance(-10);//move back ___ in.
 					drivetrain.waitMoveDistance();
@@ -459,7 +555,7 @@ public class Auton {
 					elevator.waitMove();
 										
 					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (this.cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
+					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS)
 					{
 						jack.setPosition(Jack.Position.DOWN);
 						
@@ -484,14 +580,30 @@ public class Auton {
 						drivetrain.waitMoveDistance();
 					}
 
-					grasper.grasp();
-					grasper.waitGraspUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.grasp();
+						grasper.waitGraspUsingSonar();
+					}
+					else
+					{
+						grasper.grasp();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					grasper.release();
-					grasper.waitReleaseUsingSonar();
+					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS)
+					{
+						grasper.release();
+						grasper.waitReleaseUsingSonar();
+					}
+					else
+					{
+						grasper.release();
+						grasper.waitGraspOrRelease();
+					}
 					
 					elevator.moveDown();
 					elevator.waitMove();

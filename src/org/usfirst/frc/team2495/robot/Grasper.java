@@ -104,7 +104,7 @@ public class Grasper implements IGrasper{
 	
 	// do not use in teleop - for auton only
 	// This version does NOT rely on the sonar. Use only if sonar does not fulfill expectations.
-	/*private void waitGraspOrRelease() {
+	public void waitGraspOrRelease() {
 		long start = Calendar.getInstance().getTimeInMillis();
 
 		while (true) { 		
@@ -123,7 +123,7 @@ public class Grasper implements IGrasper{
 			
 			robot.updateToSmartDash();
 		}
-	}*/
+	}
 	
 	public boolean tripleCheckGraspUsingSonar() {
 		if (sonar != null && isGrasping) {

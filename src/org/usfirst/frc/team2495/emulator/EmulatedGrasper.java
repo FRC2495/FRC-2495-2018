@@ -1,6 +1,10 @@
 package org.usfirst.frc.team2495.emulator;
 
+import java.util.Calendar;
+
 import org.usfirst.frc.team2495.robot.*;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class EmulatedGrasper implements IGrasper{
@@ -51,6 +55,13 @@ public class EmulatedGrasper implements IGrasper{
 	}
 	
 	public void stop() {
+	}
+	
+	public void waitGraspOrRelease() {
+		System.out.println("Grasper: END grasp or release");
+		active = false;
+		
+		System.out.println("Grasper: STATE full or empty\n");
 	}
 	
 	public boolean tripleCheckGraspUsingSonar() {
