@@ -4,6 +4,10 @@ import org.usfirst.frc.team2495.robot.GameData.Plate;
 
 public class Auton {
 	
+	static final int ROBOT_DEPTH_INCHES = 33; // inches
+	static final int HALF_ROBOT_DEPTH_INCHES = ROBOT_DEPTH_INCHES / 2;
+	static final int EXTRA_HINGE_DEPTH_INCHES = 13; // inches
+	
 	String autoSelected;
 	String startPosition;
 	String cameraOption;
