@@ -1,10 +1,8 @@
 package org.usfirst.frc.team2495.emulator;
 
-import java.util.Calendar;
 
 import org.usfirst.frc.team2495.robot.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class EmulatedGrasper implements IGrasper{

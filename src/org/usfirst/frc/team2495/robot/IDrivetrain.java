@@ -24,7 +24,10 @@ public interface IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle);
 	
-    
+	
+	public void stop();
+	
+	
 	public void setPIDParameters();
 	
 	// NOTE THAT THIS METHOD WILL IMPACT BOTH OPEN AND CLOSED LOOP MODES

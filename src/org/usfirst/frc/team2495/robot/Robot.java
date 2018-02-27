@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
+import org.usfirst.frc.team2495.emulator.*;
 import org.usfirst.frc.team2495.robot.Jack.Position;
 
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
@@ -76,30 +77,30 @@ public class Robot extends IterativeRobot {
 	
 	// motorized devices
 	
-	Drivetrain drivetrain;
+	IDrivetrain drivetrain;
 
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
 	BaseMotorController rearLeft; 
 	BaseMotorController rearRight;
 	
-	MiniDrivetrain miniDrivetrain;
+	IMiniDrivetrain miniDrivetrain;
 	
 	WPI_TalonSRX frontCenter;
 	WPI_TalonSRX rearCenter;
 
 	boolean elevatorFlagUp = true;
-	Elevator elevatorControl;
+	IElevator elevatorControl;
 	
 	WPI_TalonSRX elevator;
 	
-	Grasper grasper;
+	IGrasper grasper;
 	
 	BaseMotorController grasperLeft;
 	BaseMotorController grasperRight;
 	
 	boolean hingeFlagUp = false;
-	Hinge hingeControl;
+	IHinge hingeControl;
 	
 	WPI_TalonSRX hinge; 
 	
@@ -111,7 +112,7 @@ public class Robot extends IterativeRobot {
 	
 	Compressor compressor; // the compressor's lifecycle needs to be the same as the robot
 	
-	Jack jack;
+	IJack jack;
 	boolean largeDriveTrainSelected = false; // by default we assume small drivetrain is down
 	
 	// joysticks and gamepad
@@ -192,14 +193,26 @@ public class Robot extends IterativeRobot {
 		
 		winch = new WPI_TalonSRX(Ports.CAN.WINCH);
 		
-		drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);		
-		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
 		
-		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-								
-		elevatorControl = new Elevator(elevator, hingeControl, this);
+		//jack = new Jack();
+		jack = new EmulatedJack();
 		
-		hingeControl = new Hinge(hinge, this);
+		tracker = new PositionTracker();
+		
+		//drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
+		drivetrain = new EmulatedDrivetrain(jack, tracker);	
+		
+		//miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
+		miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
+		
+		//hingeControl = new Hinge(hinge, this);
+		hingeControl = new EmulatedHinge();		
+		
+		//elevatorControl = new Elevator(elevator, hingeControl, this);
+		elevatorControl = new EmulatedElevator(hingeControl, tracker);
+		
+		//grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
+		grasper = new EmulatedGrasper(hingeControl, elevatorControl);
 		
 		winchControl = new Winch(winch, this);
 		
@@ -207,8 +220,6 @@ public class Robot extends IterativeRobot {
 		
 		compressor = new Compressor();
 		compressor.checkCompressor();
-				
-		jack = new Jack();
 		
 		// joysticks and gamepad
 		
@@ -222,8 +233,6 @@ public class Robot extends IterativeRobot {
 		// misc.
 		
 		gameData = new GameData();
-		
-		tracker = new PositionTracker();
 	}
 
 	/**
@@ -726,9 +735,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Hinge isUp", hingeControl.isUp());
         
         SmartDashboard.putBoolean("Gyro Manually Calibrated?",hasGyroBeenManuallyCalibratedAtLeastOnce);
-        SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
-        SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
-        SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
+        //SmartDashboard.putNumber("PID Error", drivetrain.turnPidController.getError());
+        //SmartDashboard.putNumber("PID Motor Value", drivetrain.turnPidController.get());
+        //SmartDashboard.putBoolean("PID On Target", drivetrain.turnPidController.onTarget());
         
         SmartDashboard.putNumber("Tilt", accelerometer.getTilt());
         

@@ -62,7 +62,7 @@ public class Elevator implements IElevator {
 
     Robot robot; 
     
-    Hinge hinge;
+    IHinge hinge;
     
 	public Elevator(WPI_TalonSRX elevator_in, Robot robot_in) {
 		elevator = elevator_in;
@@ -107,7 +107,7 @@ public class Elevator implements IElevator {
 		isMovingUp = false;
 	}
 	
-	public Elevator(WPI_TalonSRX elevator_in, Hinge hinge_in, Robot robot_in) {
+	public Elevator(WPI_TalonSRX elevator_in, IHinge hinge_in, Robot robot_in) {
 		this(elevator_in, robot_in);
 		
 		hinge = hinge_in;

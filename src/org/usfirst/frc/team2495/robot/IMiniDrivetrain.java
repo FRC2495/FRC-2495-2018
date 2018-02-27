@@ -21,6 +21,9 @@ public interface IMiniDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitMoveDistance();
 	
+	
+	public void stop();
+	
 
 	public void setPIDParameters();
 	
