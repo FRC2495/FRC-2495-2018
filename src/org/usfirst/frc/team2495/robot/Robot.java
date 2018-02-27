@@ -453,30 +453,22 @@ public class Robot extends IterativeRobot {
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN6))
-		{
-			System.out.println("Button LEFT.BTN6 Pushed");
-			
+		{	
 			grasper.joystickControl(joyLeft);
 		}
 				
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
 		{
-			System.out.println("Button LEFT.BTN8 Pushed");
-			
 			elevatorControl.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN9))
-		{
-			System.out.println("Button LEFT.BTN9 Pushed");
-			
+		{	
 			hingeControl.joystickControl(joyLeft);
 		}
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
 		{
-			System.out.println("Button LEFT.BTN10 Pushed");
-			
 			winchControl.joystickControl(joyLeft);
 		}
 	
