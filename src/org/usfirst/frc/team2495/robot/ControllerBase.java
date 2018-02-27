@@ -52,7 +52,7 @@ public class ControllerBase {
 	
 	// The purpose of this class is to consider gamepad axes as virtual buttons
 	// (especially the left and right triggers).
-	// At this point it is written based on conflicting information and totally untested
+	// and it works!
 	public static class GamepadAxes {
 		public static final int
 			LX = 0,
@@ -91,7 +91,7 @@ public class ControllerBase {
 			BTN8 = 8,
 			BTN9 = 9,
 			BTN10 = 10,
-			BTN11_UNAVAILABLE = 11; // because gamepad has only 10 buttons and that we share an array
+			BTN11 = 11;
 		
 		/**
 		 * <pre>
@@ -126,8 +126,8 @@ public class ControllerBase {
 	 * @param rightStick the {@code Joystick} to use for the right joystick.
 	 */
 	public ControllerBase(Joystick gamepad, Joystick leftStick, Joystick rightStick) {		
-		btn = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS/*+1*/];
-		btnPrev = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS/*+1*/];
+		btn = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS+1];
+		btnPrev = new boolean[ControllerBase.MAX_NUMBER_CONTROLLERS][ControllerBase.MAX_NUMBER_BUTTONS+1];
 		
 		// CAUTION: joysticks are indexed according to order defined in Joysticks enum
 		// Therefore changes in Joysticks enum need to be reflected here...
@@ -146,14 +146,16 @@ public class ControllerBase {
 	public void update() {
 		//Dealing with buttons on the different joysticks
 		for (int i = 0; i < ControllerBase.MAX_NUMBER_CONTROLLERS; i++) {
-			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS/*+1*/; j++) {
+			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS+1; j++) {
 				btnPrev[i][j] = btn[i][j];
 			}
 		}
 
 		for (int i = 0; i < ControllerBase.MAX_NUMBER_CONTROLLERS; i++) {
-			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS/*+1*/; j++) {
-				btn[i][j] = joysticks[i].getRawButton(j);
+			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS+1; j++) {
+				if (!(i == Joysticks.GAMEPAD.ordinal() && j == ControllerBase.MAX_NUMBER_BUTTONS)) {
+					btn[i][j] = joysticks[i].getRawButton(j);
+				}
 			}
 		}
 		

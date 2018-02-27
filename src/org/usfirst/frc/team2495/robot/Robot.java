@@ -401,6 +401,11 @@ public class Robot extends IterativeRobot {
 			grasper.stop();
 		}
 		
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN11))
+		{
+			System.out.println("Button RIGHT.BTN11 Pushed");
+		}
+		
 		
 		// LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK
 						
