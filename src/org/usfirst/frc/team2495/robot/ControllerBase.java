@@ -153,6 +153,7 @@ public class ControllerBase {
 
 		for (int i = 0; i < ControllerBase.MAX_NUMBER_CONTROLLERS; i++) {
 			for (int j = 1; j < ControllerBase.MAX_NUMBER_BUTTONS+1; j++) {
+				// the gamepad has only 10 buttons, so we don't read button 11 to avoid getting a warning...
 				if (!(i == Joysticks.GAMEPAD.ordinal() && j == ControllerBase.MAX_NUMBER_BUTTONS)) {
 					btn[i][j] = joysticks[i].getRawButton(j);
 				}
