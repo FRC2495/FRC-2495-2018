@@ -192,12 +192,12 @@ public class Robot extends IterativeRobot {
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 		
 		winch = new WPI_TalonSRX(Ports.CAN.WINCH);
+	
 		
+		tracker = new PositionTracker();
 		
 		//jack = new Jack();
 		jack = new EmulatedJack();
-		
-		tracker = new PositionTracker();
 		
 		//drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
 		drivetrain = new EmulatedDrivetrain(jack, tracker);	
