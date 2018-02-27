@@ -287,8 +287,9 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		drivetrain.stop(); // very important!
 		miniDrivetrain.stop();
-		elevatorControl.stop();
+		
 		hingeControl.stop();
+		elevatorControl.stop();
 		grasper.stop();
 		
 		gameData.update();
@@ -308,12 +309,12 @@ public class Robot extends IterativeRobot {
 		
 		miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		miniDrivetrain.tripleCheckMoveUsingCameraPidController(); // checks if we are done moving using camera if we were moving
+				
+		hingeControl.checkHome();
+		hingeControl.tripleCheckMove();
 		
 		elevatorControl.checkHome();
 		elevatorControl.tripleCheckMove();
-		
-		hingeControl.checkHome();
-		hingeControl.tripleCheckMove();
 		
 		grasper.tripleCheckGraspUsingSonar(); // - only enable if we want to stop automatically
 		grasper.tripleCheckReleaseUsingSonar();
@@ -386,6 +387,7 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
+			
 			//gyro.reset(); // resets to zero - we don't want to rirsk loosing time during competition
 		}		
 		
@@ -396,8 +398,9 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.stop();
 			miniDrivetrain.stop();
-			//elevatorControl.stop();
+			
 			//hingeControl.stop();
+			//elevatorControl.stop();
 			//grasper.stop();
 		}
 				
@@ -459,6 +462,7 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
+			
 			gyro.reset(); // resets to zero
 		}		
 		
@@ -469,8 +473,9 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.stop();
 			miniDrivetrain.stop();
-			//elevatorControl.stop();
+			
 			//hingeControl.stop();
+			//elevatorControl.stop();
 			//grasper.stop();
 		}
 				
@@ -577,8 +582,9 @@ public class Robot extends IterativeRobot {
 			
 			//drivetrain.stop();
 			//miniDrivetrain.stop();
-			elevatorControl.stop();
+			
 			hingeControl.stop();
+			elevatorControl.stop();
 			grasper.stop();
 		}
 
