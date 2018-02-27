@@ -196,26 +196,26 @@ public class Robot extends IterativeRobot {
 		
 		tracker = new PositionTracker();
 		
-		//jack = new Jack();
-		jack = new EmulatedJack();
+		jack = new Jack();
+		//jack = new EmulatedJack();
 		
-		//drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
-		drivetrain = new EmulatedDrivetrain(jack, tracker);	
+		drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
+		//drivetrain = new EmulatedDrivetrain(jack, tracker);	
 		
-		//miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
-		miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
+		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
+		//miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
 		
-		//hingeControl = new Hinge(hinge, this);
-		hingeControl = new EmulatedHinge();		
+		hingeControl = new Hinge(hinge, this);
+		//hingeControl = new EmulatedHinge();		
 		
-		//elevatorControl = new Elevator(elevator, hingeControl, this);
-		elevatorControl = new EmulatedElevator(hingeControl, tracker);
+		elevatorControl = new Elevator(elevator, hingeControl, this);
+		//elevatorControl = new EmulatedElevator(hingeControl, tracker);
 		
-		//grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-		grasper = new EmulatedGrasper(hingeControl, elevatorControl);
+		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
+		//grasper = new EmulatedGrasper(hingeControl, elevatorControl);
 		
-		//winchControl = new Winch(winch, this);
-		winchControl = new EmulatedWinch();
+		winchControl = new Winch(winch, this);
+		//winchControl = new EmulatedWinch();
 		
 		// pneumatic devices
 		
@@ -386,7 +386,7 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.resetEncoders();
 			miniDrivetrain.resetEncoders();
-			gyro.reset(); // resets to zero
+			//gyro.reset(); // resets to zero - we don't want to rirsk loosing time during competition
 		}		
 		
 		//Stops the robot moving if pressed (or any closed loop operation) "Abort"
@@ -396,16 +396,11 @@ public class Robot extends IterativeRobot {
 			
 			drivetrain.stop();
 			miniDrivetrain.stop();
-			elevatorControl.stop();
-			hingeControl.stop();
-			grasper.stop();
+			//elevatorControl.stop();
+			//hingeControl.stop();
+			//grasper.stop();
 		}
-		
-		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN11))
-		{
-			System.out.println("Button RIGHT.BTN11 Pushed");
-		}
-		
+				
 		
 		// LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK // LEFT JOYSTICK
 						
@@ -457,9 +452,26 @@ public class Robot extends IterativeRobot {
 			drivetrain.turnAngleUsingPidController(+90);
 		}
 		
-		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN6))
-		{	
-			grasper.joystickControl(joyLeft);
+		//Resets encoders (and gyro) "Reset"
+		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN6))
+		{
+			System.out.println("Button LEFT.BTN6 Pushed");
+			
+			drivetrain.resetEncoders();
+			miniDrivetrain.resetEncoders();
+			gyro.reset(); // resets to zero
+		}		
+		
+		//Stops the robot moving if pressed (or any closed loop operation) "Abort"
+		if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN7))
+		{
+			System.out.println("Button LEFT.BTN7 Pushed");
+			
+			drivetrain.stop();
+			miniDrivetrain.stop();
+			//elevatorControl.stop();
+			//hingeControl.stop();
+			//grasper.stop();
 		}
 				
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
@@ -474,9 +486,14 @@ public class Robot extends IterativeRobot {
 		
 		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
 		{
+			grasper.joystickControl(joyLeft);
+		}
+		
+		if (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN11))
+		{	
 			winchControl.joystickControl(joyLeft);
 		}
-	
+
 		
 		// GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD
 
@@ -517,6 +534,21 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		
+		//hinge up and down using Right RS button
+		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.RS)) {
+			System.out.println("Button RS Pushed");
+
+			if (hingeFlagUp) {
+				hingeControl.moveUp();
+				System.out.println("Hinge should be moving up");
+				hingeFlagUp = false;
+			} else {
+				hingeControl.moveDown();
+				System.out.println("Hinge should be moving down");
+				hingeFlagUp = true;
+			}
+		}
+		
 		//Use Left bumper to move elevator midway (switch)
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.LB)) { 
 			System.out.println("Button LB Pushed");
@@ -539,30 +571,27 @@ public class Robot extends IterativeRobot {
 			hingeFlagUp = false;
 		}
 
-		//hinge bound to X
+		//abort bound to X
 		if (control.getPressedDown(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.X)) {
 			System.out.println("Button X Pushed");
 			
-			if (hingeFlagUp) {
-				hingeControl.moveUp();
-				System.out.println("Hinge should be moving up");
-				hingeFlagUp = false;
-			} else {
-				hingeControl.moveDown();
-				System.out.println("Hinge should be moving down");
-				hingeFlagUp = true;
-			}
+			//drivetrain.stop();
+			//miniDrivetrain.stop();
+			elevatorControl.stop();
+			hingeControl.stop();
+			grasper.stop();
 		}
 
 		// THIS REQUIRES 2 KEYS (nuclear option)			
-		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN10) &&
+		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN11) &&
 				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
 			winchControl.winchUp();
 			control.rumble(true); // provides indicator that we are winching up (both keys are held)
 		}
 		else 
 		{
-			if (!control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
+			// if we are not in manual testing mode
+			if (!control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN11))
 			{
 				winchControl.stop();	// for manual mode, remove if auto stop is desired
 				control.rumble(false); // provides indicator that we stopped winching (zero or only one key held)
@@ -600,34 +629,77 @@ public class Robot extends IterativeRobot {
 			//grasper.stop();	// for manual mode, remove if auto stop is desired	
 		}
 		
-		
 		// experimental code to see if we can detect gamepad axes virtually pressed as buttons
-		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, true)) {
-			System.out.println("Gamepad axis LX Pushed positively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, true)) {
-			System.out.println("Gamepad axis LY Pushed positively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT, true)) {
-			System.out.println("Gamepad axis LT Pushed positively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT, true)) {
-			System.out.println("Gamepad axis RT Pushed positively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, true)) {
-			System.out.println("Gamepad axis RX Pushed positively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, true)) {
-			System.out.println("Gamepad axis RY Pushed positively");
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, true) ||
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, true) || 
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, false) ||
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, false)) {
+			
+			System.out.println("Gamepad axis L Pushed");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
+			} else {
+				//if (elevatorFlagUp) {
+					elevatorControl.moveUp();
+					System.out.println("Elevator should be moving up");
+					elevatorFlagUp = false;
+				//} else {
+				//	elevatorControl.moveDown();
+				//	System.out.println("Elevator should be moving down");
+				//	elevatorFlagUp = true;
+				//}
+			}
 		}
 		
-		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LX, false)) {
-			System.out.println("Gamepad axis LX Pushed negatively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LY, false)) {
-			System.out.println("Gamepad axis LY Pushed negatively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT, false)) {
-			System.out.println("Gamepad axis LT Pushed negatively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT, false)) {
-			System.out.println("Gamepad axis RT Pushed negatively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, false)) {
-			System.out.println("Gamepad axis RX Pushed negatively");
-		} else if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, false)) {
-			System.out.println("Gamepad axis RY Pushed negatively");
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.LT, true)) {
+			System.out.println("Gamepad axis LT Pushed positively");
+			
+			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
+				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
+			} else {
+				//if (elevatorFlagUp) {
+				//	elevatorControl.moveUp();
+				//	System.out.println("Elevator should be moving up");
+				//	elevatorFlagUp = false;
+				//} else {
+					elevatorControl.moveDown();
+					System.out.println("Elevator should be moving down");
+					elevatorFlagUp = true;
+				//}
+			}
+		}
+		
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RT, true)) {
+			System.out.println("Gamepad axis RT Pushed positively");
+			
+			//if (hingeFlagUp) {
+			//	hingeControl.moveUp();
+			//	System.out.println("Hinge should be moving up");
+			//	hingeFlagUp = false;
+			//} else {
+				hingeControl.moveDown();
+				System.out.println("Hinge should be moving down");
+				hingeFlagUp = true;
+			//}
+		}
+		
+		if (control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, true) ||
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, true) ||
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RX, false) ||
+				control.getGamepadAxisPressedDown(ControllerBase.GamepadAxes.RY, false)) {
+			
+			System.out.println("Gamepad axis R Pushed");
+			
+			//if (hingeFlagUp) {
+				hingeControl.moveUp();
+				System.out.println("Hinge should be moving up");
+				hingeFlagUp = false;
+			//} else {
+			//	hingeControl.moveDown();
+			//	System.out.println("Hinge should be moving down");
+			//	hingeFlagUp = true;
+			//}
 		}
 		
 		camera.acquireTargets(false);
