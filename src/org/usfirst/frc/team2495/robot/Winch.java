@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * @author Christian 
  * 
  */
-public class Winch {
+public class Winch implements IWinch {
 
 	/**
 	 * 

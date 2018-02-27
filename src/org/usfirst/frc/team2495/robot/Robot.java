@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 	
 	WPI_TalonSRX hinge; 
 	
-	Winch winchControl;
+	IWinch winchControl;
 	
 	BaseMotorController winch;
 	
@@ -214,7 +214,8 @@ public class Robot extends IterativeRobot {
 		//grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
 		grasper = new EmulatedGrasper(hingeControl, elevatorControl);
 		
-		winchControl = new Winch(winch, this);
+		//winchControl = new Winch(winch, this);
+		winchControl = new EmulatedWinch();
 		
 		// pneumatic devices
 		
