@@ -452,12 +452,12 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
-						miniDrivetrain.moveDistance(46);//Move Right ____ in 
+						miniDrivetrain.moveDistance(34);//Move Right ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(139);//Move Right ____ in
+						miniDrivetrain.moveDistance(90);//Move Right ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 
@@ -519,7 +519,7 @@ public class Auton {
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(140-HALF_ROBOT_DEPTH_INCHES);
+					drivetrain.moveDistance(229);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);
