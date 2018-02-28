@@ -134,7 +134,7 @@ public class Auton {
 				// start position left && scale left
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(300); //324
+					drivetrain.moveDistance(299-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES); //324
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
@@ -413,7 +413,7 @@ public class Auton {
 				// start position right && scale right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(300);	// Move forward 324 in
+					drivetrain.moveDistance(46-ROBOT_DEPTH_INCHES);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
@@ -445,14 +445,14 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					drivetrain.moveDistance(70);	// Move forward 324 in
+					drivetrain.moveDistance(34);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
-						miniDrivetrain.moveDistance(36);//Move Right ____ in 
+						miniDrivetrain.moveDistance(46-ROBOT_DEPTH_INCHES);//Move Right ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -529,7 +529,7 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(144);//Move Left ____ in 
+						miniDrivetrain.moveDistance(98);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)

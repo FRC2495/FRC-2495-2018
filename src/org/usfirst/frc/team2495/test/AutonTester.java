@@ -4,7 +4,7 @@ import org.usfirst.frc.team2495.robot.*;
 import org.usfirst.frc.team2495.emulator.*;
 
 public class AutonTester {
-
+ 
 	public static void main(String[] args) {
 		
 		String autonSelected = Robot.AUTON_CUSTOM;
@@ -117,7 +117,7 @@ public class AutonTester {
 		System.out.println("\nSaving .csv file as \"" + fullPath + "\"...\n");
 		
 		//UNCOMMENT THIS LINE TO SAVE HISTORY TO .CSV FILE
-		//tracker.saveHistoryAsCsvFile(fullPath);
+		tracker.saveHistoryAsCsvFile(fullPath);
 	}
 
 }
