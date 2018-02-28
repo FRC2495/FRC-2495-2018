@@ -29,7 +29,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	
 	public void moveUsingCameraPidController()
 	{
-		System.out.print("MiniDrivetrain: BEGIN move using camera");
+		System.out.println("MiniDrivetrain: BEGIN move using camera");
 		
 		if (active) {
 			System.out.println("VIOLATION: forgot to wait for prior action to complete!");
