@@ -352,19 +352,16 @@ public class Auton {
 				// start position center && switch left
 				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(70);
+					drivetrain.moveDistance(94); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
-					miniDrivetrain.moveDistance(-120); // double check this measurement
+					miniDrivetrain.moveDistance(-74); //changed the distance so that when we move left its based off the center of the robot.
 					miniDrivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.UP);
 					
-					drivetrain.moveDistance(70);
-					drivetrain.waitMoveDistance();
-				
 					elevator.moveMidway();
 					elevator.waitMove();
 					
@@ -385,7 +382,7 @@ public class Auton {
 				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(140);
+					drivetrain.moveDistance(94); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 					
 					elevator.moveMidway();
