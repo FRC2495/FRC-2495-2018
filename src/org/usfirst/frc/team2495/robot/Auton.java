@@ -7,6 +7,13 @@ public class Auton {
 	static final int ROBOT_DEPTH_INCHES = 33; // inches
 	static final int HALF_ROBOT_DEPTH_INCHES = ROBOT_DEPTH_INCHES / 2;
 	static final int EXTRA_HINGE_DEPTH_INCHES = 13; // inches
+	static final int DRIVERSTATION_TO_SCALE = 299-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int SCALE_TO_SWITCH_1 = 40;
+	static final int SCALE_TO_SWITCH_2 = 4;
+	static final int SLIDE_TO_NEAR_SWITCH = 34;
+	static final int SLIDE_TO_FAR_SWITCH = 175;
+	static final int DISTANCE_BETWEEN_SWITCH_CENTERS = 115;
 	
 	String autoSelected;
 	String startPosition;
@@ -123,6 +130,42 @@ public class Auton {
 		}
 	}
 	
+	public void align_and_move_to_cube() {
+		//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
+		if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
+		{	
+			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
+			{
+				jack.setPosition(Jack.Position.DOWN);
+			
+				miniDrivetrain.moveUsingCameraPidController();
+				miniDrivetrain.waitMoveUsingCameraPidController();
+			
+				jack.setPosition(Jack.Position.UP);
+			}
+			
+			if ( cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
+			{
+				camera.acquireTargets(true);
+			
+				this.turnAngleUsingPidControllerTowardCube();
+				drivetrain.waitTurnAngleUsingPidController();
+			}
+
+			camera.acquireTargets(true);
+		
+			this.moveDistanceTowardCube();
+			drivetrain.waitMoveDistance();
+		//	}
+		}
+		else
+		{
+			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
+			drivetrain.waitMoveDistance();
+		}
+
+	}
+	
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
 	public void execute() {		
 		switch (autoSelected) {
@@ -134,10 +177,10 @@ public class Auton {
 				// start position left && scale left
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(299-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES); //324
+					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
 					drivetrain.waitMoveDistance();
 					
-					drivetrain.turnAngleUsingPidController(+45);//Turn 90 degrees (+)
+					drivetrain.turnAngleUsingPidController(+45);
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					elevator.moveUp();
@@ -163,52 +206,27 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 					
-					drivetrain.turnAngleUsingPidController(+135);//turn (+) 90 degrees
+					drivetrain.turnAngleUsingPidController(+135);
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					drivetrain.moveDistance(70); //324
+					drivetrain.moveDistance(SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();	
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-36);//Move Left ____ in//Move Left ____ in 
+						miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH); 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{				
-						miniDrivetrain.moveDistance(-144);//Move Left ____ in//Move Left ____ in
+						miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);
 						miniDrivetrain.waitMoveDistance();
 					}
 
-					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-					{
-						miniDrivetrain.moveUsingCameraPidController();
-						miniDrivetrain.waitMoveUsingCameraPidController();
-					}
-					
-					jack.setPosition(Jack.Position.UP);
-					
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
-					{
-						camera.acquireTargets(true);
-						
-						this.turnAngleUsingPidControllerTowardCube();
-						drivetrain.waitTurnAngleUsingPidController();
-						
-						camera.acquireTargets(true);
-						
-						this.moveDistanceTowardCube();
-						drivetrain.waitMoveDistance();
-					}
-					else
-					{
-						drivetrain.moveDistance(10);
-						drivetrain.waitMoveDistance();
-					}
-					
+					this.align_and_move_to_cube();
+										
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
@@ -238,24 +256,24 @@ public class Auton {
 					elevator.waitMove();
 				} 
 				// start position left && scale right
-				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)/// this thing 
+				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT) 
 				{
-					drivetrain.moveDistance(229);
+					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE-SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();
 					
-					drivetrain.turnAngleUsingPidController(180);//Turn 180 degrees (+)
+					drivetrain.turnAngleUsingPidController(180);
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					jack.setPosition(Jack.Position.DOWN);
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(-144);//Move Left ____ in 
+						miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);//Move far Left 
 						miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-36);//Move Left ____ in
+						miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH);//Move near left
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -265,7 +283,7 @@ public class Auton {
 					elevator.waitMove();
 					
 					//Remember you will be hitting a cube and not the switch perimeter,  So adjust accordingly
-					drivetrain.moveDistance(10);
+					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
 					
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
@@ -279,43 +297,13 @@ public class Auton {
 						grasper.waitGraspOrRelease();
 					}
 
-					drivetrain.moveDistance(-10);//move back ___ in.
+					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
 					drivetrain.waitMoveDistance();
 
 					elevator.moveDown();
 					elevator.waitMove();
-										
-					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-					{	
-						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-						{
-							jack.setPosition(Jack.Position.DOWN);
-						
-							miniDrivetrain.moveUsingCameraPidController();
-							miniDrivetrain.waitMoveUsingCameraPidController();
-						
-							jack.setPosition(Jack.Position.UP);
-						}
-						
-						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
-						{
-							camera.acquireTargets(true);
-						
-							this.turnAngleUsingPidControllerTowardCube();
-							drivetrain.waitTurnAngleUsingPidController();
-						
-							camera.acquireTargets(true);
-						
-							this.moveDistanceTowardCube();
-							drivetrain.waitMoveDistance();
-						}
-					}
-					else
-					{
-						drivetrain.moveDistance(10);
-						drivetrain.waitMoveDistance();
-					}
+					
+					this.align_and_move_to_cube();
 
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
@@ -352,19 +340,19 @@ public class Auton {
 				// start position center && switch left
 				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(70-HALF_ROBOT_DEPTH_INCHES); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.DOWN);
 					
-					miniDrivetrain.moveDistance(-120); //changed the distance so that when we move left its based off the center of the robot.
+					miniDrivetrain.moveDistance(-DISTANCE_BETWEEN_SWITCH_CENTERS); //changed the distance so that when we move left its based off the center of the robot.
 					miniDrivetrain.waitMoveDistance();
-					
-					drivetrain.moveDistance(70-HALF_ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES); //changed the distance so that when we move forward its based off the center of the robot.
-					drivetrain.waitMoveDistance();
-					
+
 					jack.setPosition(Jack.Position.UP);
-					
+
+					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.waitMoveDistance();
+										
 					elevator.moveMidway();
 					elevator.waitMove();
 					
@@ -385,7 +373,7 @@ public class Auton {
 				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 					
 					elevator.moveMidway();
@@ -413,7 +401,7 @@ public class Auton {
 				// start position right && scale right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(288+36-HALF_ROBOT_DEPTH_INCHES);	// Move forward 324 in
+					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
@@ -442,52 +430,27 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 					
-					drivetrain.turnAngleUsingPidController(-135);//turn (-) 90 degrees
+					drivetrain.turnAngleUsingPidController(-135);
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					drivetrain.moveDistance(34);	// Move forward 324 in
+					drivetrain.moveDistance(SCALE_TO_SWITCH_1);	
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
-						miniDrivetrain.moveDistance(34);//Move Right ____ in 
+						miniDrivetrain.moveDistance(SLIDE_TO_NEAR_SWITCH);//Move Right ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(90);//Move Right ____ in
+						miniDrivetrain.moveDistance(SLIDE_TO_FAR_SWITCH);//Move Right ____ in
 						miniDrivetrain.waitMoveDistance();
 					}
 
-					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-					{
-						miniDrivetrain.moveUsingCameraPidController();
-						miniDrivetrain.waitMoveUsingCameraPidController();
-					}
-	
-					jack.setPosition(Jack.Position.UP);
-					
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
-					{
-						camera.acquireTargets(true);
-						
-						this.turnAngleUsingPidControllerTowardCube();
-						drivetrain.waitTurnAngleUsingPidController();
-						
-						camera.acquireTargets(true);
-						
-						this.moveDistanceTowardCube();
-						drivetrain.waitMoveDistance();
-					}
-					else
-					{
-						drivetrain.moveDistance(10);
-						drivetrain.waitMoveDistance();
-					}
-					
+					this.align_and_move_to_cube();
+
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
 						grasper.grasp();
@@ -519,7 +482,7 @@ public class Auton {
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(229);
+					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE-SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);
@@ -529,12 +492,12 @@ public class Auton {
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(98);//Move Left ____ in 
+						miniDrivetrain.moveDistance(SLIDE_TO_FAR_SWITCH);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(36);//Move Left ____ in 
+						miniDrivetrain.moveDistance(SLIDE_TO_NEAR_SWITCH);//Move Left ____ in 
 						miniDrivetrain.waitMoveDistance();
 					}
 					
@@ -544,7 +507,7 @@ public class Auton {
 					elevator.waitMove();
 					
 					//Remember you will be hitting a cube and not the switch perimeter,  So adjust accordingly
-					drivetrain.moveDistance(10);
+					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
 					
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
@@ -558,43 +521,13 @@ public class Auton {
 						grasper.waitGraspOrRelease();
 					}
 
-					drivetrain.moveDistance(-10);//move back ___ in.
+					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
 					drivetrain.waitMoveDistance();
 
 					elevator.moveDown();
 					elevator.waitMove();
 										
-					//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
-					if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-					{
-						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
-						{
-							jack.setPosition(Jack.Position.DOWN);
-						
-							miniDrivetrain.moveUsingCameraPidController();
-							miniDrivetrain.waitMoveUsingCameraPidController();
-						
-							jack.setPosition(Jack.Position.UP);
-						}
-						
-						if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
-						{
-							camera.acquireTargets(true);
-						
-							this.turnAngleUsingPidControllerTowardCube();
-							drivetrain.waitTurnAngleUsingPidController();
-						
-							camera.acquireTargets(true);
-						
-							this.moveDistanceTowardCube();
-							drivetrain.waitMoveDistance();
-						}
-					}
-					else
-					{
-						drivetrain.moveDistance(10);
-						drivetrain.waitMoveDistance();
-					}
+					this.align_and_move_to_cube();
 
 					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 					{
