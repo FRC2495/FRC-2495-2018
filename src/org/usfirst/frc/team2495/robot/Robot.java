@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	
 	// IMPORTANT MAKE SURE THAT THIS CONSTANT IS SET TO TRUE IF USING COMPETITION BOT!
 	// use this constant to switch between competition and practice bot
-	public static final boolean COMPETITION_BOT_CONFIG = true;
+	public static final boolean COMPETITION_BOT_CONFIG = false;
 	
 	// set the following two constants to true if using a proto/second bot with no hinge and/or no elevator
 	public static final boolean HINGE_DISABLED = false;

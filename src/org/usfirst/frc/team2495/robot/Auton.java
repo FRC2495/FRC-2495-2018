@@ -574,105 +574,120 @@ public class Auton {
 
 	public void execute_test()
 	{
-		drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
-		drivetrain.waitMoveDistance();
-		
-		drivetrain.turnAngleUsingPidController(+45);
-		drivetrain.waitTurnAngleUsingPidController();
-		
-/*		elevator.moveUp();
-		elevator.waitMove();
-		
-		hinge.moveMidway();
-		hinge.waitMove();
-		
-		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-		{
-			grasper.release();
-			grasper.waitReleaseUsingSonar();
-		}
-		else
-		{
-			grasper.release();
-			grasper.waitGraspOrRelease();
-		}
-		
-		hinge.moveDown();
-		hinge.waitMove();
-		
-		elevator.moveDown();
-		elevator.waitMove();
-*/		
-		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		drivetrain.turnAngleUsingPidController(+135);
-		drivetrain.waitTurnAngleUsingPidController();
-		
-		drivetrain.moveDistance(SCALE_TO_SWITCH_1);
-		drivetrain.waitMoveDistance();	
-
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		//Comment when minidrivetrain is working
-		drivetrain.moveDistance(SCALE_TO_SWITCH_2);
-		drivetrain.waitMoveDistance();
-
-/*		jack.setPosition(Jack.Position.DOWN);
-		
-		if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
-		{
-			miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH); 
-			miniDrivetrain.waitMoveDistance();
-		}
-		else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
-		{				
-			miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);
-			miniDrivetrain.waitMoveDistance();
-		}
-
-		this.align_and_move_to_cube();
-							
-		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-		{
-			grasper.grasp();
-			grasper.waitGraspUsingSonar();
-		}
-		else
-		{
-			grasper.grasp();
-			grasper.waitGraspOrRelease();
-		}
-		
-		elevator.moveMidway();
-		elevator.waitMove();
-		
-		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-		{
-			grasper.release();
-			grasper.waitReleaseUsingSonar();
-		}
-		else
-		{
-			grasper.release();
-			grasper.waitGraspOrRelease();
-		}
-
-		elevator.moveDown();
-		elevator.waitMove();
-*/
+		switch (autoSelected) {
+		case Robot.AUTON_CUSTOM:
+			drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
+			drivetrain.waitMoveDistance();
+			
+			drivetrain.turnAngleUsingPidController(-45);
+			drivetrain.waitTurnAngleUsingPidController();
+			
+	/*		elevator.moveUp();
+			elevator.waitMove();
+			
+			hinge.moveMidway();
+			hinge.waitMove();
+			
+			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+			{
+				grasper.release();
+				grasper.waitReleaseUsingSonar();
+			}
+			else
+			{
+				grasper.release();
+				grasper.waitGraspOrRelease();
+			}
+			
+			hinge.moveDown();
+			hinge.waitMove();
+			
+			elevator.moveDown();
+			elevator.waitMove();
+	*/		
+			
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			drivetrain.turnAngleUsingPidController(-135);
+			drivetrain.waitTurnAngleUsingPidController();
+			
+			drivetrain.moveDistance(SCALE_TO_SWITCH_1);
+			drivetrain.waitMoveDistance();	
+	
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	
+			//Comment when minidrivetrain is working
+			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
+			drivetrain.waitMoveDistance();
+	
+	/*		jack.setPosition(Jack.Position.DOWN);
+			
+			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+			{
+				miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH); 
+				miniDrivetrain.waitMoveDistance();
+			}
+			else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
+			{				
+				miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);
+				miniDrivetrain.waitMoveDistance();
+			}
+	
+			this.align_and_move_to_cube();
+								
+			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
+			{
+				grasper.grasp();
+				grasper.waitGraspUsingSonar();
+			}
+			else
+			{
+				grasper.grasp();
+				grasper.waitGraspOrRelease();
+			}
+			
+			elevator.moveMidway();
+			elevator.waitMove();
+			
+			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+			{
+				grasper.release();
+				grasper.waitReleaseUsingSonar();
+			}
+			else
+			{
+				grasper.release();
+				grasper.waitGraspOrRelease();
+			}
+	
+			elevator.moveDown();
+			elevator.waitMove();
+	*/
+			autoSelected = "we are done"; // this is ok because we have a default case		
+			break;
+			
+		case Robot.AUTON_DO_NOTHING:
+			
+			autoSelected = "we are done"; // this is ok because we have a default case
+			break;
+			
+		default: // aka "we are done"
+			// We do nothing (except looping)
+			break;
+		} // end switch
 	}
+	
 	public void end() {
 		
 	}
