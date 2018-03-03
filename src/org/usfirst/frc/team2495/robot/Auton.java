@@ -578,6 +578,13 @@ public class Auton {
 		case Robot.AUTON_CUSTOM:
 			drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
 			drivetrain.waitMoveDistance();
+
+			autoSelected = "we are done"; // this is ok because we have a default case		
+			break;
+
+		case "something": //Change it to AUTON_CUSTOM once the robot alignment is testing
+			drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
+			drivetrain.waitMoveDistance();
 			
 			drivetrain.turnAngleUsingPidController(-45);
 			drivetrain.waitTurnAngleUsingPidController();
@@ -617,34 +624,29 @@ public class Auton {
 			drivetrain.waitTurnAngleUsingPidController();
 			
 			drivetrain.moveDistance(SCALE_TO_SWITCH_1);
-			drivetrain.waitMoveDistance();	
+			drivetrain.waitMoveDistance();		
 	
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			jack.setPosition(Jack.Position.DOWN);
 			
-	
-			//Comment when minidrivetrain is working
-			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
-			drivetrain.waitMoveDistance();
-	
-	/*		jack.setPosition(Jack.Position.DOWN);
-			
-			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
+/*			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 			{
-				miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH); 
-				miniDrivetrain.waitMoveDistance();
-			}
+*/				
+			miniDrivetrain.moveDistance(SLIDE_TO_NEAR_SWITCH); 
+			miniDrivetrain.waitMoveDistance();
+
+/*			}
 			else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 			{				
 				miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);
 				miniDrivetrain.waitMoveDistance();
 			}
-	
-			this.align_and_move_to_cube();
+*/	
+		//remove Comment when camera is working
+			jack.setPosition(Jack.Position.UP);
+			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
+			drivetrain.waitMoveDistance();
+
+/*			this.align_and_move_to_cube();
 								
 			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
 			{
@@ -673,7 +675,7 @@ public class Auton {
 	
 			elevator.moveDown();
 			elevator.waitMove();
-	*/
+*/	
 			autoSelected = "we are done"; // this is ok because we have a default case		
 			break;
 			
@@ -692,4 +694,4 @@ public class Auton {
 		
 	}
 	
-} // end class
+} // end clas
