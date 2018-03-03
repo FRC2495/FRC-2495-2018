@@ -470,7 +470,7 @@ public class Robot extends IterativeRobot {
 			if (largeDriveTrainSelected) {
 				drivetrain.moveDistance(50);
 			} else {
-				miniDrivetrain.moveDistance(5);
+				miniDrivetrain.moveDistance(50);
 			}
 		}
 		else if (control.getPressedDown(ControllerBase.Joysticks.LEFT_STICK, ControllerBase.JoystickButtons.BTN4))

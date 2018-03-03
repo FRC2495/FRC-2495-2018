@@ -26,9 +26,9 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	static final double MAX_PCT_OUTPUT = 1.0;
 		
 	static final int TALON_TIMEOUT_MS = 10;
-	public static final int TICKS_PER_REVOLUTION = 4096;
+	public static final int TICKS_PER_REVOLUTION = 4096*63;
 	
-	static final int MINI_DRIVETRAIN_POLARITY = 1; 
+	static final int MINI_DRIVETRAIN_POLARITY = -1; 
 
 	
 	// move using camera settings
@@ -227,8 +227,8 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 		rtac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
 		ltac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
 		
-		rtac = - rtac; // account for fact that front of robot is back from sensor's point of view
-		ltac = - ltac;
+		rtac = - rtac*MINI_DRIVETRAIN_POLARITY; // account for fact that front of robot is back from sensor's point of view
+		ltac = - ltac*MINI_DRIVETRAIN_POLARITY;
 		
 		System.out.println("rtac, ltac: " + rtac + ", " + ltac);
 		frontCenter.set(ControlMode.Position, rtac);
