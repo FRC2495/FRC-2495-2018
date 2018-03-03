@@ -20,6 +20,7 @@ import org.usfirst.frc.team2495.robot.Jack.Position;
 
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 /**
@@ -32,6 +33,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
 public class Robot extends IterativeRobot {
+	
+	// IMPORTANT MAKE SURE THAT THIS CONSTANT IS SET TO TRUE IF USING COMPETITION BOT!
+	// use this constant to switch between competition and practice bot
+	public static final boolean COMPETITION_BOT_CONFIG = true;
 	
 	// set the following two constants to true if using a proto/second bot with no hinge and/or no elevator
 	public static final boolean HINGE_DISABLED = false;
@@ -176,18 +181,30 @@ public class Robot extends IterativeRobot {
 		
 		// motorized devices
 		
-		frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
-		frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
-		rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
-		rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);
+		if (COMPETITION_BOT_CONFIG) {
+			frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
+			frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
+			rearLeft = new WPI_TalonSRX(Ports.CAN.LEFT_REAR);
+			rearRight= new WPI_TalonSRX(Ports.CAN.RIGHT_REAR);	
+		} else {
+			frontLeft = new WPI_TalonSRX(Ports.CAN.LEFT_FRONT);
+			frontRight = new WPI_TalonSRX(Ports.CAN.RIGHT_FRONT);
+			rearLeft = new WPI_VictorSPX(Ports.CAN.LEFT_REAR);
+			rearRight= new WPI_VictorSPX(Ports.CAN.RIGHT_REAR);
+		}
 		
 		frontCenter= new WPI_TalonSRX(Ports.CAN.FRONT_CENTER);
 		rearCenter= new WPI_TalonSRX(Ports.CAN.REAR_CENTER);
 		
 		elevator = new WPI_TalonSRX(Ports.CAN.ELEVATOR);
-			
-		grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
-		grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
+		
+		if (COMPETITION_BOT_CONFIG) {
+			grasperLeft = new WPI_TalonSRX(Ports.CAN.GRASPER_LEFT);
+			grasperRight = new WPI_TalonSRX(Ports.CAN.GRASPER_RIGHT);
+		} else {
+			grasperLeft = new WPI_VictorSPX(Ports.CAN.GRASPER_LEFT);
+			grasperRight = new WPI_VictorSPX(Ports.CAN.GRASPER_RIGHT);
+		}
 		
 		hinge = new WPI_TalonSRX(Ports.CAN.HINGE);
 		
@@ -196,26 +213,50 @@ public class Robot extends IterativeRobot {
 		
 		tracker = new PositionTracker();
 		
-		jack = new Jack();
-		//jack = new EmulatedJack();
 		
-		drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
-		//drivetrain = new EmulatedDrivetrain(jack, tracker);	
-		
-		miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
-		//miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
-		
-		hingeControl = new Hinge(hinge, this);
-		//hingeControl = new EmulatedHinge();		
-		
-		elevatorControl = new Elevator(elevator, hingeControl, this);
-		//elevatorControl = new EmulatedElevator(hingeControl, tracker);
-		
-		grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-		//grasper = new EmulatedGrasper(hingeControl, elevatorControl);
-		
-		winchControl = new Winch(winch, this);
-		//winchControl = new EmulatedWinch();
+		if (COMPETITION_BOT_CONFIG) {
+			jack = new Jack();
+			//jack = new EmulatedJack();
+			
+			drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
+			//drivetrain = new EmulatedDrivetrain(jack, tracker);	
+			
+			miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
+			//miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
+			
+			hingeControl = new Hinge(hinge, this);
+			//hingeControl = new EmulatedHinge();		
+			
+			elevatorControl = new Elevator(elevator, hingeControl, this);
+			//elevatorControl = new EmulatedElevator(hingeControl, tracker);
+			
+			grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
+			//grasper = new EmulatedGrasper(hingeControl, elevatorControl);
+			
+			winchControl = new Winch(winch, this);
+			//winchControl = new EmulatedWinch();
+		} else {
+			jack = new Jack();
+			//jack = new EmulatedJack();
+			
+			drivetrain = new Drivetrain( frontLeft, frontRight, rearLeft, rearRight, gyro, this);	
+			//drivetrain = new EmulatedDrivetrain(jack, tracker);	
+			
+			miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
+			//miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
+			
+			//hingeControl = new Hinge(hinge, this);
+			hingeControl = new EmulatedHinge();		
+			
+			//elevatorControl = new Elevator(elevator, hingeControl, this);
+			elevatorControl = new EmulatedElevator(hingeControl, tracker);
+			
+			//grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
+			grasper = new EmulatedGrasper(hingeControl, elevatorControl);
+			
+			//winchControl = new Winch(winch, this);
+			winchControl = new EmulatedWinch();
+		}
 		
 		// pneumatic devices
 		
