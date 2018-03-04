@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 	public static final boolean COMPETITION_BOT_CONFIG = false;
 	
 	// Change this constant to choose between one or two joysticks for main drivetrain
-	public static final boolean USE_TWO_JOYSTICKS_TO_DRIVE = true;
+	public static /*final*/ boolean USE_TWO_JOYSTICKS_TO_DRIVE = true;
 	
 	// set the following two constants to true if using a proto/second bot with no hinge and/or no elevator
 	public static final boolean HINGE_DISABLED = false;
@@ -457,6 +457,24 @@ public class Robot extends IterativeRobot {
 			//hingeControl.stop();
 			//elevatorControl.stop();
 			//grasper.stop();
+		}
+		
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN8))
+		{
+			System.out.println("Button RIGHT.BTN8 Pushed");
+			
+			System.out.println("Switching forward control to left joystick.");
+			
+			USE_TWO_JOYSTICKS_TO_DRIVE = true;
+		}
+		
+		if (control.getPressedDown(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN9))
+		{
+			System.out.println("Button RIGHT.BTN9 Pushed");
+			
+			System.out.println("Switching forward control to right joystick.");
+			
+			USE_TWO_JOYSTICKS_TO_DRIVE = false;
 		}
 				
 		
