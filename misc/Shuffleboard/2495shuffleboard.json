@@ -479,8 +479,7 @@
                 },
                 {
                   "_type": "Graph",
-                  "_source0": "network_table:///SmartDashboard/Left Enc Value",
-                  "_title": "SmartDashboard/Left Enc Value",
+                  "_title": "Graph (no sources)",
                   "Visible time": 30.0,
                   "SmartDashboard/Left Enc Value visible": true
                 }
@@ -655,7 +654,6 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_source0": "network_table:///LiveWindow/Ungrouped",
               "_title": "Ungrouped",
               "_children": [
                 {

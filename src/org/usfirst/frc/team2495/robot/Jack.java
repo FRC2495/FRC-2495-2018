@@ -1,9 +1,14 @@
 package org.usfirst.frc.team2495.robot;
 
+import java.util.Calendar;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 // a class to raise the outer/main drivetrain (by lowering the inner/mini drivetrain)
 public class Jack implements IJack{
+	
+	static final int WAIT_MS = 1000;
 	
 	DoubleSolenoid downup;
 
@@ -57,6 +62,26 @@ public class Jack implements IJack{
 			{
 				return Position.UNKNOWN;
 			}
+		}
+	}
+	
+	public void waitForJack() {
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		while (true) { 		
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= WAIT_MS) {
+				System.out.println("Wait is over");
+				break;
+			}
+
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			//robot.updateToSmartDash();
 		}
 	}
 }

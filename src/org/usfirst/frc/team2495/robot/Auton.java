@@ -11,7 +11,7 @@ public class Auton {
 	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
-	static final int SLIDE_TO_NEAR_SWITCH = 34;
+	static final int SLIDE_TO_NEAR_SWITCH = 34+20; //adjustment as the testbot is off when it reaches scale.
 	static final int SLIDE_TO_FAR_SWITCH = 175;
 	static final int DISTANCE_BETWEEN_SWITCH_CENTERS = 115;
 	
@@ -575,14 +575,14 @@ public class Auton {
 	public void execute_test()
 	{
 		switch (autoSelected) {
-		case Robot.AUTON_CUSTOM:
+		case "something":
 			drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
 			drivetrain.waitMoveDistance();
 
 			autoSelected = "we are done"; // this is ok because we have a default case		
 			break;
 
-		case "something": //Change it to AUTON_CUSTOM once the robot alignment is testing
+		case Robot.AUTON_CUSTOM: //Change it to AUTON_CUSTOM once the robot alignment is testing
 			drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
 			drivetrain.waitMoveDistance();
 			
@@ -627,6 +627,7 @@ public class Auton {
 			drivetrain.waitMoveDistance();		
 	
 			jack.setPosition(Jack.Position.DOWN);
+			jack.waitForJack();
 			
 /*			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 			{
@@ -643,9 +644,10 @@ public class Auton {
 */	
 		//remove Comment when camera is working
 			jack.setPosition(Jack.Position.UP);
+			jack.waitForJack();
+
 			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 			drivetrain.waitMoveDistance();
-
 /*			this.align_and_move_to_cube();
 								
 			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)

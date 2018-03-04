@@ -57,4 +57,10 @@ public class EmulatedJack implements IJack{
 			}
 		}
 	}
+	
+	public void waitForJack() {
+		System.out.println("Jack: END wait");
+		
+		System.out.println("Jack: STATE up or down\n");
+	}
 }
