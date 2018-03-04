@@ -369,7 +369,14 @@ public class Robot extends IterativeRobot {
 		//Joystick drive only using right joystick
 		if (largeDriveTrainSelected) {
 			if (USE_TWO_JOYSTICKS_TO_DRIVE) {
-				drivetrain.joystickControl(joyLeft, joyRight, true);
+				
+				if (!control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8)
+					&& !control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN9)
+					&& !control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10)
+					&& !control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN11)) {
+				
+					drivetrain.joystickControl(joyLeft, joyRight, true);
+				}
 			} else {
 				drivetrain.joystickControl(joyRight, joyRight, true);
 			}
