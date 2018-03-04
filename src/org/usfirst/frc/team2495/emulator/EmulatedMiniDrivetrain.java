@@ -36,7 +36,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 		}
 		active = true;
 		
-		if (jack != null && (jack.getPosition() != Position.DOWN)) {
+		if (jack != null && (jack.getPosition() != Position.MINI_DRIVETRAIN)) {
 			System.out.println("VIOLATION: cannot move mini drivetrain using camera when jack is not down!");
 		}
 	}
@@ -77,7 +77,7 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 		}
 		active = true;
 		
-		if (jack != null && (jack.getPosition() != Position.DOWN)) {
+		if (jack != null && (jack.getPosition() != Position.MINI_DRIVETRAIN)) {
 			System.out.println("VIOLATION: cannot move mini drivetrain when jack is not down!");
 		}
 		

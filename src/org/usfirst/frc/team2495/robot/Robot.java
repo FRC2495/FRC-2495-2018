@@ -394,7 +394,7 @@ public class Robot extends IterativeRobot {
 			//if(largeDriveTrainSelected){
 				largeDriveTrainSelected = false; 
 				System.out.println("jack down");
-				jack.setPosition(Jack.Position.DOWN);
+				jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 			//}
 			//else{
 			//	largeDriveTrainSelected = true; 
@@ -415,7 +415,7 @@ public class Robot extends IterativeRobot {
 			//else{
 				largeDriveTrainSelected = true; 
 				System.out.println("jack up");
-				jack.setPosition(Jack.Position.UP);
+				jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 			//}			
 		}
 			
@@ -467,7 +467,7 @@ public class Robot extends IterativeRobot {
 		{
 			System.out.println("Button LEFT.BTN2 Pushed");
 			
-			if (jack != null && (jack.getPosition() != Position.DOWN)) {
+			if (jack != null && (jack.getPosition() != Position.MINI_DRIVETRAIN)) {
 				System.out.println("WARNING: moving mini drivetrain when jack is not down!");
 			}
 			
@@ -491,7 +491,7 @@ public class Robot extends IterativeRobot {
 		{
 			System.out.println("Button LEFT.BTN4 Pushed");
 			
-			if (jack != null && (jack.getPosition() != Position.UP)) {
+			if (jack != null && (jack.getPosition() != Position.LARGE_DRIVETRAIN)) {
 				System.out.println("WARNING: turning drivetrain when jack is not up!");
 			}
 			
@@ -502,7 +502,7 @@ public class Robot extends IterativeRobot {
 		{
 			System.out.println("Button LEFT.BTN5 Pushed");
 			
-			if (jack != null && (jack.getPosition() != Position.UP)) {
+			if (jack != null && (jack.getPosition() != Position.LARGE_DRIVETRAIN)) {
 				System.out.println("WARNING: turning drivetrain when jack is not up!");
 			}
 			

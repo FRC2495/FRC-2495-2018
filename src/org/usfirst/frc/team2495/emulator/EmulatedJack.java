@@ -18,14 +18,14 @@ public class EmulatedJack implements IJack{
 	{
 		switch(pos)
 		{
-			case DOWN:
+			case MINI_DRIVETRAIN:
 			{
 				System.out.println("Jack: BEGIN set position down (Mini Drivetrain activated)");
 				value = DoubleSolenoid.Value.kReverse;
 				System.out.println("Jack: STATE down\n");;
 				break;
 			}
-			case UP:
+			case LARGE_DRIVETRAIN:
 			{
 				System.out.println("Jack: BEGIN set position up (Drivetrain activated)");
 				value = DoubleSolenoid.Value.kForward;
@@ -45,11 +45,11 @@ public class EmulatedJack implements IJack{
 		{
 			case kReverse:
 			{
-				return Position.DOWN;
+				return Position.MINI_DRIVETRAIN;
 			}
 			case kForward:
 			{
-				return Position.UP;
+				return Position.LARGE_DRIVETRAIN;
 			}
 			default:
 			{

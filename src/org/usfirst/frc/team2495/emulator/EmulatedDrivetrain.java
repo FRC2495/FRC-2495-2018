@@ -50,7 +50,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 		active = true;
 		
-		if (jack != null && (jack.getPosition() != Position.UP)) {
+		if (jack != null && (jack.getPosition() != Position.LARGE_DRIVETRAIN)) {
 			System.out.println("VIOLATION: cannot turn drivetrain when jack is not up!");
 		}
 		
@@ -109,7 +109,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 		active = true;
 		
-		if (jack != null && (jack.getPosition() != Position.UP)) {
+		if (jack != null && (jack.getPosition() != Position.LARGE_DRIVETRAIN)) {
 			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");
 		}
 		
@@ -158,7 +158,7 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 		active = true;
 		
-		if (jack != null && (jack.getPosition() != Position.UP)) {
+		if (jack != null && (jack.getPosition() != Position.LARGE_DRIVETRAIN)) {
 			System.out.println("VIOLATION: cannot move drivetrain when jack is not up!");
 		}
 		

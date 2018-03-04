@@ -114,7 +114,7 @@ public class Auton {
 
 	// this method should be called once from autonomousInit() so that we always start in a known state
 	public void initialize() {
-		jack.setPosition(Jack.Position.UP); // just in case in was not up
+		jack.setPosition(Jack.Position.LARGE_DRIVETRAIN); // just in case in was not up
 		// no need to wait because we should already be up
 		
 		if (!hinge.hasBeenHomed() && !Robot.HINGE_DISABLED) { // just in case somebody forgot to home
@@ -138,21 +138,21 @@ public class Auton {
 			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 			{
 				// we need to make sure we are down before we move athwart
-				if (jack.getPosition() != Jack.Position.DOWN) {
-					jack.setPosition(Jack.Position.DOWN);
+				if (jack.getPosition() != Jack.Position.MINI_DRIVETRAIN) {
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 				}
 			
 				miniDrivetrain.moveUsingCameraPidController();
 				miniDrivetrain.waitMoveUsingCameraPidController();
 			
-				jack.setPosition(Jack.Position.UP);
+				jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 				jack.waitSetPosition();
 			}
 			else //if (cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
 			{
-				if (jack.getPosition() != Jack.Position.UP) {
-					jack.setPosition(Jack.Position.UP);
+				if (jack.getPosition() != Jack.Position.LARGE_DRIVETRAIN) {
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 				}
 				
@@ -163,8 +163,8 @@ public class Auton {
 			}
 
 			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY) {
-				if (jack.getPosition() != Jack.Position.UP) {
-					jack.setPosition(Jack.Position.UP);
+				if (jack.getPosition() != Jack.Position.LARGE_DRIVETRAIN) {
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 				}
 				 
@@ -176,8 +176,8 @@ public class Auton {
 			else //if (cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 			{
 				// we need to make sure we are up before we move
-				if (jack.getPosition() != Jack.Position.UP) {
-					jack.setPosition(Jack.Position.UP);
+				if (jack.getPosition() != Jack.Position.LARGE_DRIVETRAIN) {
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 				}
 				
@@ -188,8 +188,8 @@ public class Auton {
 		else //if (cameraOption == Robot.CAMERA_OPTION_USE_NEVER)
 		{
 			// we need to make sure we are up before we move
-			if (jack.getPosition() != Jack.Position.UP) {
-				jack.setPosition(Jack.Position.UP);
+			if (jack.getPosition() != Jack.Position.LARGE_DRIVETRAIN) {
+				jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 				jack.waitSetPosition();
 			}
 			
@@ -261,7 +261,7 @@ public class Auton {
 					drivetrain.moveDistance(SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();	
 					
-					jack.setPosition(Jack.Position.DOWN);
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -296,7 +296,7 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(180);
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					jack.setPosition(Jack.Position.DOWN);
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
@@ -310,7 +310,7 @@ public class Auton {
 						miniDrivetrain.waitMoveDistance();
 					}
 					
-					jack.setPosition(Jack.Position.UP);
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 
 					elevator.moveMidway();
@@ -350,13 +350,13 @@ public class Auton {
 					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 
-					jack.setPosition(Jack.Position.DOWN);
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 					
 					miniDrivetrain.moveDistance(-DISTANCE_BETWEEN_SWITCH_CENTERS); //changed the distance so that when we move left its based off the center of the robot.
 					miniDrivetrain.waitMoveDistance();
 
-					jack.setPosition(Jack.Position.UP);
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 
 					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
@@ -418,7 +418,7 @@ public class Auton {
 					drivetrain.moveDistance(SCALE_TO_SWITCH_1);	
 					drivetrain.waitMoveDistance();
 					
-					jack.setPosition(Jack.Position.DOWN);
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
@@ -453,7 +453,7 @@ public class Auton {
 					drivetrain.turnAngleUsingPidController(180);
 					drivetrain.waitTurnAngleUsingPidController();
 					
-					jack.setPosition(Jack.Position.DOWN);
+					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -467,7 +467,7 @@ public class Auton {
 						miniDrivetrain.waitMoveDistance();
 					}
 					
-					jack.setPosition(Jack.Position.UP);
+					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 					
 					elevator.moveMidway();
@@ -557,7 +557,7 @@ public class Auton {
 			drivetrain.moveDistance(SCALE_TO_SWITCH_1);
 			drivetrain.waitMoveDistance();		
 	
-			jack.setPosition(Jack.Position.DOWN);
+			jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
 			jack.waitSetPosition();
 			
 /*			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
@@ -574,7 +574,7 @@ public class Auton {
 			}
 */	
 		//remove Comment when camera is working
-			jack.setPosition(Jack.Position.UP);
+			jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 			jack.waitSetPosition();
 
 			drivetrain.moveDistance(SCALE_TO_SWITCH_2);

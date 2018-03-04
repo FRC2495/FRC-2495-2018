@@ -13,8 +13,8 @@ public class Jack implements IJack{
 	DoubleSolenoid downup;
 
 	public enum Position {
-		UP, // outer drivetrain is down
-		DOWN, // outer drivetrain is up
+		LARGE_DRIVETRAIN, // outer drivetrain is down   //Previously UP
+		MINI_DRIVETRAIN, // outer drivetrain is up     //Previously DOWN
 		UNKNOWN;
 	}
 
@@ -27,12 +27,12 @@ public class Jack implements IJack{
 	{
 		switch(pos)
 		{
-			case DOWN:
+			case MINI_DRIVETRAIN:
 			{
 				downup.set(DoubleSolenoid.Value.kReverse); // adjust direction if needed
 				break;
 			}
-			case UP:
+			case LARGE_DRIVETRAIN:
 			{
 				downup.set(DoubleSolenoid.Value.kForward); // adjust direction if needed
 				break;
@@ -52,11 +52,11 @@ public class Jack implements IJack{
 		{
 			case kReverse:
 			{
-				return Position.DOWN;
+				return Position.MINI_DRIVETRAIN;
 			}
 			case kForward:
 			{
-				return Position.UP;
+				return Position.LARGE_DRIVETRAIN;
 			}
 			default:
 			{
