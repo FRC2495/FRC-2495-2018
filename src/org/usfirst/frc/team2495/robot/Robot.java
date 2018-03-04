@@ -38,6 +38,9 @@ public class Robot extends IterativeRobot {
 	// use this constant to switch between competition and practice bot
 	public static final boolean COMPETITION_BOT_CONFIG = false;
 	
+	// Change this constant to choose between one or two joysticks for main drivetrain
+	public static final boolean USE_TWO_JOYSTICKS_TO_DRIVE = true;
+	
 	// set the following two constants to true if using a proto/second bot with no hinge and/or no elevator
 	public static final boolean HINGE_DISABLED = false;
 	public static final boolean ELEVATOR_DISABLED = false;	
@@ -365,7 +368,11 @@ public class Robot extends IterativeRobot {
 		
 		//Joystick drive only using right joystick
 		if (largeDriveTrainSelected) {
-			drivetrain.joystickControl(joyLeft, joyRight, true);
+			if (USE_TWO_JOYSTICKS_TO_DRIVE) {
+				drivetrain.joystickControl(joyLeft, joyRight, true);
+			} else {
+				drivetrain.joystickControl(joyRight, joyRight, true);
+			}
 		}
 		else
 		{
