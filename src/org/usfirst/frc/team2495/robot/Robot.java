@@ -324,7 +324,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		auton.execute_test();
+		auton.execute();
 	}
 
 	@Override
