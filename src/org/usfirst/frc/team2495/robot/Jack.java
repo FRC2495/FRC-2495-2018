@@ -65,7 +65,7 @@ public class Jack implements IJack{
 		}
 	}
 	
-	public void waitForJack() {
+	public void waitSetPosition() {
 		long start = Calendar.getInstance().getTimeInMillis();
 
 		while (true) { 		

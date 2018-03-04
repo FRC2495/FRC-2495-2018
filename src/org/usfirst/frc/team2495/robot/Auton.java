@@ -115,6 +115,7 @@ public class Auton {
 	// this method should be called once from autonomousInit() so that we always start in a known state
 	public void initialize() {
 		jack.setPosition(Jack.Position.UP); // just in case in was not up
+		// no need to wait because we should already be up
 		
 		if (!hinge.hasBeenHomed() && !Robot.HINGE_DISABLED) { // just in case somebody forgot to home
 			hinge.home(); 
@@ -137,11 +138,13 @@ public class Auton {
 			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 			{
 				jack.setPosition(Jack.Position.DOWN);
+				//jack.waitSetPosition();
 			
 				miniDrivetrain.moveUsingCameraPidController();
 				miniDrivetrain.waitMoveUsingCameraPidController();
 			
 				jack.setPosition(Jack.Position.UP);
+				//jack.waitSetPosition();
 			}
 			
 			if ( cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
@@ -213,6 +216,7 @@ public class Auton {
 					drivetrain.waitMoveDistance();	
 					
 					jack.setPosition(Jack.Position.DOWN);
+					//jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
@@ -265,6 +269,7 @@ public class Auton {
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					jack.setPosition(Jack.Position.DOWN);
+					//jack.waitSetPosition();
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
@@ -278,6 +283,7 @@ public class Auton {
 					}
 					
 					jack.setPosition(Jack.Position.UP);
+					//jack.waitSetPosition();
 
 					elevator.moveMidway();
 					elevator.waitMove();
@@ -344,11 +350,13 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.DOWN);
+					//jack.waitSetPosition();
 					
 					miniDrivetrain.moveDistance(-DISTANCE_BETWEEN_SWITCH_CENTERS); //changed the distance so that when we move left its based off the center of the robot.
 					miniDrivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.UP);
+					//jack.waitSetPosition();
 
 					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
@@ -437,6 +445,7 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
+					//jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
@@ -489,6 +498,7 @@ public class Auton {
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					jack.setPosition(Jack.Position.DOWN);
+					//jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
@@ -502,6 +512,7 @@ public class Auton {
 					}
 					
 					jack.setPosition(Jack.Position.UP);
+					//jack.waitSetPosition();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
@@ -627,7 +638,7 @@ public class Auton {
 			drivetrain.waitMoveDistance();		
 	
 			jack.setPosition(Jack.Position.DOWN);
-			jack.waitForJack();
+			jack.waitSetPosition();
 			
 /*			if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 			{
@@ -644,7 +655,7 @@ public class Auton {
 */	
 		//remove Comment when camera is working
 			jack.setPosition(Jack.Position.UP);
-			jack.waitForJack();
+			jack.waitSetPosition();
 
 			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 			drivetrain.waitMoveDistance();

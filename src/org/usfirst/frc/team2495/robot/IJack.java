@@ -9,5 +9,5 @@ public interface IJack {
 	
 	public Position getPosition();
 	
-	public void waitForJack();
+	public void waitSetPosition();
 }
