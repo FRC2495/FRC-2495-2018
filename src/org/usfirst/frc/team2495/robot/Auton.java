@@ -132,7 +132,7 @@ public class Auton {
 	}
 	
 	public void align_and_move_to_cube() {
-		//If dashboard option to use camera during Auton is selected ie. we trust camera alignment
+		//If dashboard option to use camera during Auton is selected i.e. we trust camera alignment
 		if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS  || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 		{	
 			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
@@ -155,6 +155,7 @@ public class Auton {
 				drivetrain.waitTurnAngleUsingPidController();
 			}
 
+			// we consider it is always ok to move towards cube if we use the camera 
 			camera.acquireTargets(true);
 		
 			this.moveDistanceTowardCube();
@@ -166,7 +167,32 @@ public class Auton {
 			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 			drivetrain.waitMoveDistance();
 		}
-
+	}
+	
+	public void grasp_cube() {
+		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
+		{
+			grasper.grasp();
+			grasper.waitGraspUsingSonar();
+		}
+		else
+		{
+			grasper.grasp();
+			grasper.waitGraspOrRelease();
+		}
+	}
+	
+	public void release_cube() {
+		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+		{
+			grasper.release();
+			grasper.waitReleaseUsingSonar();
+		}
+		else
+		{
+			grasper.release();
+			grasper.waitGraspOrRelease();
+		}
 	}
 	
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
@@ -192,16 +218,7 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 					
 					hinge.moveDown();
 					hinge.waitMove();
@@ -229,32 +246,14 @@ public class Auton {
 						miniDrivetrain.waitMoveDistance();
 					}
 
-					this.align_and_move_to_cube();
+					align_and_move_to_cube();
 										
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-					{
-						grasper.grasp();
-						grasper.waitGraspUsingSonar();
-					}
-					else
-					{
-						grasper.grasp();
-						grasper.waitGraspOrRelease();
-					}
+					grasp_cube();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 
 					elevator.moveDown();
 					elevator.waitMove();
@@ -292,16 +291,7 @@ public class Auton {
 					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 
 					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
 					drivetrain.waitMoveDistance();
@@ -309,32 +299,14 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 					
-					this.align_and_move_to_cube();
+					align_and_move_to_cube();
 
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-					{
-						grasper.grasp();
-						grasper.waitGraspUsingSonar();
-					}
-					else
-					{
-						grasper.grasp();
-						grasper.waitGraspOrRelease();
-					}
+					grasp_cube();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 					
 					elevator.moveDown();
 					elevator.waitMove();
@@ -364,16 +336,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 
 					elevator.moveDown();
 					elevator.waitMove();				
@@ -387,16 +350,7 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 							
 					elevator.moveDown();
 					elevator.waitMove();
@@ -421,16 +375,7 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 					
 					hinge.moveDown();
 					hinge.waitMove();
@@ -458,32 +403,14 @@ public class Auton {
 						miniDrivetrain.waitMoveDistance();
 					}
 
-					this.align_and_move_to_cube();
+					align_and_move_to_cube();
 
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-					{
-						grasper.grasp();
-						grasper.waitGraspUsingSonar();
-					}
-					else
-					{
-						grasper.grasp();
-						grasper.waitGraspOrRelease();
-					}
+					grasp_cube();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 					
 					elevator.moveDown();
 					elevator.waitMove();
@@ -521,16 +448,7 @@ public class Auton {
 					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 
 					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
 					drivetrain.waitMoveDistance();
@@ -538,32 +456,14 @@ public class Auton {
 					elevator.moveDown();
 					elevator.waitMove();
 										
-					this.align_and_move_to_cube();
+					align_and_move_to_cube();
 
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-					{
-						grasper.grasp();
-						grasper.waitGraspUsingSonar();
-					}
-					else
-					{
-						grasper.grasp();
-						grasper.waitGraspOrRelease();
-					}
+					grasp_cube();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-					{
-						grasper.release();
-						grasper.waitReleaseUsingSonar();
-					}
-					else
-					{
-						grasper.release();
-						grasper.waitGraspOrRelease();
-					}
+					release_cube();
 					
 					elevator.moveDown();
 					elevator.waitMove();
