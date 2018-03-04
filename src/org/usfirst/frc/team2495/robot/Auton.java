@@ -137,33 +137,62 @@ public class Auton {
 		{	
 			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
 			{
-				jack.setPosition(Jack.Position.DOWN);
-				//jack.waitSetPosition();
+				// we need to make sure we are down before we move athwart
+				if (jack.getPosition() != Jack.Position.DOWN) {
+					jack.setPosition(Jack.Position.DOWN);
+					jack.waitSetPosition();
+				}
 			
 				miniDrivetrain.moveUsingCameraPidController();
 				miniDrivetrain.waitMoveUsingCameraPidController();
 			
 				jack.setPosition(Jack.Position.UP);
-				//jack.waitSetPosition();
+				jack.waitSetPosition();
 			}
-			
-			if ( cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
+			else //if (cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY)
 			{
+				if (jack.getPosition() != Jack.Position.UP) {
+					jack.setPosition(Jack.Position.UP);
+					jack.waitSetPosition();
+				}
+				
 				camera.acquireTargets(true);
 			
 				this.turnAngleUsingPidControllerTowardCube();
 				drivetrain.waitTurnAngleUsingPidController();
 			}
 
-			// we consider it is always ok to move towards cube if we use the camera 
-			camera.acquireTargets(true);
-		
-			this.moveDistanceTowardCube();
-			drivetrain.waitMoveDistance();
-		//	}
+			if (cameraOption == Robot.CAMERA_OPTION_USE_ALWAYS || cameraOption == Robot.CAMERA_OPTION_USE_OPEN_LOOP_ONLY) {
+				if (jack.getPosition() != Jack.Position.UP) {
+					jack.setPosition(Jack.Position.UP);
+					jack.waitSetPosition();
+				}
+				 
+				camera.acquireTargets(true);
+			
+				this.moveDistanceTowardCube();
+				drivetrain.waitMoveDistance();
+			}
+			else //if (cameraOption == Robot.CAMERA_OPTION_USE_CLOSED_LOOP_ONLY)
+			{
+				// we need to make sure we are up before we move
+				if (jack.getPosition() != Jack.Position.UP) {
+					jack.setPosition(Jack.Position.UP);
+					jack.waitSetPosition();
+				}
+				
+				drivetrain.moveDistance(SCALE_TO_SWITCH_2);
+				drivetrain.waitMoveDistance();
+			}
 		}
-		else
+		else //if (cameraOption == Robot.CAMERA_OPTION_USE_NEVER)
 		{
+			// we need to make sure we are up before we move
+			if (jack.getPosition() != Jack.Position.UP) {
+				jack.setPosition(Jack.Position.UP);
+				jack.waitSetPosition();
+			}
+			
 			drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 			drivetrain.waitMoveDistance();
 		}
@@ -233,7 +262,7 @@ public class Auton {
 					drivetrain.waitMoveDistance();	
 					
 					jack.setPosition(Jack.Position.DOWN);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
@@ -268,7 +297,7 @@ public class Auton {
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					jack.setPosition(Jack.Position.DOWN);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
@@ -282,7 +311,7 @@ public class Auton {
 					}
 					
 					jack.setPosition(Jack.Position.UP);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 
 					elevator.moveMidway();
 					elevator.waitMove();
@@ -322,13 +351,13 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.DOWN);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 					
 					miniDrivetrain.moveDistance(-DISTANCE_BETWEEN_SWITCH_CENTERS); //changed the distance so that when we move left its based off the center of the robot.
 					miniDrivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.UP);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 
 					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
@@ -390,7 +419,7 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					
 					jack.setPosition(Jack.Position.DOWN);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)			
 					{
@@ -425,7 +454,7 @@ public class Auton {
 					drivetrain.waitTurnAngleUsingPidController();
 					
 					jack.setPosition(Jack.Position.DOWN);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
@@ -439,7 +468,7 @@ public class Auton {
 					}
 					
 					jack.setPosition(Jack.Position.UP);
-					//jack.waitSetPosition();
+					jack.waitSetPosition();
 					
 					elevator.moveMidway();
 					elevator.waitMove();
@@ -506,16 +535,7 @@ public class Auton {
 			hinge.moveMidway();
 			hinge.waitMove();
 			
-			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-			{
-				grasper.release();
-				grasper.waitReleaseUsingSonar();
-			}
-			else
-			{
-				grasper.release();
-				grasper.waitGraspOrRelease();
-			}
+			release_cube();
 			
 			hinge.moveDown();
 			hinge.waitMove();
@@ -561,30 +581,12 @@ public class Auton {
 			drivetrain.waitMoveDistance();
 /*			this.align_and_move_to_cube();
 								
-			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_GRASP_ONLY)
-			{
-				grasper.grasp();
-				grasper.waitGraspUsingSonar();
-			}
-			else
-			{
-				grasper.grasp();
-				grasper.waitGraspOrRelease();
-			}
+			grasp_cube();
 			
 			elevator.moveMidway();
 			elevator.waitMove();
 			
-			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
-			{
-				grasper.release();
-				grasper.waitReleaseUsingSonar();
-			}
-			else
-			{
-				grasper.release();
-				grasper.waitGraspOrRelease();
-			}
+			release_cube();
 	
 			elevator.moveDown();
 			elevator.waitMove();
