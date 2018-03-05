@@ -395,6 +395,7 @@ public class Robot extends IterativeRobot {
 				largeDriveTrainSelected = false; 
 				System.out.println("jack down");
 				jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
+				drivetrain.stop();
 			//}
 			//else{
 			//	largeDriveTrainSelected = true; 
@@ -416,6 +417,7 @@ public class Robot extends IterativeRobot {
 				largeDriveTrainSelected = true; 
 				System.out.println("jack up");
 				jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
+				miniDrivetrain.stop();
 			//}			
 		}
 			
