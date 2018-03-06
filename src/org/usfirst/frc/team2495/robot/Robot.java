@@ -903,6 +903,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Grasper IsReleasing?", grasper.isReleasing());
         
         SmartDashboard.putBoolean("Winch IsWinchingUp?", winchControl.isWinchingUp());
+        
+        SmartDashboard.putString("Auton selected", autonChooser.getSelected());	
+		SmartDashboard.putString("Start position", startPositionChooser.getSelected());
+		SmartDashboard.putString("Camera option", cameraOptionChooser.getSelected());
+		SmartDashboard.putString("Sonar option", sonarOptionChooser.getSelected());
 	}
 	
 	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {
