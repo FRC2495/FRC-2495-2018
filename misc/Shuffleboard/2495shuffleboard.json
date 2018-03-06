@@ -357,7 +357,7 @@
           "0,0": {
             "size": [
               2,
-              4
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -490,7 +490,7 @@
           "2,0": {
             "size": [
               2,
-              4
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -651,7 +651,7 @@
           "4,0": {
             "size": [
               2,
-              4
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -824,7 +824,7 @@
         "tiles": {
           "0,0": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -835,7 +835,7 @@
           },
           "0,1": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -846,7 +846,7 @@
           },
           "2,1": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -857,7 +857,7 @@
           },
           "2,0": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -1031,6 +1031,50 @@
               "_title": "SmartDashboard/Winch IsWinchingUp?",
               "colorWhenTrue": "#7CFC00FF",
               "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "1,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auton selected",
+              "_title": "SmartDashboard/Auton selected"
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Camera option",
+              "_title": "SmartDashboard/Camera option"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Sonar option",
+              "_title": "SmartDashboard/Sonar option"
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Start position",
+              "_title": "SmartDashboard/Start position"
             }
           }
         }
@@ -1597,6 +1641,50 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Second Switch",
               "_title": "SmartDashboard/Second Switch"
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auton selected",
+              "_title": "SmartDashboard/Auton selected"
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Start position",
+              "_title": "SmartDashboard/Start position"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Sonar option",
+              "_title": "SmartDashboard/Sonar option"
+            }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Camera option",
+              "_title": "SmartDashboard/Camera option"
             }
           }
         }
