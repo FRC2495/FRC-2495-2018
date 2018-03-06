@@ -582,7 +582,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button BACK Pushed");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
-				System.out.println("ORDER DECLINED: cannot home elevator up when hinge has not been homed or is not down!");
+				System.out.println("ERROR: cannot home elevator up when hinge has not been homed or is not down!");
 			} else {
 				elevatorControl.home();
 			}
@@ -600,7 +600,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button LS Pushed");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
-				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
+				System.out.println("ERROR: cannot move elevator up or down when hinge has not been homed or is not down!");
 			} else {
 				if (elevatorFlagUp) {
 					elevatorControl.moveUp();
@@ -634,7 +634,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Button LB Pushed");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
-				System.out.println("ORDER DECLINED: cannot move elevator midway when hinge has not been homed or is not down!");
+				System.out.println("ERROR: cannot move elevator midway when hinge has not been homed or is not down!");
 			} else {
 				elevatorControl.moveMidway();
 				System.out.println("Elevator should be moving midway");
@@ -719,7 +719,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Gamepad axis L Pushed");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
-				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
+				System.out.println("ERROR: cannot move elevator up or down when hinge has not been homed or is not down!");
 			} else {
 				//if (elevatorFlagUp) {
 					elevatorControl.moveUp();
@@ -737,7 +737,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Gamepad axis LT Pushed positively");
 			
 			if (hingeControl != null && (!hingeControl.hasBeenHomed() || !hingeControl.isDown())) {
-				System.out.println("ORDER DECLINED: cannot move elevator up or down when hinge has not been homed or is not down!");
+				System.out.println("ERROR: cannot move elevator up or down when hinge has not been homed or is not down!");
 			} else {
 				//if (elevatorFlagUp) {
 				//	elevatorControl.moveUp();
@@ -832,10 +832,10 @@ public class Robot extends IterativeRobot {
 			if (distanceToTargetReportedByCamera >= OFFSET_CAMERA_CUBE_INCHES) {
 				drivetrain.moveDistance((distanceToTargetReportedByCamera - OFFSET_CAMERA_CUBE_INCHES)); // todo: check sign
 			} else {
-				System.out.println("Already at the cube!");
+				System.out.println("WARNING: Already at the cube!");
 			}
 		} else {
-			System.out.println("Cannot move to infinity and beyond!");
+			System.out.println("ERROR: Cannot move to infinity and beyond!");
 		}		
 	}
 	
@@ -912,7 +912,7 @@ public class Robot extends IterativeRobot {
 			return Math.toDegrees(Math.atan(Math.tan(Math.toRadians(cameraTurnAngle)) * dist
 					/ (dist + OFFSET_BETWEEN_CAMERA_AND_ROTATION_CENTER_INCHES)));
 		} catch (Exception e) {
-			System.out.println("Exception in proper turn angle calculation" + e.toString());
+			System.out.println("ERROR: Exception in proper turn angle calculation" + e.toString());
 			return 0;
 		}
 	}

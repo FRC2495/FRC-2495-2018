@@ -92,10 +92,10 @@ public class Auton {
 			if (distanceToTargetReportedByCamera >= OFFSET_CAMERA_CUBE_INCHES) {
 				drivetrain.moveDistance((distanceToTargetReportedByCamera - OFFSET_CAMERA_CUBE_INCHES)); // todo: check sign
 			} else {
-				System.out.println("Already at the cube!");
+				System.out.println("WARNING: Already at the cube!");
 			}
 		} else {
-			System.out.println("Cannot move to infinity and beyond!");
+			System.out.println("ERROR: Cannot move to infinity and beyond!");
 		}		
 	}
 
