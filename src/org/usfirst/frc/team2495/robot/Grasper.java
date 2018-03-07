@@ -20,6 +20,8 @@ public class Grasper implements IGrasper{
 	 * 
 	 */
 	static final double MAX_PCT_OUTPUT = 1.0;
+	static final double HALF_PCT_OUTPUT = 0.5;
+	
 	static final int WAIT_MS = 1000;
 	static final int TIMEOUT_MS = 5000;
 
@@ -80,7 +82,7 @@ public class Grasper implements IGrasper{
 	
 
 	public void grasp() {
-		grasperLeft.set(ControlMode.PercentOutput, MAX_PCT_OUTPUT);
+		grasperLeft.set(ControlMode.PercentOutput, HALF_PCT_OUTPUT);
 		
 		isGrasping = true;
 		isReleasing = false;
