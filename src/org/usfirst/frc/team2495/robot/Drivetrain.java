@@ -34,8 +34,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	// NOTE: it might make sense to decrease the PID controller period to 0.02 sec (which is the period used by the main loop)
 	static final double TURN_PID_CONTROLLER_PERIOD_SECONDS = .02; // 0.02 sec = 20 ms 	
 	
-	static final double MIN_TURN_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.4:0.3;;
-	static final double MAX_TURN_PCT_OUTPUT = 0.8;
+	static final double MIN_TURN_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.6:0.3;
+	static final double MAX_TURN_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.9:0.8;
 	
 	static final double TURN_PROPORTIONAL_GAIN = 0.04;
 	static final double TURN_INTEGRAL_GAIN = 0.0;
