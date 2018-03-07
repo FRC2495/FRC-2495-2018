@@ -26,7 +26,10 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	static final double MAX_PCT_OUTPUT = 1.0;
 		
 	static final int TALON_TIMEOUT_MS = 10;
-	public static final int TICKS_PER_REVOLUTION = 4096*63;
+	
+	public static final double ENCODER_MULTIPLIER = Robot.COMPETITION_BOT_CONFIG?9.5:63;
+	
+	public static final double TICKS_PER_REVOLUTION = 4096*ENCODER_MULTIPLIER;
 	
 	static final int MINI_DRIVETRAIN_POLARITY = -1; 
 

@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	
 	// IMPORTANT MAKE SURE THAT THIS CONSTANT IS SET TO TRUE IF USING COMPETITION BOT!
 	// use this constant to switch between competition and practice bot
-	public static final boolean COMPETITION_BOT_CONFIG = false;
+	public static final boolean COMPETITION_BOT_CONFIG = true;
 	
 	// Change this constant to choose between one or two joysticks for main drivetrain
 	public static /*final*/ boolean USE_TWO_JOYSTICKS_TO_DRIVE = true;
