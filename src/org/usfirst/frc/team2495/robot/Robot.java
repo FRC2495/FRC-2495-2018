@@ -666,6 +666,11 @@ public class Robot extends IterativeRobot {
 		// THIS REQUIRES 2 KEYS (nuclear option)			
 		if (control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN11) &&
 				control.getHeld(ControllerBase.Joysticks.GAMEPAD, ControllerBase.GamepadButtons.Y)) {
+			
+			//hingeControl.stop();
+			elevatorControl.stop(); // ensures that elevator's motor is not energized as we climb
+			//grasper.stop();
+			
 			winchControl.winchUp();
 			control.rumble(true); // provides indicator that we are winching up (both keys are held)
 		}
