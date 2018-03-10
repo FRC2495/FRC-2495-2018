@@ -4,10 +4,11 @@ import org.usfirst.frc.team2495.robot.GameData.Plate;
 
 public class Auton {
 	
-	static final int ROBOT_DEPTH_INCHES = 33; // inches
+	static final int ROBOT_DEPTH_INCHES = 34; // inches
 	static final int HALF_ROBOT_DEPTH_INCHES = ROBOT_DEPTH_INCHES / 2;
-	static final int EXTRA_HINGE_DEPTH_INCHES = 13; // inches
-	static final int DRIVERSTATION_TO_SCALE = 299-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int EXTRA_HINGE_DEPTH_INCHES = 14; // inches
+	static final int DRIVERSTATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int DRIVERSTATION_SCALE_ADJUST = 6; 
 	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
@@ -247,7 +248,13 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
+					drivetrain.moveDistance(DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.waitMoveDistance();
+					
 					release_cube();
+					
+					drivetrain.moveDistance(-DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.waitMoveDistance();
 					
 					hinge.moveDown();
 					hinge.waitMove();
@@ -404,7 +411,13 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
+					drivetrain.moveDistance(DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.waitMoveDistance();
+					
 					release_cube();
+					
+					drivetrain.moveDistance(-DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.waitMoveDistance();
 					
 					hinge.moveDown();
 					hinge.waitMove();
