@@ -9,7 +9,7 @@ public class Auton {
 	static final int EXTRA_HINGE_DEPTH_INCHES = 14; // inches
 	static final int DRIVERSTATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
 	static final int DRIVERSTATION_SCALE_ADJUST = 6; 
-	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES-10; //adjusting 5 inches since movedistance didnt complete
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
 	static final int SLIDE_TO_NEAR_SWITCH = 34+20; //adjustment as the testbot is off when it reaches scale.
