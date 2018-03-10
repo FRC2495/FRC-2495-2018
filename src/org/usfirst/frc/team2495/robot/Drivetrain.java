@@ -49,7 +49,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int SLOT_0 = 0;
 	
-	static final double REDUCED_PCT_OUTPUT = 0.5;
+	static final double REDUCED_PCT_OUTPUT = 0.75;
 	
 	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
@@ -403,7 +403,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 				
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
-				differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getX() * .80, joyLeft.getY() * .80); // right needs to be reversed
 			}
 			else
 			{

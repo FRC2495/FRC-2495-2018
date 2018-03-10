@@ -53,7 +53,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	static final int SLOT_0 = 0;
 	
-	static final double REDUCED_PCT_OUTPUT = 0.5;
+	static final double REDUCED_PCT_OUTPUT = 0.75;
 	
 	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
@@ -368,7 +368,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 				//differentialDrive.tankDrive(joyLeft.getY() * .75, -joyRight.getY() * .75); // right needs to be reversed
 				
 				//differentialDrive.arcadeDrive(-joyRight.getX() * .75, joyLeft.getY() * .75); // right needs to be reversed
-				differentialDrive.arcadeDrive(-joyRight.getY() * .75, joyLeft.getX() * .75); // right needs to be reversed
+				differentialDrive.arcadeDrive(-joyRight.getY() * .80, joyLeft.getX() * .80); // right needs to be reversed
 			}
 			else
 			{
