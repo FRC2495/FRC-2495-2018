@@ -375,15 +375,18 @@ public class Robot extends IterativeRobot {
 					&& !control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10)
 					&& !control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN11)) {
 				
-					drivetrain.joystickControl(joyLeft, joyRight, true);
+					drivetrain.joystickControl(joyLeft, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+			                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 				}
 			} else {
-				drivetrain.joystickControl(joyRight, joyRight, true);
+				drivetrain.joystickControl(joyRight, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+		                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 			}
 		}
 		else
 		{
-			miniDrivetrain.joystickControl(joyRight, joyRight, true);
+			miniDrivetrain.joystickControl(joyRight, joyRight, (control.getHeld(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN1) 
+	                || control.getHeld(ControllerBase.Joysticks.RIGHT_STICK, ControllerBase.JoystickButtons.BTN1)));
 		}			
 		
 		// Jack up or down the robot to switch between main or mini drivetrain			
