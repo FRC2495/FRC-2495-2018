@@ -289,10 +289,10 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					//release_cube();
+					release_cube();
 
-					//elevator.moveDown();
-					//elevator.waitMove();
+					elevator.moveDown();
+					elevator.waitMove();
 				} 
 				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT) 
@@ -327,7 +327,7 @@ public class Auton {
 					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
 					
-					/*
+					
 					release_cube();
 
 					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
@@ -347,7 +347,7 @@ public class Auton {
 					
 					elevator.moveDown();
 					elevator.waitMove();
-					*/
+					
 				}
 			}
 			// start position center
@@ -374,10 +374,10 @@ public class Auton {
 					drivetrain.waitMoveDistance();				
 					elevator.waitMove();
 					
-					//release_cube();
+					release_cube();
 
-					//elevator.moveDown();
-					//elevator.waitMove();				
+					elevator.moveDown();
+					elevator.waitMove();				
 				}
 				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
@@ -388,10 +388,10 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					elevator.waitMove();
 					
-					//release_cube();
+					release_cube();
 							
-					//elevator.moveDown();
-					//elevator.waitMove();
+					elevator.moveDown();
+					elevator.waitMove();
 				}	
 				
 			}
@@ -454,10 +454,10 @@ public class Auton {
 					elevator.moveMidway();
 					elevator.waitMove();
 					
-					//release_cube();
+					release_cube();
 					
-					//elevator.moveDown();
-					//elevator.waitMove();
+					elevator.moveDown();
+					elevator.waitMove();
 				}
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
@@ -491,7 +491,7 @@ public class Auton {
 					//Remember you will be hitting a cube and not the switch perimeter,  So adjust accordingly
 					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
 					drivetrain.waitMoveDistance();
-					/*
+					
 					release_cube();
 
 					drivetrain.moveDistance(-SCALE_TO_SWITCH_2);//move back ___ in.
@@ -511,7 +511,7 @@ public class Auton {
 					
 					elevator.moveDown();
 					elevator.waitMove();
-					*/
+					
 				}
 			}						
 			autoSelected = "we are done"; // this is ok because we have a default case		
