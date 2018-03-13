@@ -436,6 +436,14 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		return (int) (masterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP)*PERIMETER_WHEEL_INCHES/TICKS_PER_REVOLUTION);
 	}
 	
+	public int getRightEncoderVelocity() {
+		return (int) (masterRight.getSelectedSensorVelocity(PRIMARY_PID_LOOP));
+	}
+
+	public int getLeftEncoderVelocity() {
+		return (int) (masterLeft.getSelectedSensorVelocity(PRIMARY_PID_LOOP));
+	}
+	
 	public boolean isMoving() {
 		return isMoving;
 	}

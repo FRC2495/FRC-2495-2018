@@ -213,6 +213,14 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		return (int) (leftEncoder*Drivetrain.PERIMETER_WHEEL_INCHES/Drivetrain.TICKS_PER_REVOLUTION);
 	}
 	
+	public int getRightEncoderVelocity() {
+		return Drivetrain.TICKS_PER_REVOLUTION / 1; // 10 RPS
+	}
+
+	public int getLeftEncoderVelocity() {
+		return Drivetrain.TICKS_PER_REVOLUTION / 1; // 10 RPS
+	}
+	
 	public boolean isMoving(){
 		return false;
 	}

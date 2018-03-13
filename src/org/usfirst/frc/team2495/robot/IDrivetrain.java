@@ -43,6 +43,10 @@ public interface IDrivetrain {
 
 	public int getLeftPosition();
 	
+	public int getRightEncoderVelocity();
+
+	public int getLeftEncoderVelocity();
+	
 	public boolean isMoving();
 	
 	public boolean isTurning();

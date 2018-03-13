@@ -856,6 +856,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Value", drivetrain.getLeftPosition());
         SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderPosition());
         SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderPosition());
+        SmartDashboard.putNumber("Right Enc Velocity", drivetrain.getRightEncoderVelocity());
+        SmartDashboard.putNumber("Left Enc Velocity", drivetrain.getLeftEncoderVelocity());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
         
