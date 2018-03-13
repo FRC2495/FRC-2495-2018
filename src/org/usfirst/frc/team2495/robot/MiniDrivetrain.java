@@ -225,6 +225,8 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
+		stop(); // in case we were still doing something
+		
 		resetEncoders();
 		setPIDParameters();
 		setNominalAndPeakOutputs(REDUCED_PCT_OUTPUT); //this has a global impact, so we reset in stop()

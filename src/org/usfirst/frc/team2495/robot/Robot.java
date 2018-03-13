@@ -350,6 +350,7 @@ public class Robot extends IterativeRobot {
 	
 		drivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		drivetrain.tripleCheckTurnAngleUsingPidController(); // checks if we are done turning if we were turning
+		drivetrain.tripleCheckIfStalled(); // checks if we might be stalled 
 		
 		miniDrivetrain.tripleCheckMoveDistance(); // checks if we are done moving if we were moving
 		miniDrivetrain.tripleCheckMoveUsingCameraPidController(); // checks if we are done moving using camera if we were moving
@@ -860,6 +861,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Enc Velocity", drivetrain.getLeftEncoderVelocity());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
+        SmartDashboard.putBoolean("isStalled?", drivetrain.isStalled());
         
         SmartDashboard.putNumber("Mini Right Value", miniDrivetrain.getRightPosition());
         SmartDashboard.putNumber("Mini Left Value", miniDrivetrain.getLeftPosition());

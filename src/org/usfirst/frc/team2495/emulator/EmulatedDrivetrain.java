@@ -181,6 +181,16 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		}
 	}
 	
+	// checks if drivetrain might be stalled
+	public boolean tripleCheckIfStalled() {
+		return false;
+	}
+		
+	// do not use in teleop - for auton only
+	public void waitMoveDistanceOrStalled() {
+		waitMoveDistance();
+	}
+	
 	public void stop() {
 	}
     
@@ -226,6 +236,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	}
 	
 	public boolean isTurning(){
+		return false;
+	}
+	
+	// return if stalled
+	public boolean isStalled() {
 		return false;
 	}
 

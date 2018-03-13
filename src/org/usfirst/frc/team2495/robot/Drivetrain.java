@@ -59,17 +59,22 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int TALON_TICK_THRESH = 128;
 	static final double TICK_THRESH = 512;
+	static final double TICK_PER_100MS_THRESH = 64; // about a tenth of a rotation per second 
 
 	private final static int MOVE_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
+	private final static int MOVE_STALLED_MINIMUM_COUNT = 10; // number of times/iterations we need to be stalled to really be stalled
+	
 	
 	// variables
 	boolean isMoving; // indicates that the drivetrain is moving using the PID controllers embedded on the motor controllers 
 	boolean isTurning;  // indicates that the drivetrain is turning using the PID controller hereunder
+	boolean isReallyStalled;
 	
 	double ltac, rtac; // target positions 
 	
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
+	private int stalledCount; // counter indicating how many times/iterations we were stalled
 
 	WPI_TalonSRX masterLeft, masterRight; // motor controllers
 	BaseMotorController followerLeft, followerRight; // motor controllers
@@ -170,6 +175,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		
 		isTurning = true;
 		onTargetCount = 0;
+		isReallyStalled = false;
+		stalledCount = 0;
 	}
 		
 	// This method checks that we are within target up to ON_TARGET_MINIMUM_COUNT times
@@ -227,6 +234,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{
+		stop(); // in case we were still doing something
+		
 		resetEncoders();
 		setPIDParameters();
 		setNominalAndPeakOutputs(REDUCED_PCT_OUTPUT); //this has a global impact, so we reset in stop()
@@ -243,6 +252,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 
 		isMoving = true;
 		onTargetCount = 0;
+		isReallyStalled = false;
+		stalledCount = 0;
 	}
 	
 	public boolean tripleCheckMoveDistance() {
@@ -312,6 +323,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle) {
+		stop(); // in case we were still doing something
+		
 		double dist = arclength(angle);
 		double ldist, rdist;
 		
@@ -329,6 +342,66 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		
 		isMoving = true;
 		onTargetCount = 0;
+		isReallyStalled = false;
+		stalledCount = 0;
+	}
+	
+	// return if drivetrain might be stalled
+	public boolean tripleCheckIfStalled() {
+		if (isMoving/* || isTurning*/) {
+			
+			double rvelocity = getRightEncoderVelocity();
+			double lvelocity = getLeftEncoderVelocity();
+			
+			boolean isStalled = (Math.abs(rvelocity) < TICK_PER_100MS_THRESH && Math.abs(lvelocity) < TICK_PER_100MS_THRESH);
+			
+			if (isStalled) { // if we are stalled in this iteration 
+				stalledCount++; // we increase the counter
+			} else { // if we are not stalled in this iteration
+				if (stalledCount > 0) { // even though we were stalled at least once during a previous iteration
+					stalledCount = 0; // we reset the counter as we are not stalled anymore
+					System.out.println("Triple-check failed (detecting stall).");
+				} else {
+					// we are definitely not stalled
+					
+					//System.out.println("moving velocity left: " + lvelocity);
+					//System.out.println("moving velocity right: " + rvelocity);
+				}
+			}
+			
+	        if (stalledCount > MOVE_STALLED_MINIMUM_COUNT) { // if we have met the minimum
+	        	isReallyStalled = true;
+	        }	
+	        
+	        if (isReallyStalled) {
+				System.out.println("WARNING: Stall detected!");
+				stop(); // WE STOP IF A STALL IS DETECTED				 
+			}
+		}
+		
+		return isReallyStalled;
+	}
+		
+	// do not use in teleop - for auton only
+	public void waitMoveDistanceOrStalled() {
+		long start = Calendar.getInstance().getTimeInMillis();
+		
+		while (tripleCheckMoveDistance() && !tripleCheckIfStalled()) {
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (moving)");
+				stop();
+				break;
+			}
+			
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}
 	}
 	
 	public void stop() {
@@ -450,6 +523,11 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	public boolean isTurning(){
 		return isTurning;
+	}
+	
+	// return if stalled
+	public boolean isStalled() {
+		return isReallyStalled;
 	}
 
 	@Override

@@ -24,6 +24,12 @@ public interface IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistanceAlongArc(int angle);
 	
+	// checks if drivetrain might be stalled
+	public boolean tripleCheckIfStalled();
+		
+	// do not use in teleop - for auton only
+	public void waitMoveDistanceOrStalled();
+	
 	
 	public void stop();
 	
@@ -50,6 +56,9 @@ public interface IDrivetrain {
 	public boolean isMoving();
 	
 	public boolean isTurning();
+	
+	// return if stalled
+	public boolean isStalled();
 		
 	// MAKE SURE THAT YOU ARE NOT IN A CLOSED LOOP CONTROL MODE BEFORE CALLING THIS METHOD.
 	// OTHERWISE THIS IS EQUIVALENT TO MOVING TO THE DISTANCE TO THE CURRENT ZERO IN REVERSE! 
