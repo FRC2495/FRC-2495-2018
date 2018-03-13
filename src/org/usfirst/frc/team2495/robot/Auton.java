@@ -7,9 +7,9 @@ public class Auton {
 	static final int ROBOT_DEPTH_INCHES = 34; // inches
 	static final int HALF_ROBOT_DEPTH_INCHES = ROBOT_DEPTH_INCHES / 2;
 	static final int EXTRA_HINGE_DEPTH_INCHES = 14; // inches
-	static final int DRIVERSTATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
-	static final int DRIVERSTATION_SCALE_ADJUST = 6; 
-	static final int DRIVERSTATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES-1; //adjusting 1 inches since movedistance didnt complete
+	static final int ALLIANCE_STATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
+	static final int ALLIANCE_STATION_SCALE_ADJUST = 6; 
+	static final int ALLIANCE_STATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES-1; //adjusting 1 inches since movedistance didnt complete
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
 	static final int SLIDE_TO_NEAR_SWITCH = 34+20; //adjustment as the testbot is off when it reaches scale.
@@ -236,7 +236,7 @@ public class Auton {
 				// start position left && scale left
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE); 
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE); 
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(+45);
@@ -248,12 +248,12 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					drivetrain.moveDistance(DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.moveDistance(ALLIANCE_STATION_SCALE_ADJUST); 
 					drivetrain.waitMoveDistance();
 					
 					release_cube();
 					
-					drivetrain.moveDistance(-DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.moveDistance(-ALLIANCE_STATION_SCALE_ADJUST); 
 					drivetrain.waitMoveDistance();
 					
 					hinge.moveDown();
@@ -297,7 +297,7 @@ public class Auton {
 				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT) 
 				{
-					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE-SCALE_TO_SWITCH_1);
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE-SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);
@@ -356,7 +356,7 @@ public class Auton {
 				// start position center && switch left
 				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
@@ -369,7 +369,7 @@ public class Auton {
 					jack.waitSetPosition();
 
 					elevator.moveMidway();
-					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.					
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.					
 					
 					//drivetrain.waitMoveDistance();				
 					drivetrain.waitMoveDistanceOrStalled(); // TODO TEST THAT IT WORKS
@@ -384,7 +384,7 @@ public class Auton {
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 				{
 					elevator.moveMidway();
-					drivetrain.moveDistance(DRIVERSTATION_TO_SWITCH); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH); //changed the distance so that when we move forward its based off the center of the robot.
 					
 					//drivetrain.waitMoveDistance();
 					drivetrain.waitMoveDistanceOrStalled(); // TODO TEST THAT IT WORKS
@@ -403,7 +403,7 @@ public class Auton {
 				// start position right && scale right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE);	// Move forward 324 in
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
@@ -415,12 +415,12 @@ public class Auton {
 					hinge.moveMidway();
 					hinge.waitMove();
 					
-					drivetrain.moveDistance(DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.moveDistance(ALLIANCE_STATION_SCALE_ADJUST); 
 					drivetrain.waitMoveDistance();
 					
 					release_cube();
 					
-					drivetrain.moveDistance(-DRIVERSTATION_SCALE_ADJUST); 
+					drivetrain.moveDistance(-ALLIANCE_STATION_SCALE_ADJUST); 
 					drivetrain.waitMoveDistance();
 					
 					hinge.moveDown();
@@ -464,7 +464,7 @@ public class Auton {
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(DRIVERSTATION_TO_SCALE-SCALE_TO_SWITCH_1);
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE-SCALE_TO_SWITCH_1);
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(180);
