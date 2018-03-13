@@ -137,7 +137,7 @@ public class EmulatedHinge implements IHinge {
 		return encoder * Hinge.GEAR_RATIO / Hinge.TICKS_PER_REVOLUTION;
 	}
 
-	public double getEncPosition() {
+	public double getEncoderPosition() {
 		return encoder;
 	}
 
@@ -158,11 +158,11 @@ public class EmulatedHinge implements IHinge {
 	}
 	
 	public boolean isUp() {
-		return Math.abs(getEncPosition()) < Hinge.ANGLE_TO_TRAVEL_TICKS * 1/3;
+		return Math.abs(getEncoderPosition()) < Hinge.ANGLE_TO_TRAVEL_TICKS * 1/3;
 	}
 	
 	public boolean isDown() {
-		return Math.abs(getEncPosition()) > Hinge.ANGLE_TO_TRAVEL_TICKS * 2/3;
+		return Math.abs(getEncoderPosition()) > Hinge.ANGLE_TO_TRAVEL_TICKS * 2/3;
 	}
 	
 	public boolean isMidway() {

@@ -165,7 +165,7 @@ public class EmulatedElevator implements IElevator {
 		return convertRevtoInches(encoder / Elevator.TICKS_PER_REVOLUTION);
 	}
 
-	public double getEncPosition() {
+	public double getEncoderPosition() {
 		return encoder;
 	}
 

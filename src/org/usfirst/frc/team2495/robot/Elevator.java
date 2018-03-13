@@ -372,7 +372,7 @@ public class Elevator implements IElevator {
 		return convertRevtoInches(elevator.getSelectedSensorPosition(PRIMARY_PID_LOOP) / TICKS_PER_REVOLUTION);
 	}
 
-	public double getEncPosition() {
+	public double getEncoderPosition() {
 		return elevator.getSelectedSensorPosition(PRIMARY_PID_LOOP);
 	}
 

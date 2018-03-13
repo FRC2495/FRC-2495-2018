@@ -29,8 +29,8 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	}
 	
 	private void printState() {
-		System.out.println("Drivetrain: STATE left position = " + getLeftValue() +
-				" inches, right position = " + getRightValue() + " inches, gyro = " + gyro + " degrees\n");
+		System.out.println("Drivetrain: STATE left position = " + getLeftPosition() +
+				" inches, right position = " + getRightPosition() + " inches, gyro = " + gyro + " degrees\n");
 	}
 	
 	// this method needs to be paired with checkTurnAngleUsingPidController()
@@ -197,19 +197,19 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 	{
 	}	
 	
-	public int getRightEncoderValue() {
+	public int getRightEncoderPosition() {
 		return rightEncoder;
 	}
 
-	public int getLeftEncoderValue() {
+	public int getLeftEncoderPosition() {
 		return leftEncoder;
 	}
 
-	public int getRightValue() {
+	public int getRightPosition() {
 		return (int) (rightEncoder*Drivetrain.PERIMETER_WHEEL_INCHES/Drivetrain.TICKS_PER_REVOLUTION);
 	}
 
-	public int getLeftValue() {
+	public int getLeftPosition() {
 		return (int) (leftEncoder*Drivetrain.PERIMETER_WHEEL_INCHES/Drivetrain.TICKS_PER_REVOLUTION);
 	}
 	

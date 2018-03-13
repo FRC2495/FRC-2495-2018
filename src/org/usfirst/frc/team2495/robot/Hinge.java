@@ -366,7 +366,7 @@ public class Hinge implements IHinge {
 		return hinge.getSelectedSensorPosition(PRIMARY_PID_LOOP) * GEAR_RATIO / TICKS_PER_REVOLUTION;
 	}
 
-	public double getEncPosition() {
+	public double getEncoderPosition() {
 		return hinge.getSelectedSensorPosition(PRIMARY_PID_LOOP);
 	}
 
@@ -387,11 +387,11 @@ public class Hinge implements IHinge {
 	}
 	
 	public boolean isUp() {
-		return Math.abs(getEncPosition()) < ANGLE_TO_TRAVEL_TICKS * 1/3;
+		return Math.abs(getEncoderPosition()) < ANGLE_TO_TRAVEL_TICKS * 1/3;
 	}
 	
 	public boolean isDown() {
-		return Math.abs(getEncPosition()) > ANGLE_TO_TRAVEL_TICKS * 2/3;
+		return Math.abs(getEncoderPosition()) > ANGLE_TO_TRAVEL_TICKS * 2/3;
 	}
 	
 	public boolean isMidway() {

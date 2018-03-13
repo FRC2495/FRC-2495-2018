@@ -100,8 +100,8 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	}
 	
 	private void printState() {
-		System.out.println("MiniDrivetrain: STATE left position = " + getLeftValue() +
-				" inches, right position = " + getRightValue() + " inches\n");
+		System.out.println("MiniDrivetrain: STATE left position = " + getLeftPosition() +
+				" inches, right position = " + getRightPosition() + " inches\n");
 	}
 	
 	// do not use in teleop - for auton only
@@ -132,19 +132,19 @@ public class EmulatedMiniDrivetrain implements PIDOutput, IMiniDrivetrain {
 	{
 	}	
 	
-	public int getRightEncoderValue() {
+	public int getRightEncoderPosition() {
 		return rightEncoder;
 	}
 
-	public int getLeftEncoderValue() {
+	public int getLeftEncoderPosition() {
 		return leftEncoder;
 	}
 
-	public int getRightValue() {
+	public int getRightPosition() {
 		return (int) (rightEncoder*MiniDrivetrain.PERIMETER_WHEEL_INCHES/MiniDrivetrain.TICKS_PER_REVOLUTION);
 	}
 
-	public int getLeftValue() {
+	public int getLeftPosition() {
 		return (int) (leftEncoder*MiniDrivetrain.PERIMETER_WHEEL_INCHES/MiniDrivetrain.TICKS_PER_REVOLUTION);
 	}
 	

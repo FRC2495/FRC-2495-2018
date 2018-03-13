@@ -32,13 +32,13 @@ public interface IMiniDrivetrain {
 	
 	public void joystickControl(Joystick joyLeft, Joystick joyRight, boolean held);
 	
-	public int getRightEncoderValue();
+	public int getRightEncoderPosition();
 
-	public int getLeftEncoderValue();
+	public int getLeftEncoderPosition();
 
-	public int getRightValue();
+	public int getRightPosition();
 
-	public int getLeftValue();
+	public int getLeftPosition();
 	
 	public boolean isMoving();
 	

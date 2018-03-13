@@ -852,17 +852,17 @@ public class Robot extends IterativeRobot {
 		// Send Gyro val to Dashboard
         SmartDashboard.putNumber("Gyro Value", gyro.getAngle());
         
-        SmartDashboard.putNumber("Right Value", drivetrain.getRightValue());
-        SmartDashboard.putNumber("Left Value", drivetrain.getLeftValue());
-        SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderValue());
-        SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderValue());
+        SmartDashboard.putNumber("Right Value", drivetrain.getRightPosition());
+        SmartDashboard.putNumber("Left Value", drivetrain.getLeftPosition());
+        SmartDashboard.putNumber("Right Enc Value", drivetrain.getRightEncoderPosition());
+        SmartDashboard.putNumber("Left Enc Value", drivetrain.getLeftEncoderPosition());
         SmartDashboard.putBoolean("isMoving?", drivetrain.isMoving());
         SmartDashboard.putBoolean("isTurning?", drivetrain.isTurning());
         
-        SmartDashboard.putNumber("Mini Right Value", miniDrivetrain.getRightValue());
-        SmartDashboard.putNumber("Mini Left Value", miniDrivetrain.getLeftValue());
-        SmartDashboard.putNumber("Mini Right Enc Value", miniDrivetrain.getRightEncoderValue());
-        SmartDashboard.putNumber("Mini Left Enc Value", miniDrivetrain.getLeftEncoderValue());
+        SmartDashboard.putNumber("Mini Right Value", miniDrivetrain.getRightPosition());
+        SmartDashboard.putNumber("Mini Left Value", miniDrivetrain.getLeftPosition());
+        SmartDashboard.putNumber("Mini Right Enc Value", miniDrivetrain.getRightEncoderPosition());
+        SmartDashboard.putNumber("Mini Left Enc Value", miniDrivetrain.getLeftEncoderPosition());
         SmartDashboard.putBoolean("Mini isMoving?", miniDrivetrain.isMoving());
         
         SmartDashboard.putBoolean("isCompromised?", DriverStation.getInstance().isDisabled());
@@ -873,7 +873,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Elevator Limit Switch", elevatorControl.getLimitSwitchState());
         SmartDashboard.putNumber("Elevator Position", elevatorControl.getPosition());
-        SmartDashboard.putNumber("Elevator Enc Position", elevatorControl.getEncPosition());
+        SmartDashboard.putNumber("Elevator Enc Position", elevatorControl.getEncoderPosition());
         SmartDashboard.putBoolean("Elevator IsHoming?", elevatorControl.isHoming());
         SmartDashboard.putBoolean("Elevator IsMoving?", elevatorControl.isMoving());
         SmartDashboard.putNumber("Elevator Target", elevatorControl.getTarget());
@@ -884,7 +884,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Hinge Limit Switch", hingeControl.getLimitSwitchState());
         SmartDashboard.putNumber("Hinge Position", hingeControl.getPosition());
-        SmartDashboard.putNumber("Hinge Enc Position", hingeControl.getEncPosition());
+        SmartDashboard.putNumber("Hinge Enc Position", hingeControl.getEncoderPosition());
         SmartDashboard.putBoolean("Hinge IsHoming?", hingeControl.isHoming());
         SmartDashboard.putBoolean("Hinge IsMoving?", hingeControl.isMoving());
         SmartDashboard.putNumber("Hinge Target", hingeControl.getTarget());

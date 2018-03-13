@@ -41,7 +41,7 @@ public interface IHinge {
 
 	public double getPosition();
 
-	public double getEncPosition();
+	public double getEncoderPosition();
 
 	public boolean isHoming();
 
