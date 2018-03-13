@@ -44,6 +44,8 @@ public class Hinge implements IHinge {
 	
 	static final int TALON_TICK_THRESH = 128;
 	static final double TICK_THRESH = 2048;	
+	
+	private final static int MOVE_ON_TARGET_MINIMUM_COUNT= 10; // number of times/iterations we need to be on target to really be on target
 
 	
 	// variables
@@ -55,9 +57,9 @@ public class Hinge implements IHinge {
 	boolean hasBeenHomed = false;
 
 	private int onTargetCount; // counter indicating how many times/iterations we were on target
-    private final static int ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
     Robot robot; 
+    
     
 	public Hinge(WPI_TalonSRX hinge_in, Robot robot_in) {
 		hinge = hinge_in;
@@ -215,7 +217,7 @@ public class Hinge implements IHinge {
 			}
 		}
 		
-        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
         	return false;
         }
 	        
@@ -264,7 +266,7 @@ public class Hinge implements IHinge {
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isMoving = false;
 	        }
 			

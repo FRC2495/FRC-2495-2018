@@ -47,6 +47,8 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	public static final int PIXEL_THRESHOLD = HMCamera.HORIZONTAL_CAMERA_RES_PIXELS / 10; // TODO adjust as needed
 	
+	public final static int MOVE_USING_CAMERA_ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	
 	
 	// move settings
 	static final int PRIMARY_PID_LOOP = 0;
@@ -62,19 +64,19 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	static final int TALON_TICK_THRESH = 128;
 	static final double TICK_THRESH = 512;
 	
-	
-	// shared turn and move settings
-	private int onTargetCount; // counter indicating how many times/iterations we were on target
-	public final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	public final static int MOVE_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
 	
 	// variables
 	boolean isMoving; // indicates that the MiniDrivetrain is moving using the PID controllers embedded on the motor controllers
 	boolean isMovingUsingCamera;  // indicates that the drivetrain is moving using the PID controller hereunder
 	
-	double ltac, rtac; // target positions 
+	double ltac, rtac; // target positions
+	
+	private int onTargetCount; // counter indicating how many times/iterations we were on target
 
 	WPI_TalonSRX frontCenter, rearCenter; // motor controllers
+	
 	ADXRS450_Gyro gyro; // gyroscope
 	
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
@@ -184,7 +186,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > MOVE_USING_CAMERA_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isMovingUsingCamera = false;
 	        }
 			
@@ -260,7 +262,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isMoving = false;
 	        }
 			

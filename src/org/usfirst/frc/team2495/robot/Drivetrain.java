@@ -43,6 +43,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int DEGREE_THRESHOLD = 1;
 	
+	private final static int TURN_ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	
 	
 	// move settings
 	static final int PRIMARY_PID_LOOP = 0;
@@ -57,11 +59,8 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int TALON_TICK_THRESH = 128;
 	static final double TICK_THRESH = 512;
-	
-	
-	// shared turn and move settings
-	private int onTargetCount; // counter indicating how many times/iterations we were on target
-	private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+
+	private final static int MOVE_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
 	
 	// variables
@@ -69,9 +68,12 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	boolean isTurning;  // indicates that the drivetrain is turning using the PID controller hereunder
 	
 	double ltac, rtac; // target positions 
+	
+	private int onTargetCount; // counter indicating how many times/iterations we were on target
 
 	WPI_TalonSRX masterLeft, masterRight; // motor controllers
 	BaseMotorController followerLeft, followerRight; // motor controllers
+	
 	ADXRS450_Gyro gyro; // gyroscope
 	
 	DifferentialDrive differentialDrive; // a class to simplify tank or arcade drive (open loop driving) 
@@ -187,7 +189,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > TURN_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isTurning = false;
 	        }
 			
@@ -268,7 +270,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isMoving = false;
 	        }
 			

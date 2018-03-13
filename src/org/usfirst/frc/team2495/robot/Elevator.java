@@ -47,6 +47,8 @@ public class Elevator implements IElevator {
 	
 	static final int TALON_TICK_THRESH = 128;
 	static final double TICK_THRESH = 512;	
+	
+	private final static int MOVE_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
 	
 	// variables
@@ -57,12 +59,12 @@ public class Elevator implements IElevator {
 	double tac;
 	boolean hasBeenHomed = false;
 
-	private int onTargetCount; // counter indicating how many times/iterations we were on target
-    private final static int ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	private int onTargetCount; // counter indicating how many times/iterations we were on target 
 
     Robot robot; 
     
     IHinge hinge;
+    
     
 	public Elevator(WPI_TalonSRX elevator_in, Robot robot_in) {
 		elevator = elevator_in;
@@ -213,7 +215,7 @@ public class Elevator implements IElevator {
 			}
 		}
 		
-        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
         	return false;
         }
 	        
@@ -261,7 +263,7 @@ public class Elevator implements IElevator {
 				}
 			}
 			
-	        if (onTargetCount > ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
+	        if (onTargetCount > MOVE_ON_TARGET_MINIMUM_COUNT) { // if we have met the minimum
 	        	isMoving = false;
 	        }
 			
