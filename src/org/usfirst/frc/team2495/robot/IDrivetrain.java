@@ -12,6 +12,9 @@ public interface IDrivetrain {
 	// do not use in teleop - for auton only
 	public void waitTurnAngleUsingPidController();
 	
+	// do not use in teleop - for auton only
+	public void waitTurnAngleUsingPidControllerOrStalled();
+	
 	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist);

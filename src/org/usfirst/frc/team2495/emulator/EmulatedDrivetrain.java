@@ -90,6 +90,10 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 			tracker.printState();
 		}
 	}
+	
+	public void waitTurnAngleUsingPidControllerOrStalled() {
+		waitTurnAngleUsingPidController();
+	}
 
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given

@@ -43,7 +43,9 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int DEGREE_THRESHOLD = 1;
 	
-	private final static int TURN_ON_TARGET_MINIMUM_COUNT = 25; // number of times/iterations we need to be on target to really be on target
+	private final static int TURN_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
+	
+	private final static int TURN_STALLED_MINIMUM_COUNT = TURN_ON_TARGET_MINIMUM_COUNT * 2 + 30; // number of times/iterations we need to be stalled to really be stalled
 	
 	
 	// move settings
@@ -58,12 +60,12 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
 	static final int TALON_TICK_THRESH = 128;
-	static final double TICK_THRESH = 512;
+	static final double TICK_THRESH = TALON_TICK_THRESH * 4;
 	static final double TICK_PER_100MS_THRESH = 64; // about a tenth of a rotation per second 
 
 	private final static int MOVE_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 
-	private final static int MOVE_STALLED_MINIMUM_COUNT = 10; // number of times/iterations we need to be stalled to really be stalled
+	private final static int MOVE_STALLED_MINIMUM_COUNT = MOVE_ON_TARGET_MINIMUM_COUNT * 2 + 30; // number of times/iterations we need to be stalled to really be stalled
 	
 	
 	// variables
@@ -230,6 +232,29 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		}		
 		stop();
 	}
+	
+	// do not use in teleop - for auton only
+	public void waitTurnAngleUsingPidControllerOrStalled() {
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		while (tripleCheckTurnAngleUsingPidController() && !tripleCheckIfStalled()) { 		
+			if (!DriverStation.getInstance().isAutonomous()
+					|| Calendar.getInstance().getTimeInMillis() - start >= TIMEOUT_MS) {
+				System.out.println("You went over the time limit (turning)");
+				stop();
+				break;
+			}
+
+			try {
+				Thread.sleep(20); // sleeps a little
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			robot.updateToSmartDash();
+		}		
+		stop();
+	}
 
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
@@ -348,7 +373,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	// return if drivetrain might be stalled
 	public boolean tripleCheckIfStalled() {
-		if (isMoving/* || isTurning*/) {
+		if (isMoving || isTurning) {
 			
 			double rvelocity = getRightEncoderVelocity();
 			double lvelocity = getLeftEncoderVelocity();
@@ -369,9 +394,13 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 				}
 			}
 			
-	        if (stalledCount > MOVE_STALLED_MINIMUM_COUNT) { // if we have met the minimum
+	        if (isMoving && stalledCount > MOVE_STALLED_MINIMUM_COUNT) { // if we have met the minimum
 	        	isReallyStalled = true;
-	        }	
+	        }
+	        
+	        if (isTurning && stalledCount > TURN_STALLED_MINIMUM_COUNT) { // if we have met the minimum
+	        	isReallyStalled = true;
+	        }
 	        
 	        if (isReallyStalled) {
 				System.out.println("WARNING: Stall detected!");
