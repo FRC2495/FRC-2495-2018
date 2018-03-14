@@ -16,51 +16,53 @@ public class AutonTester {
 		
 		String sonarOption = Robot.SONAR_OPTION_USE_ALWAYS;
 		
+		String releaseOption = Robot.GRASPER_OPTION_RELEASE;
+		
 		EmulatedGameData gameData = new EmulatedGameData();
 		
 		gameData.setGameSpecificMessage("LLL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("LRL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("RRR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 		
 		gameData.setGameSpecificMessage("RLR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		startPosition = Robot.START_POSITION_RIGHT;
 
 		gameData.setGameSpecificMessage("LLL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("LRL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("RRR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 		
 		gameData.setGameSpecificMessage("RLR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		startPosition = Robot.START_POSITION_CENTER;
 
 		gameData.setGameSpecificMessage("LLL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("LRL");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 		gameData.setGameSpecificMessage("RRR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 		
 		gameData.setGameSpecificMessage("RLR");
-		test(autonSelected, startPosition, cameraOption, sonarOption, gameData);
+		test(autonSelected, startPosition, cameraOption, sonarOption, gameData, releaseOption);
 
 }
 		
-	public static void test(String autoSelected, String startPosition, String cameraOption, String sonarOption, EmulatedGameData gameData) {	
+	public static void test(String autoSelected, String startPosition, String cameraOption, String sonarOption, EmulatedGameData gameData, String releaseOption) {	
 
 		PositionTracker tracker = new PositionTracker();
 		
@@ -82,12 +84,13 @@ public class AutonTester {
 		System.out.println("Start position: " + startPosition);
 		System.out.println("Camera option: " + cameraOption);
 		System.out.println("Sonar option: " + sonarOption);
+		System.out.println("Release option: " + releaseOption);
 		
 		System.out.println("First switch: " + gameData.getAssignedPlateAtFirstSwitch());
 		System.out.println("Scale: " + gameData.getAssignedPlateAtScale());
 		System.out.println("Second switch: " + gameData.getAssignedPlateAtSecondSwitch());
 
-		Auton auton = new Auton(autoSelected, startPosition, cameraOption, sonarOption, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot, tracker);
+		Auton auton = new Auton(autoSelected, startPosition, cameraOption, sonarOption, gameData, drivetrain, jack, miniDrivetrain, hinge, grasper, elevator, camera, robot, tracker, releaseOption);
 		
 		System.out.println("\nAuton initalizing\n");
 		

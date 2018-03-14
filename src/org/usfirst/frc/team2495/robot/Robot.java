@@ -72,6 +72,12 @@ public class Robot extends IterativeRobot {
 	private String sonarOption;
 	private SendableChooser<String> sonarOptionChooser = new SendableChooser<>();
 	
+	public static final String GRASPER_OPTION_RELEASE = "Release";
+	public static final String GRASPER_OPTION_DONT_RELEASE = "Don't Release"; 
+	private String releaseSelected;
+	private SendableChooser<String> releaseChooser = new SendableChooser<>();
+	
+	
 	// sensors
 	
 	HMCamera camera;
@@ -168,6 +174,10 @@ public class Robot extends IterativeRobot {
 		sonarOptionChooser.addObject("Grasp Only", SONAR_OPTION_USE_GRASP_ONLY);		
 		sonarOptionChooser.addObject("Never", SONAR_OPTION_USE_NEVER);
 		SmartDashboard.putData("Sonar options", sonarOptionChooser);
+		
+		releaseChooser.addDefault("Release", GRASPER_OPTION_RELEASE);
+		releaseChooser.addObject("Don't release", GRASPER_OPTION_DONT_RELEASE);
+		SmartDashboard.putData("Release options", releaseChooser);
 		
 		// sensors
 		
@@ -305,6 +315,9 @@ public class Robot extends IterativeRobot {
 		sonarOption = sonarOptionChooser.getSelected();
 		System.out.println("Sonar option: " + sonarOption);
 		
+		releaseSelected = releaseChooser.getSelected();
+		System.out.println("Release chosen: " + releaseSelected);
+		
 		gameData.update();
 		
 		//At this point we should know what auto run, where we started, and where our plates are located.
@@ -314,7 +327,7 @@ public class Robot extends IterativeRobot {
 		auton = new Auton(autonSelected, startPosition, cameraOption, sonarOption, gameData,
 				drivetrain, jack, miniDrivetrain,
 				hingeControl, grasper, elevatorControl,
-				camera, this, tracker);
+				camera, this, tracker, releaseSelected);
 		
 		auton.initialize();
 	}

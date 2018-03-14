@@ -20,6 +20,7 @@ public class Auton {
 	String startPosition;
 	String cameraOption;
 	String sonarOption;
+	String release; 
 	
 	IGameData gameData;
 	
@@ -40,12 +41,13 @@ public class Auton {
 			String sonarOption_in, IGameData gameData_in,
 			IDrivetrain drivetrain_in, IJack jack_in, IMiniDrivetrain miniDrivetrain_in,
 			IHinge hinge_in, IGrasper grasper_in, IElevator elevator_in,
-			IHMCamera camera_in, Robot robot_in, PositionTracker tracker_in) {		
+			IHMCamera camera_in, Robot robot_in, PositionTracker tracker_in, String release_in) {		
 		
 		autoSelected = autoSelected_in;
 		startPosition = startPosition_in;
 		cameraOption = cameraOption_in;
 		sonarOption = sonarOption_in;
+		release = release_in; 
 		
 		gameData = gameData_in;
 		
@@ -213,15 +215,27 @@ public class Auton {
 	}
 	
 	public void release_cube() {
-		if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+		switch (release) {
+		case(Robot.GRASPER_OPTION_RELEASE):
 		{
-			grasper.release();
-			grasper.waitReleaseUsingSonar();
+			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+			{
+				grasper.release();
+				grasper.waitReleaseUsingSonar();
+			}
+			else
+			{
+				grasper.release();
+				grasper.waitGraspOrRelease();
+			}	
+			break; 
 		}
-		else
+		default: // e.g. do not release
 		{
-			grasper.release();
-			grasper.waitGraspOrRelease();
+			//doesnt release it cause it will be aligned already, and we can align it on teleop start
+		}
+
+
 		}
 	}
 	
