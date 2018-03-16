@@ -1061,6 +1061,17 @@
               "_source0": "network_table:///SmartDashboard/Release options",
               "_title": "SmartDashboard/Release options"
             }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Release chosen",
+              "_title": "SmartDashboard/Release chosen"
+            }
           }
         }
       }
@@ -1210,6 +1221,19 @@
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/isTurning?",
               "_title": "SmartDashboard/isTurning?",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "2,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/isStalled?",
+              "_title": "SmartDashboard/isStalled?",
               "colorWhenTrue": "#7CFC00FF",
               "colorWhenFalse": "#8B0000FF"
             }
@@ -1639,7 +1663,7 @@
               "_title": "SmartDashboard/Auton selected"
             }
           },
-          "3,0": {
+          "4,0": {
             "size": [
               1,
               1
@@ -1650,7 +1674,7 @@
               "_title": "SmartDashboard/Start position"
             }
           },
-          "3,1": {
+          "4,1": {
             "size": [
               1,
               1
@@ -1670,6 +1694,72 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Camera option",
               "_title": "SmartDashboard/Camera option"
+            }
+          },
+          "2,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Release options",
+              "_title": "SmartDashboard/Release options"
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Sonar option",
+              "_title": "SmartDashboard/Sonar option"
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Start position",
+              "_title": "SmartDashboard/Start position"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Camera option",
+              "_title": "SmartDashboard/Camera option"
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auton selected",
+              "_title": "SmartDashboard/Auton selected"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Release chosen",
+              "_title": "SmartDashboard/Release chosen"
             }
           }
         }
