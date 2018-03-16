@@ -19,7 +19,7 @@ public class Hinge implements IHinge {
 	
 	public static final double GEAR_RATIO = 3.0; // TODO change if needed
 	
-	public static final int ANGLE_TO_TRAVEL_TICKS = 120000; // TODO set proper value
+	public static final int ANGLE_TO_TRAVEL_TICKS = Robot.COMPETITION_BOT_CONFIG?120000:150000; // TODO set proper value
 	public static final int FAKE_HOME_POSITION_TICKS = ANGLE_TO_TRAVEL_TICKS; 
 	
 	static final double VIRTUAL_HOME_OFFSET_TICKS = 6000; // position of virtual home compared to physical home

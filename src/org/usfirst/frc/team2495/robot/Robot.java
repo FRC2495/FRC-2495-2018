@@ -258,14 +258,14 @@ public class Robot extends IterativeRobot {
 			miniDrivetrain = new MiniDrivetrain(frontCenter, rearCenter, gyro, this, camera);
 			//miniDrivetrain = new EmulatedMiniDrivetrain(jack, tracker);
 			
-			//hingeControl = new Hinge(hinge, this);
-			hingeControl = new EmulatedHinge();		
+			hingeControl = new Hinge(hinge, this);
+			//hingeControl = new EmulatedHinge();		
 			
-			//elevatorControl = new Elevator(elevator, hingeControl, this);
-			elevatorControl = new EmulatedElevator(hingeControl, tracker);
+			elevatorControl = new Elevator(elevator, hingeControl, this);
+			//elevatorControl = new EmulatedElevator(hingeControl, tracker);
 			
-			//grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
-			grasper = new EmulatedGrasper(hingeControl, elevatorControl);
+			grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
+			//grasper = new EmulatedGrasper(hingeControl, elevatorControl);
 			
 			//winchControl = new Winch(winch, this);
 			winchControl = new EmulatedWinch();
@@ -933,6 +933,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Start position", startPositionChooser.getSelected());
 		SmartDashboard.putString("Camera option", cameraOptionChooser.getSelected());
 		SmartDashboard.putString("Sonar option", sonarOptionChooser.getSelected());
+		SmartDashboard.putString("Release chosen", releaseChooser.getSelected());
 	}
 	
 	public double calculateProperTurnAngle(double cameraTurnAngle, double cameraHorizontalDist) {
