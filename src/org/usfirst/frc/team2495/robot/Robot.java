@@ -590,6 +590,27 @@ public class Robot extends IterativeRobot {
 		{	
 			winchControl.joystickControl(joyLeft);
 		}
+		
+		// auto-stop if we release one of the buttons before releasing joystick
+		if (control.getReleased(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN8))
+		{
+			elevatorControl.stop();
+		}
+		
+		if (control.getReleased(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN9))
+		{	
+			hingeControl.stop();
+		}
+		
+		if (control.getReleased(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN10))
+		{
+			grasper.stop();
+		}
+		
+		if (control.getReleased(ControllerBase.Joysticks.LEFT_STICK,ControllerBase.JoystickButtons.BTN11))
+		{	
+			winchControl.stop();
+		}
 
 		
 		// GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD // GAMEPAD
