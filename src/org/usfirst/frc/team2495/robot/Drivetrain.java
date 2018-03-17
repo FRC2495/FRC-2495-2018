@@ -41,7 +41,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	static final double TURN_INTEGRAL_GAIN = 0.0;
 	static final double TURN_DERIVATIVE_GAIN = 0.0;
 	
-	static final int DEGREE_THRESHOLD = 1;
+	static final int DEGREE_THRESHOLD = 3; //1;
 	
 	private final static int TURN_ON_TARGET_MINIMUM_COUNT = 10; // number of times/iterations we need to be on target to really be on target
 	

@@ -124,11 +124,11 @@ public class Auton {
 			hinge.home(); 
 			hinge.waitHome();
 		}
-		
-		hinge.moveDown(); // always moves hinge down first
-		hinge.waitMove();
-		
-		if (!elevator.hasBeenHomed() && !Robot.ELEVATOR_DISABLED) { // just in case somebody forgot to home
+				
+		if (!elevator.hasBeenHomed() && !Robot.ELEVATOR_DISABLED) { // just in case somebody forgot to home			
+			hinge.moveDown(); // always moves hinge down first
+			hinge.waitMove();
+			
 			elevator.home(); 
 			elevator.waitHome();	
 		}
@@ -216,27 +216,26 @@ public class Auton {
 	
 	public void release_cube() {
 		switch (release) {
-		case(Robot.GRASPER_OPTION_RELEASE):
-		{
-			if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+			case Robot.GRASPER_OPTION_RELEASE:
 			{
-				grasper.release();
-				grasper.waitReleaseUsingSonar();
+				if (sonarOption == Robot.SONAR_OPTION_USE_ALWAYS || sonarOption == Robot.SONAR_OPTION_USE_RELEASE_ONLY)
+				{
+					grasper.release();
+					grasper.waitReleaseUsingSonar();
+				}
+				else
+				{
+					grasper.release();
+					grasper.waitGraspOrRelease();
+				}	
+				break; 
 			}
-			else
+			default: // e.g. do not release
 			{
-				grasper.release();
-				grasper.waitGraspOrRelease();
-			}	
-			break; 
-		}
-		default: // e.g. do not release
-		{
-			//doesnt release it cause it will be aligned already, and we can align it on teleop start
-		}
+				//doesnt release it cause it will be aligned already, and we can align it on teleop start
+			}
 
-
-		}
+		} // end switch
 	}
 	
 	// this method should be called from autonomousPeriodic()... hence it will be executed at up to 50 Hz
@@ -255,6 +254,9 @@ public class Auton {
 					
 					drivetrain.turnAngleUsingPidController(+45);
 					drivetrain.waitTurnAngleUsingPidController();
+					
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
 					
 					elevator.moveUp();
 					elevator.waitMove();
@@ -342,8 +344,7 @@ public class Auton {
 					
 					//Remember you will be hitting a cube and not the switch perimeter,  So adjust accordingly
 					drivetrain.moveDistance(SCALE_TO_SWITCH_2);
-					drivetrain.waitMoveDistance();
-					
+					drivetrain.waitMoveDistance();				
 					
 					release_cube();
 
@@ -361,12 +362,12 @@ public class Auton {
 					elevator.waitMove();
 					
 					release_cube();
+					
 					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
 					drivetrain.waitMoveDistance();
 					
 					elevator.moveDown();
-					elevator.waitMove();
-					
+					elevator.waitMove();					
 				}
 			}
 			// start position center
@@ -386,6 +387,9 @@ public class Auton {
 
 					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
+					
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
 
 					elevator.moveMidway();
 					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.					
@@ -405,6 +409,9 @@ public class Auton {
 				// start position center && switch right
 				else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 				{
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
+					
 					elevator.moveMidway();
 					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH); //changed the distance so that when we move forward its based off the center of the robot.
 					
@@ -433,6 +440,9 @@ public class Auton {
 					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)
 					drivetrain.waitTurnAngleUsingPidController();
+					
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
 					
 					elevator.moveUp();
 					elevator.waitMove();
@@ -515,6 +525,9 @@ public class Auton {
 					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 					
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
+					
 					elevator.moveMidway();
 					elevator.waitMove();
 					
@@ -544,7 +557,6 @@ public class Auton {
 
 					elevator.moveDown();
 					elevator.waitMove();
-					
 				}
 			}						
 			autoSelected = "we are done"; // this is ok because we have a default case		
@@ -565,4 +577,4 @@ public class Auton {
 		
 	}
 	
-} // end clas
+} // end class
