@@ -95,6 +95,11 @@ public class EmulatedDrivetrain implements PIDOutput, IDrivetrain {
 		waitTurnAngleUsingPidController();
 	}
 
+	public void moveDistanceHighSpeed(double dist) // moves the distance in inch given
+	{
+		moveDistance(dist);
+	}
+	
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
 	{

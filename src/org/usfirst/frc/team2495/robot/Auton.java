@@ -249,7 +249,7 @@ public class Auton {
 				// start position left && scale left
 				if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE); 
+					drivetrain.moveDistanceHighSpeed(ALLIANCE_STATION_TO_SCALE); 
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(+45);
@@ -435,7 +435,7 @@ public class Auton {
 				// start position right && scale right
 				if (gameData.getAssignedPlateAtScale() == Plate.RIGHT)
 				{
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE);	// Move forward 324 in
+					drivetrain.moveDistanceHighSpeed(ALLIANCE_STATION_TO_SCALE);	// Move forward 324 in
 					drivetrain.waitMoveDistance();
 					
 					drivetrain.turnAngleUsingPidController(-45);//Turn 90 degrees (-)

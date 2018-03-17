@@ -19,6 +19,8 @@ public interface IDrivetrain {
 	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist);
 	
+	public void moveDistanceHighSpeed(double dist);
+	
 	public boolean tripleCheckMoveDistance();
 	
 	// do not use in teleop - for auton only

@@ -54,6 +54,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	static final int SLOT_0 = 0;
 	
 	static final double REDUCED_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.5:0.4;
+	static final double HIGH_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.75:0.6;
 	
 	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
@@ -256,14 +257,24 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 		stop();
 	}
 
-	// this method needs to be paired with checkMoveDistance()
 	public void moveDistance(double dist) // moves the distance in inch given
+	{
+		moveDistance(dist, REDUCED_PCT_OUTPUT);
+	}
+	
+	public void moveDistanceHighSpeed(double dist) // moves the distance in inch given
+	{
+		moveDistance(dist, HIGH_PCT_OUTPUT);
+	}
+	
+	// this method needs to be paired with checkMoveDistance()
+	public void moveDistance(double dist, double percentOutput) // moves the distance in inch given
 	{
 		stop(); // in case we were still doing something
 		
 		resetEncoders();
 		setPIDParameters();
-		setNominalAndPeakOutputs(REDUCED_PCT_OUTPUT); //this has a global impact, so we reset in stop()
+		setNominalAndPeakOutputs(percentOutput); //this has a global impact, so we reset in stop()
 		
 		rtac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
 		ltac = dist / PERIMETER_WHEEL_INCHES * TICKS_PER_REVOLUTION;
