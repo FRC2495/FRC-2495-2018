@@ -9,7 +9,7 @@ public class Auton {
 	static final int EXTRA_HINGE_DEPTH_INCHES = 14; // inches
 	static final int ALLIANCE_STATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
 	static final int ALLIANCE_STATION_SCALE_ADJUST = 6; 
-	static final int ALLIANCE_STATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES-1; //adjusting 1 inches since movedistance didnt complete
+	static final int ALLIANCE_STATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES;
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
 	static final int SLIDE_TO_NEAR_SWITCH = 34+20; //adjustment as the testbot is off when it reaches scale.
@@ -305,6 +305,9 @@ public class Auton {
 					
 					release_cube();
 
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
+
 					elevator.moveDown();
 					elevator.waitMove();
 				} 
@@ -358,6 +361,8 @@ public class Auton {
 					elevator.waitMove();
 					
 					release_cube();
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
 					
 					elevator.moveDown();
 					elevator.waitMove();
@@ -391,6 +396,9 @@ public class Auton {
 					
 					release_cube();
 
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
+
 					elevator.moveDown();
 					elevator.waitMove();				
 				}
@@ -405,6 +413,9 @@ public class Auton {
 					elevator.waitMove();
 					
 					release_cube();
+					
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
 							
 					elevator.moveDown();
 					elevator.waitMove();
@@ -471,7 +482,10 @@ public class Auton {
 					elevator.waitMove();
 					
 					release_cube();
-					
+
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
+
 					elevator.moveDown();
 					elevator.waitMove();
 				}
@@ -524,7 +538,10 @@ public class Auton {
 					elevator.waitMove();
 					
 					release_cube();
-					
+
+					drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+					drivetrain.waitMoveDistance();
+
 					elevator.moveDown();
 					elevator.waitMove();
 					
