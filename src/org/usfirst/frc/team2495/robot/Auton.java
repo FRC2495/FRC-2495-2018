@@ -8,7 +8,7 @@ public class Auton {
 	static final int HALF_ROBOT_DEPTH_INCHES = ROBOT_DEPTH_INCHES / 2;
 	static final int EXTRA_HINGE_DEPTH_INCHES = 14; // inches
 	static final int ALLIANCE_STATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
-	static final int ALLIANCE_STATION_SCALE_ADJUST = 6; 
+	static final int ALLIANCE_STATION_SCALE_ADJUST = 6+EXTRA_HINGE_DEPTH_INCHES;
 	static final int ALLIANCE_STATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES;
 	static final int SCALE_TO_SWITCH_1 = 40;
 	static final int SCALE_TO_SWITCH_2 = 4;
