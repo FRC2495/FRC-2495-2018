@@ -246,8 +246,8 @@ public class Robot extends IterativeRobot {
 			grasper = new Grasper(grasperLeft, grasperRight, sonar, this);
 			//grasper = new EmulatedGrasper(hingeControl, elevatorControl);
 			
-			winchControl = new Winch(winch, this);
-			//winchControl = new EmulatedWinch();
+			//winchControl = new Winch(winch, this);
+			winchControl = new EmulatedWinch();
 		} else {
 			jack = new Jack();
 			//jack = new EmulatedJack();
