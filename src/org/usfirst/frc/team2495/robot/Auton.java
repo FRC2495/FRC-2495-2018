@@ -130,7 +130,7 @@ public class Auton {
 			hinge.waitMove();
 			
 			elevator.home(); 
-			elevator.waitHome();	
+			elevator.waitHome();
 		}
 	}
 	
@@ -338,6 +338,9 @@ public class Auton {
 					
 					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
+					
+					hinge.moveDown(); // always moves hinge down first
+					hinge.waitMove();
 
 					elevator.moveMidway();
 					elevator.waitMove();
