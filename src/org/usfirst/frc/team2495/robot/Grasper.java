@@ -30,7 +30,7 @@ public class Grasper implements IGrasper{
 	static final int TALON_TIMEOUT_MS = 10;
 
 	static final int GRASP_DISTANCE_INCHES = 13;
-	static final int RELEASE_DISTANCE_INCHES = 19;
+	static final int RELEASE_DISTANCE_INCHES = 17;
 	
 	BaseMotorController grasperLeft , grasperRight; 
 	Sonar sonar;
