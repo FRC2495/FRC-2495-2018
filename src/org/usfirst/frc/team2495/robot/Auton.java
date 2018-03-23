@@ -86,8 +86,8 @@ public class Auton {
 	public void moveDistanceTowardCube() {
 		final int OFFSET_CAMERA_CUBE_INCHES = 10; // we need to leave some space between the camera and the target
 		//final int MAX_DISTANCE_TO_CUBE_INCHES = 120; // arbitrary very large distance
-		final int MAX_DISTANCE_TO_CUBE_INCHES = 24; // IN THIS AUTON WE NEVER NEED TO MOVE MORE THAN JUST A FEW INCHES
-		// SO WE ARBITRARILY USE 24 INCHES (2 FEET) AS THE SAFE UPPER LIMIT 
+		final int MAX_DISTANCE_TO_CUBE_INCHES = 48; // IN THIS AUTON WE NEVER NEED TO MOVE MORE THAN JUST A FEW INCHES
+		// SO WE ARBITRARILY USE 48 INCHES (4 FEET) AS THE SAFE UPPER LIMIT 
 	
 		double distanceToTargetReportedByCamera = camera.getDistanceToTargetUsingHorizontalFov();
 		
