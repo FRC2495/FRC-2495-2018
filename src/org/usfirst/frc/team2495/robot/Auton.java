@@ -10,7 +10,7 @@ public class Auton {
 	static final int ALLIANCE_STATION_TO_SCALE = 295-ROBOT_DEPTH_INCHES-EXTRA_HINGE_DEPTH_INCHES;
 	static final int ALLIANCE_STATION_SCALE_ADJUST = 6+EXTRA_HINGE_DEPTH_INCHES;
 	static final int ALLIANCE_STATION_TO_SWITCH = 140-ROBOT_DEPTH_INCHES;
-	static final int SCALE_TO_SWITCH_1 = 40;
+	static final int SCALE_TO_SWITCH_1 = 30;
 	static final int SCALE_TO_SWITCH_2 = 4;
 	static final int SLIDE_TO_NEAR_SWITCH = 34+20; //adjustment as the testbot is off when it reaches scale.
 	static final int SLIDE_TO_FAR_SWITCH = 175;

@@ -23,7 +23,7 @@ public class Elevator implements IElevator {
 	
 	public static final double GEAR_RATIO = 1.0; // TODO change if needed
 	
-	public static final int LENGTH_OF_TRAVEL_INCHES = 36; // TODO set proper value
+	public static final int LENGTH_OF_TRAVEL_INCHES = 37; // TODO set proper value
 	
 	static final double VIRTUAL_HOME_OFFSET_INCHES = 0.1; // position of virtual home compared to physical home
 	
@@ -41,7 +41,7 @@ public class Elevator implements IElevator {
 	
 	static final double REDUCED_PCT_OUTPUT = 0.5;
 	
-	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
+	static final double MOVE_PROPORTIONAL_GAIN = 0.6;
 	static final double MOVE_INTEGRAL_GAIN = 0.0;
 	static final double MOVE_DERIVATIVE_GAIN = 0.0;
 	
