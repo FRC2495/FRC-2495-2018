@@ -379,7 +379,7 @@ public class Auton {
 				// start position center && switch left
 				if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.
+					drivetrain.moveDistance((double)ALLIANCE_STATION_TO_SWITCH*1.0/3.0); //changed the distance so that when we move forward its based off the center of the robot.
 					drivetrain.waitMoveDistance();
 
 					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
@@ -395,7 +395,7 @@ public class Auton {
 					hinge.waitMove();
 
 					elevator.moveMidway();
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH/2); //changed the distance so that when we move forward its based off the center of the robot.					
+					drivetrain.moveDistance((double)ALLIANCE_STATION_TO_SWITCH*2.0/3.0); //changed the distance so that when we move forward its based off the center of the robot.					
 					
 					drivetrain.waitMoveDistance();				
 					//drivetrain.waitMoveDistanceOrStalled(); // TODO TEST THAT IT WORKS
