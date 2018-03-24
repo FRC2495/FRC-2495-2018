@@ -397,8 +397,8 @@ public class Auton {
 					elevator.moveMidway();
 					drivetrain.moveDistance((double)ALLIANCE_STATION_TO_SWITCH*2.0/3.0); //changed the distance so that when we move forward its based off the center of the robot.					
 					
-					drivetrain.waitMoveDistance();				
-					//drivetrain.waitMoveDistanceOrStalled(); // TODO TEST THAT IT WORKS
+					//drivetrain.waitMoveDistance();				
+					drivetrain.waitMoveDistanceOrStalled(); // TODO TEST THAT IT WORKS
 					elevator.waitMove();
 					
 					release_cube();
