@@ -53,7 +53,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	
 	static final int SLOT_0 = 0;
 	
-	static final double REDUCED_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.5:0.4;
+	static final double REDUCED_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.4:0.3;
 	static final double HIGH_PCT_OUTPUT = Robot.COMPETITION_BOT_CONFIG?0.5:0.4;
 	
 	static final double MOVE_PROPORTIONAL_GAIN = 0.4;
