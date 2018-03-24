@@ -20,7 +20,7 @@ public class Grasper implements IGrasper{
 	 * 
 	 */
 	static final double MAX_PCT_OUTPUT = 1.0;
-	static final double ALMOST_MAX_PCT_OUTPUT = 0.8;
+	static final double ALMOST_MAX_PCT_OUTPUT = 0.7;
 	static final double HALF_PCT_OUTPUT = 0.5;
 	static final double REDUCED_PCT_OUTPUT = 0.4;
 	
