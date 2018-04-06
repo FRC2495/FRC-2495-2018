@@ -316,26 +316,45 @@ public class Auton {
 				// start position left && scale right
 				else if (gameData.getAssignedPlateAtScale() == Plate.RIGHT) 
 				{
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE-SCALE_TO_SWITCH_1);
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH + 20);
 					drivetrain.waitMoveDistance();
 					
-					drivetrain.turnAngleUsingPidController(180);
-					drivetrain.waitTurnAngleUsingPidController();
+					//drivetrain.turnAngleUsingPidController(180);
+					//drivetrain.waitTurnAngleUsingPidController();
 					
-					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
-					jack.waitSetPosition();
+					//jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
+					//jack.waitSetPosition();
 				
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);//Move far Left 
-						miniDrivetrain.waitMoveDistance();
+						//miniDrivetrain.moveDistance(-SLIDE_TO_FAR_SWITCH);//Move far Left 
+						//miniDrivetrain.waitMoveDistance();
 					}						
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH);//Move near left
-						miniDrivetrain.waitMoveDistance();
+						drivetrain.turnAngleUsingPidController(90);
+						drivetrain.waitTurnAngleUsingPidController();
+						hinge.moveDown(); // always moves hinge down first
+						hinge.waitMove();
+
+						elevator.moveMidway();
+						elevator.waitMove();
+						
+						drivetrain.moveDistance(12);
+						drivetrain.waitMoveDistanceOrStalled();
+	
+						release_cube();
+						
+						drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+						drivetrain.waitMoveDistance();
+								
+						elevator.moveDown();
+						elevator.waitMove();
+						
+						//miniDrivetrain.moveDistance(-SLIDE_TO_NEAR_SWITCH);//Move near left
+						//miniDrivetrain.waitMoveDistance();
 					}
-					
+					/*
 					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 					
@@ -370,7 +389,8 @@ public class Auton {
 					drivetrain.waitMoveDistance();
 					
 					elevator.moveDown();
-					elevator.waitMove();					
+					elevator.waitMove();
+					*/					
 				}
 			}
 			// start position center
@@ -505,26 +525,45 @@ public class Auton {
 				// start position right && scale left
 				else if (gameData.getAssignedPlateAtScale() == Plate.LEFT)
 				{
-					drivetrain.moveDistance(ALLIANCE_STATION_TO_SCALE-SCALE_TO_SWITCH_1);
+					drivetrain.moveDistance(ALLIANCE_STATION_TO_SWITCH + 20);
 					drivetrain.waitMoveDistance();
 					
-					drivetrain.turnAngleUsingPidController(180);
-					drivetrain.waitTurnAngleUsingPidController();
+					//drivetrain.turnAngleUsingPidController(180);
+					//drivetrain.waitTurnAngleUsingPidController();
 					
-					jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
-					jack.waitSetPosition();
+					//jack.setPosition(Jack.Position.MINI_DRIVETRAIN);
+					//jack.waitSetPosition();
 					
 					if (gameData.getAssignedPlateAtFirstSwitch() == Plate.LEFT)
 					{
-						miniDrivetrain.moveDistance(SLIDE_TO_FAR_SWITCH);//Move Left ____ in 
-						miniDrivetrain.waitMoveDistance();
+						//miniDrivetrain.moveDistance(SLIDE_TO_FAR_SWITCH);//Move Left ____ in 
+						//miniDrivetrain.waitMoveDistance();
 					}
 					else if (gameData.getAssignedPlateAtFirstSwitch() == Plate.RIGHT)
 					{
-						miniDrivetrain.moveDistance(SLIDE_TO_NEAR_SWITCH);//Move Left ____ in 
-						miniDrivetrain.waitMoveDistance();
+						//miniDrivetrain.moveDistance(SLIDE_TO_NEAR_SWITCH);//Move Left ____ in 
+						//miniDrivetrain.waitMoveDistance();
+						drivetrain.turnAngleUsingPidController(-90);
+						drivetrain.waitTurnAngleUsingPidController();
+
+						hinge.moveDown(); // always moves hinge down first
+						hinge.waitMove();
+
+						elevator.moveMidway();
+						elevator.waitMove();
+						
+						drivetrain.moveDistance(12);
+						drivetrain.waitMoveDistanceOrStalled();
+	
+						release_cube();
+						
+						drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+						drivetrain.waitMoveDistance();
+								
+						elevator.moveDown();
+						elevator.waitMove();
 					}
-					
+					/*
 					jack.setPosition(Jack.Position.LARGE_DRIVETRAIN);
 					jack.waitSetPosition();
 					
@@ -560,6 +599,7 @@ public class Auton {
 
 					elevator.moveDown();
 					elevator.waitMove();
+					*/
 				}
 			}						
 			autoSelected = "we are done"; // this is ok because we have a default case		
