@@ -334,13 +334,17 @@ public class Auton {
 					{
 						drivetrain.turnAngleUsingPidController(90);
 						drivetrain.waitTurnAngleUsingPidController();
+
+						drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+						drivetrain.waitMoveDistance();
+						
 						hinge.moveDown(); // always moves hinge down first
 						hinge.waitMove();
 
 						elevator.moveMidway();
 						elevator.waitMove();
 						
-						drivetrain.moveDistance(12);
+						drivetrain.moveDistance(12+EXTRA_HINGE_DEPTH_INCHES+2);
 						drivetrain.waitMoveDistanceOrStalled();
 	
 						release_cube();
@@ -546,13 +550,16 @@ public class Auton {
 						drivetrain.turnAngleUsingPidController(-90);
 						drivetrain.waitTurnAngleUsingPidController();
 
+						drivetrain.moveDistance(-EXTRA_HINGE_DEPTH_INCHES-2); //move back hinge depth distance + few inches for safety.					
+						drivetrain.waitMoveDistance();
+						
 						hinge.moveDown(); // always moves hinge down first
 						hinge.waitMove();
 
 						elevator.moveMidway();
 						elevator.waitMove();
 						
-						drivetrain.moveDistance(12);
+						drivetrain.moveDistance(12+EXTRA_HINGE_DEPTH_INCHES+2);
 						drivetrain.waitMoveDistanceOrStalled();
 	
 						release_cube();
