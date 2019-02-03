@@ -414,7 +414,7 @@ public class MiniDrivetrain implements PIDOutput, IMiniDrivetrain{
 	
 	@Override
 	public void pidWrite(double output) {
-		if(Math.abs(moveUsingCameraPidController.getError()) < PIXEL_THRESHOLD)
+		if(output != 0 && Math.abs(moveUsingCameraPidController.getError()) < PIXEL_THRESHOLD)
 		{
 			output = 0;
 		}

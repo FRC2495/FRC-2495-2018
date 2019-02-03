@@ -573,7 +573,7 @@ public class Drivetrain implements PIDOutput, IDrivetrain {
 	@Override
 	public void pidWrite(double output) {
 		
-		if(Math.abs(turnPidController.getError()) < DEGREE_THRESHOLD)
+		if(output != 0 && Math.abs(turnPidController.getError()) < DEGREE_THRESHOLD)
 		{
 			output = 0;
 		}
